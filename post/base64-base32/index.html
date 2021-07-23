@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>Base64 / Base32 | 达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627011251916">
+<link rel="shortcut icon" href="/favicon.ico?v=1627052491890">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1954,6 +1954,34 @@ public class apk {
 &lt;p&gt;然后这题很坑&lt;/p&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010948830.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;提交bc72f242a6af3857&lt;/p&gt;
+&lt;h1 id=&#34;人民的名义-抓捕赵汉德&#34;&gt;人民的名义-抓捕赵汉德&lt;/h1&gt;
+&lt;p&gt;拿到jar文件，用jd龟打开&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052454731.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;找到关键代码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    CheckInterface checkerObject = loadCheckerObject();//实现接口句柄
+    BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+    while (true) {
+      System.out.println(&amp;quot;Enter password:&amp;quot;);
+      String line = stdin.readLine();
+      if (checkerObject.checkPassword(line)) {
+        System.out.println(&amp;quot;Well done, that is the correct password&amp;quot;);
+        System.exit(0);
+        continue;
+      } 
+      System.out.println(&amp;quot;Incorrect password&amp;quot;);
+    } 
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;checkerObject.checkPassword(line)&lt;/p&gt;
+&lt;p&gt;找到接口类&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052472315.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;发现checkPassword函数&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052487486.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;从代码明显看出MD5操作，&lt;/p&gt;
+&lt;p&gt;将&amp;quot;fa3733c647dca53a66cf8df953c2d539&amp;quot;MD5解密即可&lt;/p&gt;
+&lt;p&gt;解密得monkey99&lt;/p&gt;
+&lt;p&gt;flag{monkey99}&lt;/p&gt;
 ">XCTF-mobile</a>
       </div>
       
