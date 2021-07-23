@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
-<title>关于 | 达摩西莱</title>
+<title>Base64 / Base32 | 达摩西莱</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1627002690881">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="关于" />
+  <meta name="description" content="Base64 / Base32" />
   <meta name="keywords" content="" />
 </head>
 
@@ -251,10 +251,8 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99">🏠 关于本站</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81">👨‍💻 博主是谁</a></li>
-<li><a href="#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD">⛹ 兴趣爱好</a></li>
-<li><a href="#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80">📬 联系我呀</a></li>
+<li><a href="#%E5%85%B3%E4%BA%8Ebase64%E7%BC%96%E7%A0%81">关于base64编码</a></li>
+<li><a href="#%E5%85%B3%E4%BA%8Ebase32%E7%BC%96%E7%A0%81">关于base32编码</a></li>
 </ul>
 </li>
 </ul>
@@ -522,8 +520,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://damoxilai.github.io/post/about/">
-      关于
+    <a class="post-title-link" href="https://damoxilai.github.io/post/base64-base32/">
+      Base64 / Base32
     </a>
   </h1>
   <div class="post-meta">
@@ -531,33 +529,91 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2019-01-25 19:09:48">2019-01-25</span>
+      <span class="publish-time" data-t="2021-07-23 09:07:58">2021-07-23</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>1<span class="language" data-lan="minute">分钟</span></span>
+      <span>4<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>31<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>777<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+              <figure data-type="image" tabindex="1"><img src="https://damoxilai.github.io/post-images/1627002672846.jpeg" alt="" loading="lazy"></figure>
+<h2 id="关于base64编码">关于base64编码</h2>
+<p>base64编码，就是把二进制bit串按24位分段（3个字节），每段内又按6位分组，每组编码为一个字符。字符表对应关系即码表的长度为64（所以称之为base64编码），如下所示：</p>
+<p>000000---'A'    000001---'B'   ......  011000---'Y'   011001---'Z'</p>
+<p>011010---'a'    011011---'b'   ......  110010---'y'   110011---'z'</p>
+<p>110100---'0'    110101---'1'   ......  111100---'8'   111101---'9'</p>
+<p>111110---'+'    111111---'/'</p>
+<p>也就是说每三个字节编码为4个字符。</p>
+<p>例如：</p>
+<p>3个字节的二进制比特串：  10101101 00111010 01110110  （0xae3a76）</p>
+<p>按6位分组：        101011 010011 101001 110110</p>
+<p>base64编码结果：      rjp2</p>
+<p>如果二进制比特串的长度不是24的倍数，即字节数不是3的倍数，则填充等号=，具体规则如下：</p>
+<p>a）如果最后剩余两个字节，例如01000010 01000011，16个bit，则先在后面补两个0，变为18个bit，即6的倍数，然后分组为：010000 100100 001100，编码为：QkM，最后再在后面补一个等号=，最终的编码结果为：QKM=</p>
+<p>b）如果最后剩余一个字节，例如01000001，8个bit，则先在后面补4个0，变为12个bit，即6的倍数，然后分组为：010000 010000，编码为QQ，最后再在后面补两个等号，最终的编码结果为：QQ==</p>
+<p>总之，对二进制bit串进行分段，无论是前面的3字节段，还是最后剩余的2字节或1字节段，每段编码出来的字符均为4个。</p>
+<p>按照以上规则，如果输入的字节数是28，则按3个字节分段，可分10段（最后一段只有1个字节），最终编码出来的字符串应该是40个字符。</p>
+<h2 id="关于base32编码">关于base32编码</h2>
+<p>编码规则是：任意给定一个二进制数据，以5个字节（40bit）为一段进行切分，每段再以5个位bit为一组进行切分，对切分而成的每个组进行编码，得到1个可见字符。Base32编码表字符集中的字符总数为25=32个，这也是Base32名字的由来。标准的Base32编码表，如下所示：</p>
+<p>00000---'A'    00001---'B'   .......     10111---'X'    11000---'Y'    11001---'Z'</p>
+<p>11010---'2'    11011---'3'   11100---'4'  11101---'5'    11110---'6'    11110---'7'</p>
+<p>例如要对一段字符串“bhsta”进行base32编码：</p>
+<p>其ASCII码组成的二进制比特串：01100010 01101000 01110011 01110100 01100001</p>
+<p>5个bit为一组进行切分：01100 01001 10100 00111 00110 11101 00011 00001</p>
+<p>最后查码表，得到编码结果：MJUHG5DB</p>
+<p>如果最后一组不足5个bit，则用0填充；如果最后一段不足8组，用等号=填充。</p>
+<p>例如字符串”bhst”进行base32编码：</p>
+<p>其ASCII码组成的二进制比特串：01100010 01101000 01110011 01110100</p>
+<p>5个bit为一组进行切分：01100 01001 10100 00111 00110 11101 00000</p>
+<p>最后一组不足5bit，所以在后面填充了3个0</p>
+<p>查码表，得到结果为：MJUHG5A，这一段不够8组，故后面填充一个等号=</p>
+<p>最终的编码结果为：MJUHG5A=</p>
+<p>总之，对二进制bit串进行分段，无论是前面的5字节段，还是最后剩余的不足5字节的段，每段编码出来的字符均为8个。</p>
 
             </div>
             
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      楠兄楠弟
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://damoxilai.github.io/post/base64-base32/" title="Base64 / Base32">https://damoxilai.github.io/post/base64-base32/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title=" 汇编语言" href="https://damoxilai.github.io/post/hui-bain-yu-yan/"> 汇编语言</a>
+        <a class="nav-mobile-next" title=" 汇编语言" href="https://damoxilai.github.io/post/hui-bain-yu-yan/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
+      
+    </div>
+  </div>
+</div>
             
             
   

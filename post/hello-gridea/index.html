@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>Hello Gridea | 达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1626578336726">
+<link rel="shortcut icon" href="/favicon.ico?v=1627002690881">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -218,7 +218,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">2</span>
+        <span class="site-item-stat-count">3</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1617,6 +1617,44 @@
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/base64-base32/"" data-c="
+          &lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627002672846.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;关于base64编码&#34;&gt;关于base64编码&lt;/h2&gt;
+&lt;p&gt;base64编码，就是把二进制bit串按24位分段（3个字节），每段内又按6位分组，每组编码为一个字符。字符表对应关系即码表的长度为64（所以称之为base64编码），如下所示：&lt;/p&gt;
+&lt;p&gt;000000---&#39;A&#39;    000001---&#39;B&#39;   ......  011000---&#39;Y&#39;   011001---&#39;Z&#39;&lt;/p&gt;
+&lt;p&gt;011010---&#39;a&#39;    011011---&#39;b&#39;   ......  110010---&#39;y&#39;   110011---&#39;z&#39;&lt;/p&gt;
+&lt;p&gt;110100---&#39;0&#39;    110101---&#39;1&#39;   ......  111100---&#39;8&#39;   111101---&#39;9&#39;&lt;/p&gt;
+&lt;p&gt;111110---&#39;+&#39;    111111---&#39;/&#39;&lt;/p&gt;
+&lt;p&gt;也就是说每三个字节编码为4个字符。&lt;/p&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;p&gt;3个字节的二进制比特串：  10101101 00111010 01110110  （0xae3a76）&lt;/p&gt;
+&lt;p&gt;按6位分组：        101011 010011 101001 110110&lt;/p&gt;
+&lt;p&gt;base64编码结果：      rjp2&lt;/p&gt;
+&lt;p&gt;如果二进制比特串的长度不是24的倍数，即字节数不是3的倍数，则填充等号=，具体规则如下：&lt;/p&gt;
+&lt;p&gt;a）如果最后剩余两个字节，例如01000010 01000011，16个bit，则先在后面补两个0，变为18个bit，即6的倍数，然后分组为：010000 100100 001100，编码为：QkM，最后再在后面补一个等号=，最终的编码结果为：QKM=&lt;/p&gt;
+&lt;p&gt;b）如果最后剩余一个字节，例如01000001，8个bit，则先在后面补4个0，变为12个bit，即6的倍数，然后分组为：010000 010000，编码为QQ，最后再在后面补两个等号，最终的编码结果为：QQ==&lt;/p&gt;
+&lt;p&gt;总之，对二进制bit串进行分段，无论是前面的3字节段，还是最后剩余的2字节或1字节段，每段编码出来的字符均为4个。&lt;/p&gt;
+&lt;p&gt;按照以上规则，如果输入的字节数是28，则按3个字节分段，可分10段（最后一段只有1个字节），最终编码出来的字符串应该是40个字符。&lt;/p&gt;
+&lt;h2 id=&#34;关于base32编码&#34;&gt;关于base32编码&lt;/h2&gt;
+&lt;p&gt;编码规则是：任意给定一个二进制数据，以5个字节（40bit）为一段进行切分，每段再以5个位bit为一组进行切分，对切分而成的每个组进行编码，得到1个可见字符。Base32编码表字符集中的字符总数为25=32个，这也是Base32名字的由来。标准的Base32编码表，如下所示：&lt;/p&gt;
+&lt;p&gt;00000---&#39;A&#39;    00001---&#39;B&#39;   .......     10111---&#39;X&#39;    11000---&#39;Y&#39;    11001---&#39;Z&#39;&lt;/p&gt;
+&lt;p&gt;11010---&#39;2&#39;    11011---&#39;3&#39;   11100---&#39;4&#39;  11101---&#39;5&#39;    11110---&#39;6&#39;    11110---&#39;7&#39;&lt;/p&gt;
+&lt;p&gt;例如要对一段字符串“bhsta”进行base32编码：&lt;/p&gt;
+&lt;p&gt;其ASCII码组成的二进制比特串：01100010 01101000 01110011 01110100 01100001&lt;/p&gt;
+&lt;p&gt;5个bit为一组进行切分：01100 01001 10100 00111 00110 11101 00011 00001&lt;/p&gt;
+&lt;p&gt;最后查码表，得到编码结果：MJUHG5DB&lt;/p&gt;
+&lt;p&gt;如果最后一组不足5个bit，则用0填充；如果最后一段不足8组，用等号=填充。&lt;/p&gt;
+&lt;p&gt;例如字符串”bhst”进行base32编码：&lt;/p&gt;
+&lt;p&gt;其ASCII码组成的二进制比特串：01100010 01101000 01110011 01110100&lt;/p&gt;
+&lt;p&gt;5个bit为一组进行切分：01100 01001 10100 00111 00110 11101 00000&lt;/p&gt;
+&lt;p&gt;最后一组不足5bit，所以在后面填充了3个0&lt;/p&gt;
+&lt;p&gt;查码表，得到结果为：MJUHG5A，这一段不够8组，故后面填充一个等号=&lt;/p&gt;
+&lt;p&gt;最终的编码结果为：MJUHG5A=&lt;/p&gt;
+&lt;p&gt;总之，对二进制bit串进行分段，无论是前面的5字节段，还是最后剩余的不足5字节的段，每段编码出来的字符均为8个。&lt;/p&gt;
+">Base64 / Base32</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/hui-bain-yu-yan/"" data-c="
           &lt;h2 id=&#34;base&#34;&gt;&lt;strong&gt;BASE&lt;/strong&gt;&lt;/h2&gt;
 &lt;h4 id=&#34;机器语言&#34;&gt;机器语言&lt;/h4&gt;
@@ -1907,6 +1945,42 @@ mov sp 0010
 &lt;p&gt;8086CPU只会知道SS:SP位置，而无法判断SC:SP是否到达栈顶、栈底，是否越界。&lt;/p&gt;
 &lt;h3 id=&#34;3栈段&#34;&gt;3.栈段&lt;/h3&gt;
 &lt;p&gt;与代码段、数据段相似&lt;/p&gt;
+&lt;h2 id=&#34;源程序&#34;&gt;源程序&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;assume cs:codesg
+
+codesg segment
+
+start: mov ax,0123H
+		mov bx,0456H
+		add ax,bx
+		add ax,ax
+		
+		mov ax,4c00H
+		int 21h
+		
+codesg ends
+end					
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;1伪指令&#34;&gt;1.伪指令&lt;/h3&gt;
+&lt;p&gt;没有对应的机器码的指令，最终不被CPU执行。&lt;/p&gt;
+&lt;p&gt;伪指令是由编译器来执行的指令，编译器根据伪指令来进行相关的编译工作&lt;/p&gt;
+&lt;h3 id=&#34;2定义一个段&#34;&gt;2.定义一个段&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;segment和ends&lt;/strong&gt;是一对成对使用的伪指令，这是在写可被编译器编译的汇编程序时，必须要用到的一对伪指令。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;格式：
+
+段名  segment
+
+...
+
+段名 ends
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;一个汇编程序是由多个段组成的，这些段被用来存放代码、数据或当作栈空间来使用。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;注意：end是程序结束的标志，ends是段结束的标志&lt;/p&gt;
+&lt;h3 id=&#34;3寄存器与段的关联假设&#34;&gt;3.寄存器与段的关联假设&lt;/h3&gt;
+&lt;p&gt;assume：含义为“假设”。&lt;/p&gt;
+&lt;p&gt;通过assume假设某一段寄存器和程序中的某一个用segment……ends 定义的段相关联。在需要的情况下，编译程序可以将段寄存器和某一个具体的段相关联&lt;/p&gt;
+&lt;h3 id=&#34;4程序经编译后变成机器码&#34;&gt;4.程序经编译后变成机器码&lt;/h3&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1626618702082.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 "> 汇编语言</a>
       </div>
       
