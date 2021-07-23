@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627004812538">
+<link rel="shortcut icon" href="/favicon.ico?v=1627005322864">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -385,7 +385,7 @@
         <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
         <input id="duType" value="douqilai" type="hidden">
         
-        <input name="live2dBGM" value="https://m701.music.126.net/20210717232457/e98afd8193ee9721bfb4a1cb9da66edd/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/5212725944/8bc4/2e04/f8e7/fc52cefbe5251f91eb3dfa69bef5f4b6.m4a" type="hidden">
+        <input name="live2dBGM" value="http://dl.stream.qqmusic.qq.com/C400000tup0F1enQUp.m4a?guid=2120906640&amp;vkey=ECF7D57E3EE44970EE85F2052F71F92A165F0D91FABF48FB5597330676D105875C8CCC9232319864832783B23755B1078FB7FC08AA2D64E2&amp;uin=&amp;fromtag=66" type="hidden">
         
       </div>
     
@@ -1098,11 +1098,10 @@
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/xctf-mobile/"" data-c="
           &lt;h1 id=&#34;easy-apk&#34;&gt;easy-apk&lt;/h1&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722151414559.png&#34; alt=&#34;image-20210722151414559&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;hr&gt;
+&lt;h2 id=&#34;&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005217353.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/h2&gt;
 &lt;p&gt;new Base64New().&lt;strong&gt;Base64Encode&lt;/strong&gt;(((EditText) MainActivity.this.findViewById(R.id.editText)).getText().toString().getBytes()).equals(&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;）&lt;/p&gt;
 &lt;p&gt;由关键代码可知，是一串字符在base64 加密后与&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;匹配，那么可以逆向将已知密文串base64 解密获得输入明文&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722152403562.png&#34; alt=&#34;image-20210722152403562&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005235846.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;由Base64NEW包可得到新base64 算法，发现其更改了码表&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;原来：s = &amp;quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&amp;quot;
@@ -1204,19 +1203,19 @@ strFlag = base64.b64decode(strEnBase64)
 
 print(strFlag)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722153005026.png&#34; alt=&#34;image-20210722153005026&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005258916.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;获得明文&lt;/p&gt;
 &lt;p&gt;05397c42f9b6da593a3644162d36eb01&lt;/p&gt;
 &lt;p&gt;加上flag{}&lt;/p&gt;
 &lt;p&gt;flag{05397c42f9b6da593a3644162d36eb01}&lt;/p&gt;
 &lt;h1 id=&#34;easy-apk-2&#34;&gt;easy-apk&lt;/h1&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722162454319.png&#34; alt=&#34;image-20210722162454319&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005272123.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;发现使用cyberpeace类中CheckString关键函数&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722153850510.png&#34; alt=&#34;image-20210722153850510&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005288217.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;于cyberpeace类找到函数，可以看出使用native函数CheckString，判断在so层实现该函数，拿出加载库so文件，用ida反编译得下图&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722155252375.png&#34; alt=&#34;image-20210722155252375&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005299069.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;拿出代码&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;_BOOL4 __cdecl Java_com_testjava_jack_pingan2_cyberpeace_CheckString(int a1, int a2, int a3)
@@ -1285,7 +1284,7 @@ print (a)
 &lt;p&gt;flag{90705bb55efb59da7fc2a5636549812a}&lt;/p&gt;
 &lt;h1 id=&#34;easyjni&#34;&gt;easyjni&lt;/h1&gt;
 &lt;p&gt;根据入口找到a函数&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722171858575.png&#34; alt=&#34;image-20210722171858575&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005316163.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;pre&gt;&lt;code&gt;package com.a.easyjni;
 
 public class a {
