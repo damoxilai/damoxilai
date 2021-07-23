@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627004627801">
+<link rel="shortcut icon" href="/favicon.ico?v=1627004734870">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -200,7 +200,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">2</span>
+        <span class="site-item-stat-count">3</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1051,6 +1051,251 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/xctf-mobile/"" data-c="
+          &lt;h1 id=&#34;easy-apk&#34;&gt;easy-apk&lt;/h1&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722151414559.png&#34; alt=&#34;image-20210722151414559&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;hr&gt;
+&lt;p&gt;new Base64New().&lt;strong&gt;Base64Encode&lt;/strong&gt;(((EditText) MainActivity.this.findViewById(R.id.editText)).getText().toString().getBytes()).equals(&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;）&lt;/p&gt;
+&lt;p&gt;由关键代码可知，是一串字符在base64 加密后与&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;匹配，那么可以逆向将已知密文串base64 解密获得输入明文&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722152403562.png&#34; alt=&#34;image-20210722152403562&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;hr&gt;
+&lt;p&gt;由Base64NEW包可得到新base64 算法，发现其更改了码表&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;原来：s = &amp;quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&amp;quot;
+新码表： s = &amp;quot;vwxrstuopq34567ABCDEFGHIJyz012PQRSTKLMNOZabcdUVWXYefghijklmn89+/&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;python脚本实现解码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# coding:utf-8
+ 
+#s = &amp;quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&amp;quot;
+s = &amp;quot;vwxrstuopq34567ABCDEFGHIJyz012PQRSTKLMNOZabcdUVWXYefghijklmn89+/&amp;quot;
+ 
+def My_base64_encode(inputs):
+	# 将字符串转化为2进制
+	bin_str = []
+	for i in inputs:
+		x = str(bin(ord(i))).replace(&#39;0b&#39;, &#39;&#39;)
+		bin_str.append(&#39;{:0&amp;gt;8}&#39;.format(x))
+	#print(bin_str)
+	# 输出的字符串
+	outputs = &amp;quot;&amp;quot;
+	# 不够三倍数，需补齐的次数
+	nums = 0
+	while bin_str:
+		#每次取三个字符的二进制
+		temp_list = bin_str[:3]
+		if(len(temp_list) != 3):
+			nums = 3 - len(temp_list)
+			while len(temp_list) &amp;lt; 3:
+				temp_list += [&#39;0&#39; * 8]
+		temp_str = &amp;quot;&amp;quot;.join(temp_list)
+		#print(temp_str)
+		# 将三个8字节的二进制转换为4个十进制
+		temp_str_list = []
+		for i in range(0,4):
+			temp_str_list.append(int(temp_str[i*6:(i+1)*6],2))
+		#print(temp_str_list)
+		if nums:
+			temp_str_list = temp_str_list[0:4 - nums]
+			
+		for i in temp_str_list:
+			outputs += s[i]
+		bin_str = bin_str[3:]
+	outputs += nums * &#39;=&#39;
+	print(&amp;quot;Encrypted String:\n%s &amp;quot;%outputs)
+	
+def My_base64_decode(inputs):
+	# 将字符串转化为2进制
+	bin_str = []
+	for i in inputs:
+		if i != &#39;=&#39;:
+			x = str(bin(s.index(i))).replace(&#39;0b&#39;, &#39;&#39;)
+			bin_str.append(&#39;{:0&amp;gt;6}&#39;.format(x))
+	#print(bin_str)
+	# 输出的字符串
+	outputs = &amp;quot;&amp;quot;
+	nums = inputs.count(&#39;=&#39;)
+	while bin_str:
+		temp_list = bin_str[:4]
+		temp_str = &amp;quot;&amp;quot;.join(temp_list)
+		#print(temp_str)
+		# 补足8位字节
+		if(len(temp_str) % 8 != 0):
+			temp_str = temp_str[0:-1 * nums * 2]
+		# 将四个6字节的二进制转换为三个字符
+		for i in range(0,int(len(temp_str) / 8)):
+			outputs += chr(int(temp_str[i*8:(i+1)*8],2))
+		bin_str = bin_str[4:]	
+	print(&amp;quot;Decrypted String:\n%s &amp;quot;%outputs)
+	
+print()
+print(&amp;quot;     *************************************&amp;quot;)
+print(&amp;quot;     *    (1)encode         (2)decode    *&amp;quot;)	
+print(&amp;quot;     *************************************&amp;quot;)
+print()
+ 
+ 
+num = input(&amp;quot;Please select the operation you want to perform:\n&amp;quot;)
+if(num == &amp;quot;1&amp;quot;):
+	input_str = input(&amp;quot;Please enter a string that needs to be encrypted: \n&amp;quot;)
+	My_base64_encode(input_str)
+else:
+	input_str = input(&amp;quot;Please enter a string that needs to be decrypted: \n&amp;quot;)
+	My_base64_decode(input_str)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;或者用&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#使用python2运行
+
+import base64
+
+import string
+
+string1 = string.maketrans(&amp;quot;vwxrstuopq34567ABCDEFGHIJyz012PQRSTKLMNOZabcdUVWXYefghijklmn89+/&amp;quot;,
+                           &amp;quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&amp;quot;)
+strEnBase64 = &amp;quot;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&amp;quot;.translate(string1)
+
+print(strEnBase64)
+
+strFlag = base64.b64decode(strEnBase64)
+
+print(strFlag)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722153005026.png&#34; alt=&#34;image-20210722153005026&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;获得明文&lt;/p&gt;
+&lt;p&gt;05397c42f9b6da593a3644162d36eb01&lt;/p&gt;
+&lt;p&gt;加上flag{}&lt;/p&gt;
+&lt;p&gt;flag{05397c42f9b6da593a3644162d36eb01}&lt;/p&gt;
+&lt;h1 id=&#34;easy-apk-2&#34;&gt;easy-apk&lt;/h1&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722162454319.png&#34; alt=&#34;image-20210722162454319&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;hr&gt;
+&lt;p&gt;发现使用cyberpeace类中CheckString关键函数&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722153850510.png&#34; alt=&#34;image-20210722153850510&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;hr&gt;
+&lt;p&gt;于cyberpeace类找到函数，可以看出使用native函数CheckString，判断在so层实现该函数，拿出加载库so文件，用ida反编译得下图&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722155252375.png&#34; alt=&#34;image-20210722155252375&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;hr&gt;
+&lt;p&gt;拿出代码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;_BOOL4 __cdecl Java_com_testjava_jack_pingan2_cyberpeace_CheckString(int a1, int a2, int a3)
+{
+  size_t v3; // edi
+  char *v4; // esi
+  size_t v5; // edi
+  char v6; // al
+  char v7; // al
+  size_t v8; // edi
+  char v9; // al
+  const char *v11; // [esp+18h] [ebp-14h]
+
+  v11 = (const char *)(*(int (__cdecl **)(int, int, _DWORD))(*(_DWORD *)a1 + 676))(a1, a3, 0);
+  v3 = strlen(v11);//取字符串长
+  v4 = (char *)malloc(v3 + 1);//申请内存
+  memset(&amp;amp;v4[v3], 0, v3 != -1);
+  memcpy(v4, v11, v3);//拷贝赋值
+  if ( strlen(v4) &amp;gt;= 2 )
+  {
+    v5 = 0;
+    do
+    {
+      v6 = v4[v5];
+      v4[v5] = v4[v5 + 16];
+      v4[v5++ + 16] = v6;//前十六字符与后十六字符置换
+    }
+    while ( v5 &amp;lt; strlen(v4) &amp;gt;&amp;gt; 1 );//直到字符串结束
+  }
+  v7 = *v4;
+  if ( *v4 )
+  {
+    *v4 = v4[1];
+    v4[1] = v7;//第一个字符与第零个字符置换
+    if ( strlen(v4) &amp;gt;= 3 )
+    {
+      v8 = 2;
+      do
+      {
+        v9 = v4[v8];//从第二个字符开始
+        v4[v8] = v4[v8 + 1];//后一个字符
+        v4[v8 + 1] = v9;//前后交换
+        v8 += 2;//隔两个数递增
+      }
+      while ( v8 &amp;lt; strlen(v4) );//直到字符末尾结束
+    }
+  }
+  return strcmp(v4, &amp;quot;f72c5a36569418a20907b55be5bf95ad&amp;quot;) == 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;写个python跑出来&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;a=&amp;quot;f72c5a36569418a20907b55be5bf95ad&amp;quot;
+a=list(a);
+for i in range(0,len(a),2):
+    b=a[i]
+    a[i]=a[i+1]
+    a[i+1]=b
+b=a[:16]
+a[:16]=a[16:]
+a[16:]=b
+a=&#39;&#39;.join(a)
+print (a)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;得到结果&lt;/p&gt;
+&lt;p&gt;90705bb55efb59da7fc2a5636549812a&lt;/p&gt;
+&lt;p&gt;flag{90705bb55efb59da7fc2a5636549812a}&lt;/p&gt;
+&lt;h1 id=&#34;easyjni&#34;&gt;easyjni&lt;/h1&gt;
+&lt;p&gt;根据入口找到a函数&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;C:%5CUsers%5Clinan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210722171858575.png&#34; alt=&#34;image-20210722171858575&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;package com.a.easyjni;
+
+public class a {
+    private static final char[] a = {&#39;i&#39;, &#39;5&#39;, &#39;j&#39;, &#39;L&#39;, &#39;W&#39;, &#39;7&#39;, &#39;S&#39;, &#39;0&#39;, &#39;G&#39;, &#39;X&#39;, &#39;6&#39;, &#39;u&#39;, &#39;f&#39;, &#39;1&#39;, &#39;c&#39;, &#39;v&#39;, &#39;3&#39;, &#39;n&#39;, &#39;y&#39;, &#39;4&#39;, &#39;q&#39;, &#39;8&#39;, &#39;e&#39;, &#39;s&#39;, &#39;2&#39;, &#39;Q&#39;, &#39;+&#39;, &#39;b&#39;, &#39;d&#39;, &#39;k&#39;, &#39;Y&#39;, &#39;g&#39;, &#39;K&#39;, &#39;O&#39;, &#39;I&#39;, &#39;T&#39;, &#39;/&#39;, &#39;t&#39;, &#39;A&#39;, &#39;x&#39;, &#39;U&#39;, &#39;r&#39;, &#39;F&#39;, &#39;l&#39;, &#39;V&#39;, &#39;P&#39;, &#39;z&#39;, &#39;h&#39;, &#39;m&#39;, &#39;o&#39;, &#39;w&#39;, &#39;9&#39;, &#39;B&#39;, &#39;H&#39;, &#39;C&#39;, &#39;M&#39;, &#39;D&#39;, &#39;p&#39;, &#39;E&#39;, &#39;a&#39;, &#39;J&#39;, &#39;R&#39;, &#39;Z&#39;, &#39;N&#39;};
+
+    public String a(byte[] bArr) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &amp;lt;= bArr.length - 1; i += 3) {
+            byte[] bArr2 = new byte[4];
+            byte b = 0;
+            for (int i2 = 0; i2 &amp;lt;= 2; i2++) {
+                if (i + i2 &amp;lt;= bArr.length - 1) {
+                    bArr2[i2] = (byte) (b | ((bArr[i + i2] &amp;amp; 255) &amp;gt;&amp;gt;&amp;gt; ((i2 * 2) + 2)));
+                    b = (byte) ((((bArr[i + i2] &amp;amp; 255) &amp;lt;&amp;lt; (((2 - i2) * 2) + 2)) &amp;amp; 255) &amp;gt;&amp;gt;&amp;gt; 2);
+                } else {
+                    bArr2[i2] = b;
+                    b = 64;
+                }
+            }
+            bArr2[3] = b;
+            for (int i3 = 0; i3 &amp;lt;= 3; i3++) {
+                if (bArr2[i3] &amp;lt;= 63) {
+                    sb.append(a[bArr2[i3]]);
+                } else {
+                    sb.append(&#39;=&#39;);
+                }
+            }
+        }
+        return sb.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;与easy-apk类似，使用base64加密，并且改了码表&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#python2运行
+
+import base64
+ 
+import string
+ 
+string1=string.maketrans(&amp;quot;i5jLW7S0GX6uf1cv3ny4q8es2Q+bdkYgKOIT/tAxUrFlVPzhmow9BHCMDpEaJRZN&amp;quot;,&amp;quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&amp;quot;)
+
+strEnBase64 = &amp;quot;QAoOQMPFks1BsB7cbM3TQsXg30i9g3==&amp;quot;.translate(string1)
+ 
+print(strEnBase64)
+ 
+strFlag = base64.b64decode(strEnBase64)
+ 
+print(strFlag)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;得到flag&lt;/p&gt;
+&lt;p&gt;flag{just_ANot#er_@p3}&lt;/p&gt;
+">XCTF-mobile</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/base64-base32/"" data-c="
