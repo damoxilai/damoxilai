@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627006478761">
+<link rel="shortcut icon" href="/favicon.ico?v=1627007710480">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1145,6 +1145,7 @@ else:
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;或者用&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;#使用python2运行
+#若使用python3.4以上，需把string.maketrans改为str.maketrans
 
 import base64
 
@@ -1158,7 +1159,7 @@ print(strEnBase64)
 
 strFlag = base64.b64decode(strEnBase64)
 
-print(strFlag)
+print(strFlag.decode(&amp;quot;utf-8&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005258916.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;获得明文&lt;/p&gt;
@@ -1289,7 +1290,7 @@ print(strEnBase64)
  
 strFlag = base64.b64decode(strEnBase64)
  
-print(strFlag)
+print(strFlag.decode(&amp;quot;utf-8&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;得到flag&lt;/p&gt;
 &lt;p&gt;flag{just_ANot#er_@p3}&lt;/p&gt;
