@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627007710480">
+<link rel="shortcut icon" href="/favicon.ico?v=1627010963807">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1299,6 +1299,91 @@ print(strFlag.decode(&amp;quot;utf-8&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;得到flag&lt;/p&gt;
 &lt;p&gt;flag{just_ANot#er_@p3}&lt;/p&gt;
+&lt;h2 id=&#34;apk逆向&#34;&gt;apk逆向&lt;/h2&gt;
+&lt;p&gt;jd龟打开，入口好找&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010921553.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;hr&gt;
+&lt;p&gt;找到检查函数checkSN&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; public boolean checkSN(String userName, String sn) {
+        if (userName == null) {
+            return false;
+        }
+        try {
+            if (userName.length() == 0 || sn == null || sn.length() != 22) {	//输入的username不空，sn必须22位
+                return false;
+            }
+            MessageDigest digest = MessageDigest.getInstance(&amp;quot;MD5&amp;quot;);
+            digest.reset();
+            digest.update(userName.getBytes());		
+            String hexstr = toHexString(digest.digest(), &amp;quot;&amp;quot;);//将username的MD5值作为toHexString参数
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i &amp;lt; hexstr.length(); i += 2) {
+                sb.append(hexstr.charAt(i));
+            }
+            if ((&amp;quot;flag{&amp;quot; + sb.toString() + &amp;quot;}&amp;quot;).equalsIgnoreCase(sn)) {
+                return true;
+            }
+            return false;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt; private static String toHexString(byte[] bytes, String separator) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : bytes) {
+            String hex = Integer.toHexString(b &amp;amp; 255);
+            if (hex.length() == 1) {
+                hexString.append(&#39;0&#39;);
+            }
+            hexString.append(hex).append(separator);
+        }
+        return hexString.toString();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;直接拿这些现有代码出来跑&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;package xctf_apk;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class apk {
+	
+	    private static String toHexString(byte[] bytes, String separator) {
+	        StringBuilder hexString = new StringBuilder();
+	        for (byte b : bytes) {
+	            String hex = Integer.toHexString(b &amp;amp; 255);
+	            if (hex.length() == 1) {
+	                hexString.append(&#39;0&#39;);
+	            }
+	            hexString.append(hex).append(separator);
+	        }
+	        return hexString.toString();
+	    }
+	    
+	    public static void main(String[] args) throws NoSuchAlgorithmException {
+	    	String username=&amp;quot;Tenshine&amp;quot;;
+	    	 MessageDigest digest = MessageDigest.getInstance(&amp;quot;MD5&amp;quot;);
+	            digest.reset();
+	            digest.update(username.getBytes());
+	            String hexstr = toHexString(digest.digest(), &amp;quot;&amp;quot;);
+	            StringBuilder sb = new StringBuilder();
+	            for (int i = 0; i &amp;lt; hexstr.length(); i += 2) {
+	                sb.append(hexstr.charAt(i));
+	            }
+	            System.out.printf(&amp;quot;flag{&amp;quot; + sb.toString() + &amp;quot;}&amp;quot;) ;
+
+	    }	
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010937880.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;hr&gt;
+&lt;p&gt;得到flag&lt;/p&gt;
+&lt;p&gt;flag{bc72f242a6af3857}&lt;/p&gt;
+&lt;p&gt;然后这题很坑&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010948830.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;提交bc72f242a6af3857&lt;/p&gt;
 ">XCTF-mobile</a>
       </div>
       
