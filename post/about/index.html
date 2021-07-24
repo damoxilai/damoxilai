@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>关于 | 达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627118610699">
+<link rel="shortcut icon" href="/favicon.ico?v=1627123608331">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1674,7 +1674,7 @@ print(strFlag.decode(&amp;quot;utf-8&amp;quot;)
 &lt;p&gt;05397c42f9b6da593a3644162d36eb01&lt;/p&gt;
 &lt;p&gt;加上flag{}&lt;/p&gt;
 &lt;p&gt;flag{05397c42f9b6da593a3644162d36eb01}&lt;/p&gt;
-&lt;h1 id=&#34;easy-apk-2&#34;&gt;easy-apk&lt;/h1&gt;
+&lt;h1 id=&#34;easy-so&#34;&gt;easy-so&lt;/h1&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005272123.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;发现使用cyberpeace类中CheckString关键函数&lt;/p&gt;
@@ -1915,6 +1915,50 @@ public class apk {
 &lt;p&gt;将&amp;quot;fa3733c647dca53a66cf8df953c2d539&amp;quot;MD5解密即可&lt;/p&gt;
 &lt;p&gt;解密得monkey99&lt;/p&gt;
 &lt;p&gt;flag{monkey99}&lt;/p&gt;
+&lt;h1 id=&#34;android基础&#34;&gt;Android基础&lt;/h1&gt;
+&lt;p&gt;拿到apk，jadx龟打开&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123535938.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;找MainActivicity，找到oncreate方法，发现关键函数checkPassword()&lt;/p&gt;
+&lt;p&gt;找到代码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class Check {
+    public boolean checkPassword(String str) {
+        char[] pass = str.toCharArray();
+        if (pass.length != 12) {	//12字符长
+            return false;
+        }
+        for (int len = 0; len &amp;lt; pass.length; len++) {
+            pass[len] = (char) (((255 - len) - 100) - pass[len]);//155-len
+            if (pass[len] != &#39;0&#39; || len &amp;gt;= 12) {		//减了之后字符为0，对应ascii码48
+                return false;
+            }
+        }
+        return true;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;写个python跑出字符串&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; key = list(&#39;000000000000&#39;)
+
+&amp;gt;&amp;gt;&amp;gt; key
+[&#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;]
+
+&amp;gt;&amp;gt;&amp;gt; for i in range(12):
+    value = 255 - 100 - i - ord(key[i])
+    key[i] = chr(value)
+
+
+&amp;gt;&amp;gt;&amp;gt; print(&amp;quot;&amp;quot;.join(str(i) for i in key))
+kjihgfedcba` 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;打开apk，输入kjihgfedcba` 验证&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123554911.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;还要求输入显示码&lt;/p&gt;
+&lt;p&gt;回头看AndroidManifest.xml文件&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123568823.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;找到触发动作&lt;/p&gt;
+&lt;p&gt;输入android.is.very.fun&lt;/p&gt;
+&lt;p&gt;得到flag&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123605789.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 ">XCTF-mobile</a>
       </div>
       
