@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>Base64 / Base32 | 达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627140368659">
+<link rel="shortcut icon" href="/favicon.ico?v=1627298019985">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -2750,6 +2750,280 @@ end
 &lt;p&gt;通过assume假设某一段寄存器和程序中的某一个用segment……ends 定义的段相关联。在需要的情况下，编译程序可以将段寄存器和某一个具体的段相关联&lt;/p&gt;
 &lt;h3 id=&#34;4程序经编译后变成机器码&#34;&gt;4.程序经编译后变成机器码&lt;/h3&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1626618702082.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;5语法错误和逻辑错误&#34;&gt;5.语法错误和逻辑错误&lt;/h3&gt;
+&lt;p&gt;程序编译时编译器识别不了错误语法&lt;/p&gt;
+&lt;p&gt;逻辑错误指程序在编译时不能表现出来的、在运行时发生的错误，逻辑错误一般不容易发现&lt;/p&gt;
+&lt;h3 id=&#34;6编译连接运行源程序&#34;&gt;6.编译连接运行源程序&lt;/h3&gt;
+&lt;p&gt;这里从网上找代码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;;hello.asm
+DATAS  SEGMENT	//定义段，段名叫DATAS
+     STRING  DB  &#39;Hello World!&#39;,13,10,&#39;$&#39;
+DATAS  ENDS	//标志结束
+
+CODES  SEGMENT//定义段，段名叫CODES
+     ASSUME    CS:CODES,DS:DATAS//将CODES与CS关联起来，将ＤＡＴＡＳ与ＤＳ数据关联起来
+     
+START:					//程序入口地址，在最后ｅｎｄ后同样标志
+     MOV  AX,DATAS
+     MOV  DS,AX
+     
+     LEA  DX,STRING
+     
+     MOV  AH,9
+     INT  21H 
+     MOV  AH,4CH
+     INT  21H
+CODES  ENDS		//代码段结束
+    END   START　//程序结束，程序入口标识为ＳＴＡＲＴ
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;命名 2.asm&lt;/p&gt;
+&lt;p&gt;使用命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;masm 2.asm
+link 2.OBJ
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;注意可以加“ ；” 快速跳过完成&lt;/p&gt;
+&lt;p&gt;运行2.exe，成功&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1627297823727.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;问题：2.exe是如何运行的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1.我们在dos中运行2.exe，是正在运行的command将2.exe导入内存&lt;/p&gt;
+&lt;p&gt;2.command设置CPU的CS:IP指向程序的第一条指令，即程序的入口，程序得以开始运行&lt;/p&gt;
+&lt;p&gt;3.运行完毕后，返回到command，CPU继续执行command&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;连接作用&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;当源程序很大时，可以将其分为多个源程序文件来编译，每个源程序编译成为目标文件后，再用连接程序把它们连到一起，生成一个可执行文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;程序调用某个库文件中的子程序，需要将这个库文件和该程序生成的目标文件连接在一起，生成一个可执行文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;汇编程序从写出到执行&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627297844118.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;7程序执行过程的跟踪&#34;&gt;7.程序执行过程的跟踪&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;1.asm&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;assume cs:codesg
+
+codesg segment
+	
+linan:mov ax,0123H
+	mov bx,0456H
+	add ax,bx
+	add ax,ax
+	
+	mov ax,4c00H
+	int 21H
+	
+codesg ends
+end linan 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;end 后面标号就是代表这个程序入口的地址，可以用其他字符&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;编译连接&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;用debug运行1.exe，可以看到cx存放是程序代码长度，意思是：１.ｅｘｅ中程序的机器码共有十五个字节，我们也可以发现当前ＣＳ：IP指向的第一条指令就是我们程序入口的第一条指令mov ax,0123H&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627297867745.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;现在程序已经从１.ｅｘｅ载入内存，接下来我们查看他的内容，有如下问题或者说现象&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ＤＳ和ＣＳ相差１０Ｈ的地址，换成物理地址就是１００Ｈ，造成原因是存在ＰＳＰ。&lt;strong&gt;ＤＯＳ利用ＰＳＰ与被载程序进行通信&lt;/strong&gt;，所以程序正真开始执行的地方是在下图SA＋１０Ｈ：０而不是ＳＡ：０&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627297880167.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可以查看ｐｓｐ的内容&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;－ｕ　０ｂ６ｄ：０　２５６
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627297892012.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;小结&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;程序加载后，ｄｓ存放着程序所在内存区的段地址，如果偏移地址为０，那么程序所在的内存区的地址为ＤＳ：０；&lt;/p&gt;
+&lt;p&gt;这个内存区的前２５６个字节中存放的是ＰＳＰ，用于ＤＯＳ和程序通信&lt;/p&gt;
+&lt;p&gt;从２５６字节后空间才存放我们的程序代码&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;我们用ｔ单步运行程序，一切照常，这里要注意的是在&lt;strong&gt;执行ＩＮＴ　２１指令要用Ｐ命令&lt;/strong&gt;，然后会返回“program　terminated　normally”，表示程序正常结束，返回debug中&lt;img src=&#34;https://damoxilai.github.io/post-images/1627297918245.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;小结&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们在用DOS运行“debug　１．ｅｘｅ”，程序加载顺序是：command加载debug，debug再加载１.ｅｘｅ，返回就倒过来&lt;/p&gt;
+&lt;p&gt;完成实验三&lt;/p&gt;
+&lt;h2 id=&#34;bx和loop指令&#34;&gt;&lt;strong&gt;［ＢＸ］和ｌｏｏｐ指令&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;1bx&#34;&gt;１．［ＢＸ］&lt;/h3&gt;
+&lt;p&gt;和［０］有些类似，［０］表示内存单元，他的偏移地址是０&lt;/p&gt;
+&lt;p&gt;ｍｏｖ　ａｘ，［０］&lt;/p&gt;
+&lt;p&gt;ｍｏｖ　ａｌ，［０］&lt;/p&gt;
+&lt;p&gt;ｍｏｖ　ａｘ，［ｂｘ］&lt;/p&gt;
+&lt;p&gt;ｍｏｖ　ａｌ，［ｂｘ］&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;编译器不会跟debug一样把［０］识别为偏移地址为０，而是直接认为是数据０，所以ｍｏｖ　ａｘ，［０］后，ａｘ就是０，要想实现前者，就必须用［ｂｘ］来表示，编译器才会认为是一个偏移地址&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;为了方便表述，书里增加了描述性符号（），表示某寄存器存放的值&lt;/p&gt;
+&lt;p&gt;如：mov ax,[bx]&lt;/p&gt;
+&lt;p&gt;代表的意思是是：bx中存放的数据作为一个偏移地址，段地址默认在ds中，将ds:[bx]中的数据送入ax中&lt;/p&gt;
+&lt;p&gt;可以用描述性符号表示为（ax）=（（ds）*16+（bx））&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;问题5.1&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;写程序&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;assume cs:abd
+
+abd segment
+
+start:
+
+mov ax,2000h
+mov ds,ax
+mov bx,1000h
+mov ax,[bx]
+inc bx
+inc bx
+mov [bx],ax
+inc bx
+inc bx
+mov [bx],ax
+inc bx
+mov [bx],al
+inc bx
+mov [bx],al
+
+mov ax,4c00h
+int 21h
+
+abd ends
+
+end start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;已知21000h~21007h内存单元内容情况如下&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;BE&lt;/th&gt;
+&lt;th&gt;21000h&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21001h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21002h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21003h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21004h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21005h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21006h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21007h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;解题：把程序编译链接后debug运行，逐条t指令运行,每步执行后分析如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;mov ax,2000h&lt;br&gt;
+mov ds,ax&lt;br&gt;
+mov bx,1000h&lt;/p&gt;
+&lt;p&gt;//设置ds和bx，此时ds=2000，bx=1000&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mov ax,[bx]&lt;/p&gt;
+&lt;p&gt;//将2000:1000的内存地址内容传给ax，此时ax=00be&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;inc bx&lt;br&gt;
+inc bx&lt;/p&gt;
+&lt;p&gt;//自增1，两行就加2，此时bx=1002&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mov [bx],ax&lt;/p&gt;
+&lt;p&gt;//把ax的值传给2000:1002，此时21002~21003的值是be 00&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;inc bx&lt;br&gt;
+inc bx&lt;/p&gt;
+&lt;p&gt;//自增1，两行就加2，此时bx=1004&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mov [bx],ax&lt;/p&gt;
+&lt;p&gt;//把ax的值传给2000:1004，此时21004~21005的值是be 00&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;inc bx&lt;/p&gt;
+&lt;p&gt;//自增1，此时bx=1005&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mov [bx],al&lt;/p&gt;
+&lt;p&gt;//把al的值传给2000:1005，此时21005的值是be&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;inc bx&lt;/p&gt;
+&lt;p&gt;//自增1，此时bx=1006&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mov [bx],al&lt;/p&gt;
+&lt;p&gt;//把al的值传给2000:1006，此时21006的值是be&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;BE&lt;/th&gt;
+&lt;th&gt;21000h&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21001h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BE&lt;/td&gt;
+&lt;td&gt;21002h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21003h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BE&lt;/td&gt;
+&lt;td&gt;21004h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BE&lt;/td&gt;
+&lt;td&gt;21005h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BE&lt;/td&gt;
+&lt;td&gt;21006h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;00&lt;/td&gt;
+&lt;td&gt;21007h&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 "> 汇编语言</a>
       </div>
       
