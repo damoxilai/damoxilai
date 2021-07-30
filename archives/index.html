@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627612665976">
+<link rel="shortcut icon" href="/favicon.ico?v=1627615657645">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -2511,6 +2511,115 @@ inc bx&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;2loop指令&#34;&gt;２．Ｌｏｏｐ指令&lt;/h3&gt;
+&lt;p&gt;循环的意思，指令的格式是：loop标号，cpu执行loop指令的时候，要进行两步操作&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;(cx)=(cx)-1;&lt;/li&gt;
+&lt;li&gt;判断cx中的值，不为零则转至标号处执行程序，如果为零则向下执行&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;通常我们用loop指令来实现循环功能，cx中存放循环次数。&lt;/p&gt;
+&lt;h3 id=&#34;3在的debug中跟踪用loop指令实现的循环程序&#34;&gt;３.在的debug中跟踪用ｌｏｏｐ指令实现的循环程序&lt;/h3&gt;
+&lt;p&gt;1.用loop指令，求2^12=?&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;assume cs:a
+
+a segment
+
+start:
+	mov ax,2
+	mov cx,11
+	s:add ax,ax
+	loop s
+	
+	mov ax,4c00h
+	int 21h
+	
+a ends
+
+end start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;debug跟踪&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以看到，CX原本存放代码字节长度，之后被我们设为loop条件值，就是循环次数&lt;/p&gt;
+&lt;p&gt;loop 0006中0006就是s在程序的偏移地址，标号就是偏移地址&lt;/p&gt;
+&lt;p&gt;当执行loop时，程序判断(cx)=(cx)-1是否为零，不为零自动跳到我们得标号s处，继续执行add ax,ax&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627615599696.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;当执行loop时，程序判断(cx)=(cx)-1为零，不跳到标号，继续下行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627615613024.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;程序正常结束，得到ax=1000h，2^12=1000h&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627615624354.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;2.计算ffff:0006单元中的数据乘以123，结果储存在&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;assume cs:a
+a segment
+start:
+	mov ax,0ffffh
+	mov ds,ax
+	mov bx,6
+	mov ax,[bx]
+	mov dx,0
+	mov cx,123
+s:	add dx,ax
+	loop s
+	mov ax,4c00h
+	int 21h
+a ends
+end start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;注意：数据如果是字母开头的必须前面加0，因为编译器不认识&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如：mov ax,ffffh得改为mov ax,0ffffh&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627615635347.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;当循环次数过多，可以用G命令或P命令跳出循环&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627615644385.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627615652599.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;4debug和汇编编译器masm对指令的不同的处理&#34;&gt;４.debug和汇编编译器Masm对指令的不同的处理&lt;/h3&gt;
+&lt;p&gt;mov ax,[0]&lt;/p&gt;
+&lt;p&gt;在debug中将ds:0数据送入al中；但在汇编源程序中，masm编译器会把其当作 mov ax,0 处理。当然可以改成mov ax,ds:[0] ，就可以实现。&lt;/p&gt;
+&lt;h3 id=&#34;5loop和bx的联合应用&#34;&gt;５.loop和［ｂｘ］的联合应用&lt;/h3&gt;
+&lt;p&gt;计算ffff:0~ffff:b单元中的数据和结果储存在dx中&lt;/p&gt;
+&lt;p&gt;这道题需要考虑几个问题&lt;/p&gt;
+&lt;p&gt;1.运算结果是否会超出dx的存储范围&lt;/p&gt;
+&lt;p&gt;​	由于存储的是字节型数据，范围在0~255之间，12个这样的数据相加，结果不会大于65535，不会超出dx范围&lt;/p&gt;
+&lt;p&gt;2.能否直接将数据直接累加到dx中&lt;/p&gt;
+&lt;p&gt;​	不可以直接累加，因为数据是8位，而dx是16位&lt;/p&gt;
+&lt;p&gt;3.可否累加到dl中，并置(dh)=0&lt;/p&gt;
+&lt;p&gt;​	不可以，这显然会造成进位丢失&lt;/p&gt;
+&lt;p&gt;综上总结为类型匹配和结果越界问题&lt;/p&gt;
+&lt;p&gt;目前，可以使用一个16位寄存器作为中介，将内存8位数据赋值到一个16位寄存器ax中，再将ax数据加到dx中，实现数据类型匹配且不越界，源代码如下&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;assume cs:codesg
+
+codesg segment
+
+start:
+mov ax,0ffffh
+mov ds,ax
+mov bx,0
+mov dx,0
+mov cx,12
+
+s:
+mov al,[bx]
+mov ah,0
+add dx,ax
+inc bx
+loop s
+
+mov ax,4c00h
+int 21h
+
+codesg ends
+end start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;注意ffff前一定要加零，不然会报错，0ffff编译器才认识&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;:happy:&lt;/p&gt;
+&lt;h3 id=&#34;6段前缀&#34;&gt;６.段前缀&lt;/h3&gt;
+&lt;h3 id=&#34;7一段安全空间&#34;&gt;７.一段安全空间&lt;/h3&gt;
+&lt;h3 id=&#34;8段前缀使用&#34;&gt;８.段前缀使用&lt;/h3&gt;
 "> 汇编语言</a>
       </div>
       
