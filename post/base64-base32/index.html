@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>Base64 / Base32 | 达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627615690549">
+<link rel="shortcut icon" href="/favicon.ico?v=1627638796740">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -3136,9 +3136,44 @@ end start
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;注意ffff前一定要加零，不然会报错，0ffff编译器才认识&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;:happy:&lt;/p&gt;
+&lt;p&gt;查看ffff:0~b的值&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627638775261.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;debug运行程序后，结果是476，验算后也是476&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627638786020.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;6段前缀&#34;&gt;６.段前缀&lt;/h3&gt;
+&lt;p&gt;指令&amp;quot;mov ax,[bx]&amp;quot;内存单元的偏移地址由bx给出，而段默认地址在ds中。此时的ds就叫做段前缀。&lt;/p&gt;
+&lt;p&gt;像出现在访问内存单元的段地址的”ds：“、”cs：“、”ss：”或“es：”，在汇编语言中称为段前缀。&lt;/p&gt;
 &lt;h3 id=&#34;7一段安全空间&#34;&gt;７.一段安全空间&lt;/h3&gt;
+&lt;p&gt;若在8086模式中，随意向一段内存空间写入内容是很危险的，因为这段空间中可能存放着重要的系统数据或代码。&lt;/p&gt;
+&lt;p&gt;在纯DOS的情况下，可以忽略dos，直接用汇编语言取操作真实的硬件，因为运行在cpu实模式下的dos没有能力对硬件系统进行全面、严格的保护。但在Windows 2000、unix这些运行在cpu保护模式下的操作系统中，不理会操作系统，用汇编语言去操作真实的硬件是不可能的。&lt;/p&gt;
+&lt;p&gt;所以避免发生触及其他程序内存，我们需要一段相对安全的空间，让我可以直接随意操作&lt;/p&gt;
+&lt;p&gt;一般情况下，0:200~0:2ff空间中是没有系统和其他数据的代码&lt;/p&gt;
 &lt;h3 id=&#34;8段前缀使用&#34;&gt;８.段前缀使用&lt;/h3&gt;
+&lt;p&gt;把ffff:0~ffff:b数据放到0:200开始处&lt;/p&gt;
+&lt;p&gt;实现如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;assume cs:abc
+abc segment
+
+start:
+mov ax,0ffffh
+mov ds,ax
+mov bx,0
+mov cx,12
+mov dx,0
+mov ax,0020h
+mov es,ax		//这里使用了es，可以减少对ds段前缀的频繁更改，优化效率
+s:
+mov dl,[bx]
+mov es:[bx],dl
+inc bx
+loop s
+
+mov ax,4c00h
+int 21h
+
+abc ends
+end start
+&lt;/code&gt;&lt;/pre&gt;
 "> 汇编语言</a>
       </div>
       
