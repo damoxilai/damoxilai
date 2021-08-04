@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>XCTF-mobile | 达摩西莱</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1627693930020">
+<link rel="shortcut icon" href="/favicon.ico?v=1628049102978">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -198,17 +198,25 @@
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
-    <p class="site-author-name">楠兄楠弟</p>
+    <p class="site-author-name"></p>
     
     <div class="site-description right-motion">
       
       
       
-        <p>也愿做一只海胆</p>
+        <p>苟能发奋自立，则家塾可读书；  </p>
       
-        <p>附刺全身</p>
+        <p>即旷野之地，热闹之场亦可读书；  </p>
       
-        <p>悄悄从海底爬过</p>
+        <p>负薪牧豕，皆可读书。 </p>
+      
+        <p> 苟不能发奋自立，则家塾不宜读书；  </p>
+      
+        <p>即清净之乡，神仙之境皆不能读书。 </p>
+      
+        <p> 何必择地？何必择时？ </p>
+      
+        <p> 但自问立志之真不真耳！</p>
       
       
     </div>
@@ -218,7 +226,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">4</span>
+        <span class="site-item-stat-count">5</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -529,6 +537,12 @@
     </a>
   </h1>
   <div class="post-meta">
+    
+    <span class="meta-item">
+      <i class="fa fa-thumb-tack"></i>
+      <span class="language" data-lan="top">置顶</span>
+      <span class="post-meta-divider">|</span>
+    </span>
     
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
@@ -974,7 +988,7 @@ kjihgfedcba`
   <ul class="post-copyright">
     <li class="post-copyright-author">
       <strong class="language" data-lan="author">本文作者：</strong>
-      楠兄楠弟
+      
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
@@ -1084,13 +1098,11 @@ kjihgfedcba`
         
         <input name="live2dBGM" value="https://link.hhtjim.com/163/1803321252.mp3" type="hidden">
         
-        <input name="live2dBGM" value="https://link.hhtjim.com/163/454435578.mp3" type="hidden">
-        
-        <input name="live2dBGM" value="https://link.hhtjim.com/163/15973.mp3" type="hidden">
+        <input name="live2dBGM" value="https://link.hhtjim.com/163/27501142.mp3" type="hidden">
         
         <input name="live2dBGM" value="https://link.hhtjim.com/163/421639623.mp3" type="hidden">
         
-        <input name="live2dBGM" value="https://music.163.com/#/song?id=1842865092" type="hidden">
+        <input name="live2dBGM" value="https://link.hhtjim.com/163/454435578.mp3" type="hidden">
         
       </div>
     
@@ -2016,6 +2028,93 @@ kjihgfedcba`
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/elf-wen-jian-jie-gou/"" data-c="
+          &lt;p&gt;明确一点，什么可以叫可执行文件。从广义上来讲，文件中的数据是可执行的代码，这样的文件壳称为可执行文件，像一些.out、.exe、.sh、.py文件。从狭义上讲，文件中的数据是机器码的文件，像.out、.exe、.dll、.so文件。&lt;/p&gt;
+&lt;h3 id=&#34;可执行文件分类&#34;&gt;可执行文件分类&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Windows：PE(Protable Executable)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可执行程序.exe&lt;/li&gt;
+&lt;li&gt;动态链接库.dll&lt;/li&gt;
+&lt;li&gt;静态链接库.lib&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Linux：ELF(Executable and Linkable Format)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;可执行程序.out&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;动态链接库.so&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;静态链接库.a&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意windows以后缀名识别文件&lt;/p&gt;
+&lt;p&gt;linux以文件头识别文件，用file命令查看文件格式&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[root@VM-8-5-centos ~]# file a.out 
+a.out: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=f745fbc7e2ea1f4aa6f74525a787b0ddc3fb48e6, not stripped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;elf文件格式&#34;&gt;ELF文件格式&lt;/h3&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628042262663.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;ELF头&lt;/p&gt;
+&lt;p&gt;ELF头必须在文件开头，记录ELF文件基本信息、组织结构。&lt;/p&gt;
+&lt;p&gt;ELF头包括ELF的magic code、程序运行的计算机架构、程序入口等内容，可以通过“readelf -h ”命令读取其内容，一般用于找到一些程序的入口&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628042273908.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;解析ELF文件头的目的是确定程序的入口指令集架构、ABI版本等系统是否支持的信息，以及读取程序的入口。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;程序头表/段表&lt;/p&gt;
+&lt;p&gt;解析程序头表是为了确定需要加载的程序、告诉系统如何创建进程。程序头表就是一个程序头的结构体数组，其每项都包含这个段的描述信息。操作系统执行程序时按照指定的短信息将ELF文件的指定内容加载到内存的指定位置。&lt;/p&gt;
+&lt;p&gt;每个程序头的内容主要包括段类型、其在ELF文件的地址、加载到内存中的哪个地址、段长度、内存读写属性。&lt;/p&gt;
+&lt;p&gt;存放代码的段内为可读可运行，存放数据段则可读可写或者只读。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;节头表&lt;/p&gt;
+&lt;p&gt;节和段是ELF文件描述同一段数据的两种不同形式&lt;/p&gt;
+&lt;p&gt;描述节的各种信息数据统一存放在节头表中&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;.text节——存放一个程序的运行所需的所有代码&lt;/li&gt;
+&lt;li&gt;.rdata节——存放程序使用到的&lt;strong&gt;不可修改&lt;/strong&gt;的静态数据，如字符串等&lt;/li&gt;
+&lt;li&gt;.data节——存放程序&lt;strong&gt;可修改&lt;/strong&gt;的数据，如C语言中已经初始化的全局变量&lt;/li&gt;
+&lt;li&gt;.bss节——用于存放程序的&lt;strong&gt;可修改&lt;/strong&gt;数据，与.data不同的是，这些数据没有被初始化，所以没有占用ELF空间。虽然节头表中存在.bss节，单文件中并没有对应的数据。程序开始执行后，系统才会申请一块空间来做实际的.bss节&lt;/li&gt;
+&lt;li&gt;.plt节和.got节——程序调用动态链接库（so文件）中函数时，需要这两个函数配合以获取被调用的函数地址&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;段segment与节section&#34;&gt;段(segment)与节(section)&lt;/h3&gt;
+&lt;p&gt;磁盘中的ELF（可执行文件）与内存中的ELF（进程内存映像）&lt;img src=&#34;https://damoxilai.github.io/post-images/1628042287970.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;段视图用于进程内存区域的rwx权限划分&lt;/li&gt;
+&lt;li&gt;节视图用于ELF文件编译连接时与在磁盘上存储时的文件结构的组织&lt;/li&gt;
+&lt;li&gt;一个段包含多个节
+&lt;ul&gt;
+&lt;li&gt;代码段包含了代码与只读数据
+&lt;ul&gt;
+&lt;li&gt;.text节、.rodata节、.hash节、.dynsym节、.dynstr节、.plt节、.reg.got节&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;数据段包含了可读可写数据
+&lt;ul&gt;
+&lt;li&gt;.data节、.dynamic节、.got节、.got.plt节、.bss节&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+">ELF文件结构</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/n1book_android1/"" data-c="
