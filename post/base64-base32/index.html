@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>Base64 / Base32 | DAMOXILAI</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1628216684734">
+<link rel="shortcut icon" href="/favicon.ico?v=1628218735934">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -30,11 +30,25 @@
   integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
 
 
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
-  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
-  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
-  onload="renderMathInElement(document.body);"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ["\\(", "\\)"]],
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]]
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'a', 'annotation', 'annotation-xml'],
+      ignoreHtmlClass: 'tex2jax_ignore|crayon-.*', // 'crayon-' 开头的类，属于Wordpress代码高亮库，这部分不需要处理，否则会导致显示不正确,这部分是正则式，多条之间用'|'分割
+      processHtmlClass: 'tex2jax_process'
+    },
+    //禁用右键菜单	
+    renderActions: {
+      addMenu: [0, '', '']
+    }
+  };
+</script>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 
 
@@ -539,14 +553,6 @@
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
       <span>777<span class="pc-show language" data-lan="words">字数</span></span>
-    </span>
-    
-    
-    
-    <span id="/post/base64-base32/" data-flag-title="Base64 / Base32" class="meta-item pc-show leancloud_visitors">
-      <span class="post-meta-divider">|</span>
-      <i class="fa fa-eye"></i>
-      <span><span class="language" data-lan="view">浏览量</span>：<span class="leancloud-visitors-count"></span></span>
     </span>
     
   </div>
@@ -2069,10 +2075,10 @@ public class aesdemo  {
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/xctf-mobile/"" data-c="
           &lt;h1 id=&#34;easy-apk&#34;&gt;easy-apk&lt;/h1&gt;
-&lt;h2 id=&#34;&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005217353.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/h2&gt;
-&lt;p&gt;new Base64New().&lt;strong&gt;Base64Encode&lt;/strong&gt;(((EditText) MainActivity.this.findViewById(R.id.editText)).getText().toString().getBytes()).equals(&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;）&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005217353.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;new Base64New().Base64Encode(((EditText) MainActivity.this.findViewById(R.id.editText)).getText().toString().getBytes()).equals(&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;）&lt;/p&gt;
 &lt;p&gt;由关键代码可知，是一串字符在base64 加密后与&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;匹配，那么可以逆向将已知密文串base64 解密获得输入明文&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005235846.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005235846.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;由Base64NEW包可得到新base64 算法，发现其更改了码表&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;原来：s = &amp;quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&amp;quot;
@@ -2175,19 +2181,19 @@ strFlag = base64.b64decode(strEnBase64)
 
 print(strFlag.decode(&amp;quot;utf-8&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005258916.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005258916.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;获得明文&lt;/p&gt;
 &lt;p&gt;05397c42f9b6da593a3644162d36eb01&lt;/p&gt;
 &lt;p&gt;加上flag{}&lt;/p&gt;
 &lt;p&gt;flag{05397c42f9b6da593a3644162d36eb01}&lt;/p&gt;
 &lt;h1 id=&#34;easy-so&#34;&gt;easy-so&lt;/h1&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005272123.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005272123.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;发现使用cyberpeace类中CheckString关键函数&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005288217.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005288217.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;于cyberpeace类找到函数，可以看出使用native函数CheckString，判断在so层实现该函数，拿出加载库so文件，用ida反编译得下图&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005299069.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005299069.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;拿出代码&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;_BOOL4 __cdecl Java_com_testjava_jack_pingan2_cyberpeace_CheckString(int a1, int a2, int a3)
@@ -2256,7 +2262,7 @@ print (a)
 &lt;p&gt;flag{90705bb55efb59da7fc2a5636549812a}&lt;/p&gt;
 &lt;h1 id=&#34;easyjni&#34;&gt;easyjni&lt;/h1&gt;
 &lt;p&gt;根据入口找到a函数&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005316163.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005316163.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;pre&gt;&lt;code&gt;package com.a.easyjni;
 
 public class a {
@@ -2310,7 +2316,7 @@ print(strFlag.decode(&amp;quot;utf-8&amp;quot;)
 &lt;p&gt;flag{just_ANot#er_@p3}&lt;/p&gt;
 &lt;h1 id=&#34;apk逆向&#34;&gt;apk逆向&lt;/h1&gt;
 &lt;p&gt;jd龟打开，入口好找&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010921553.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010921553.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;找到检查函数checkSN&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt; public boolean checkSN(String userName, String sn) {
@@ -2386,16 +2392,16 @@ public class apk {
 	    }	
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010937880.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010937880.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
 &lt;p&gt;得到flag&lt;/p&gt;
 &lt;p&gt;flag{bc72f242a6af3857}&lt;/p&gt;
 &lt;p&gt;然后这题很坑&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010948830.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627010948830.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;提交bc72f242a6af3857&lt;/p&gt;
 &lt;h1 id=&#34;人民的名义-抓捕赵汉德&#34;&gt;人民的名义-抓捕赵汉德&lt;/h1&gt;
 &lt;p&gt;拿到jar文件，用jd龟打开&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052454731.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052454731.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;找到关键代码&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
     CheckInterface checkerObject = loadCheckerObject();//实现接口句柄
@@ -2414,16 +2420,16 @@ public class apk {
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;checkerObject.checkPassword(line)&lt;/p&gt;
 &lt;p&gt;找到接口类&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052472315.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052472315.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;发现checkPassword函数&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052487486.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627052487486.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;从代码明显看出MD5操作，&lt;/p&gt;
 &lt;p&gt;将&amp;quot;fa3733c647dca53a66cf8df953c2d539&amp;quot;MD5解密即可&lt;/p&gt;
 &lt;p&gt;解密得monkey99&lt;/p&gt;
 &lt;p&gt;flag{monkey99}&lt;/p&gt;
 &lt;h1 id=&#34;android基础&#34;&gt;Android基础&lt;/h1&gt;
 &lt;p&gt;拿到apk，jadx龟打开&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123535938.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123535938.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;找MainActivicity，找到oncreate方法，发现关键函数checkPassword()&lt;/p&gt;
 &lt;p&gt;找到代码&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;public class Check {
@@ -2457,10 +2463,10 @@ public class apk {
 kjihgfedcba` 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;打开apk，输入kjihgfedcba` 验证&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123554911.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123554911.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;还要求输入显示码&lt;/p&gt;
 &lt;p&gt;回头看AndroidManifest.xml文件&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123568823.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627123568823.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;找到触发动作&lt;/p&gt;
 &lt;p&gt;输入android.is.very.fun&lt;/p&gt;
 &lt;p&gt;得到flag&lt;br&gt;
