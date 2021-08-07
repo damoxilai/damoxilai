@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
-<title>DAMOXILAI</title>
+<title>PHP正则匹配 | DAMOXILAI</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1628299780456">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,6 +41,8 @@
 
 
 
+  <meta name="description" content="PHP正则匹配" />
+  <meta name="keywords" content="web,php" />
 </head>
 
 <body>
@@ -173,10 +175,26 @@
   <div class="main-continer">
     
     <div
-      class="section-layout  gemini">
+      class="section-layout gemini ">
       <div class="section-layout-wrapper">
-        <div id="sidebarMeta" class="sidebar">
-    
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active language" data-lan="index">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item language" data-lan="preview">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body gemini" id="sidebar_body">
+        
+          
+            <div class="post-side-meta" id="post_side_meta">
+              
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -223,74 +241,600 @@
   </div>
 
 </div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%B8%80-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%BB%8B%E7%BB%8D">一、正则表达式的介绍：</a></li>
+<li><a href="#%E4%BA%8C-%E8%AF%AD%E6%B3%95">二、 语法：</a></li>
+<li><a href="#%E4%B8%89-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86">三、 正则表达式的组成部分：</a></li>
+<li><a href="#%E5%9B%9B-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%87%BD%E6%95%B0">四、 正则表达式的函数：</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
 </div>
+
 <script>
-  let sidebarMeta = document.querySelector('#sidebarMeta');
-  let scheme = 'gemini';
-  let sidebarWrapper = document.querySelector('.sidebar-wrapper');
-  if (sidebarMeta && (scheme === 'pisces' || scheme === 'gemini')) {
-    document.addEventListener('scroll', function(e) {
-      if (document.scrollingElement.scrollTop > parseInt(sidebarMeta.style.marginTop) + 10) {
-        sidebarWrapper.classList.add('home-sidebar-fixed')
-      } else {
-        sidebarWrapper.classList.remove('home-sidebar-fixed')
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
       }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
     });
   }
-  </script>
-        <div class="section-box tag-line box-shadow-wrapper">
-          <section class="section tags-section posts-expand bg-color">
-            <div class="padding-wrapper">
-  <div class="tag-timeline-box">
-    <div class="tag-timeline-wrapper">
-      <div class="tag-timeline-title">
-        <h2>
-          汇编
-          <small class="language" data-lan="tag">标签</small>
-        </h2>
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
+          
+        
       </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    jQuery.Velocity(hideElement, 'stop');
+    jQuery.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        jQuery.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://damoxilai.github.io/post/php-zheng-ze-pi-pei/">
+      PHP正则匹配
+    </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span class="language" data-lan="publish">发布于</span>
+      <span class="publish-time" data-t="2021-08-07 09:26:49">2021-08-07</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-folder-o"></i>
+      <span class="pc-show language" data-lan="category-in">分类于</span>
+      
+      
+      <a href="https://damoxilai.github.io/tag/_2ADz4yNX/">
+        <span>web</span>
+      </a>、
       
       
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <a href="https://damoxilai.github.io/post/hui-bain-yu-yan/">
-        <div class="motion-warpper">
-          <div class="tag-post-node">
-            <h1>
-              07-17
-              <small> 汇编语言</small>
-            </h1>
-          </div>
-        </div>
+      <a href="https://damoxilai.github.io/tag/DPjYc_c2Qa/">
+        <span>php</span>
       </a>
       
       
+    </span>
+    <span class="post-meta-divider">|</span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>8<span class="language" data-lan="minute">分钟</span></span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>1857<span class="pc-show language" data-lan="words">字数</span></span>
+    </span>
+    
+  </div>
+</section>
+            <div class="post-body next-md-body" id="post_body">
+              <h2 id="一-正则表达式的介绍">一、正则表达式的介绍：</h2>
+<blockquote>
+<p>正则表达式是用于描述字符排列和匹配模式的一种语法规则。它主要用于字符串的模式分割、匹配、查找及替换操作。</p>
+<ol>
+<li>
+<p>用途：匹配、查找、替换、分割</p>
+</li>
+<li>
+<p>php提供了两套正则表达式函数库<br>
+1. Perl 兼容正则表达式函数（推荐使用）<br>
+2. POSIX 扩展正则表达式函数</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="二-语法">二、 语法：</h2>
+<blockquote>
+<ol>
+<li>表达式的格式： &quot;/表达式/[修正符]&quot;<br>
+解释：其中&quot;/&quot;表示正则表达式的定界符，但是也可以是其他符号：如”#“，”！“<br>
+注意：定界符不可以是字母、数字和斜线\。<br>
+像“#”、“|”、“!”等都可以的<br>
+如：/.../  #...# |....|<br>
+其中修正符是可选的，表示对表达式做额外的修饰。</li>
+</ol>
+</blockquote>
+<h2 id="三-正则表达式的组成部分">三、 正则表达式的组成部分：</h2>
+<ol>
+<li>原子是组成正则表达式的基本单位,在分析正则表达式时，应作为一个整体。</li>
+</ol>
+<blockquote>
+<p>​    原子包括以下内容:<br>
+​    &gt; 单个字符、数字，如a-z，A-Z，0-9。<br>
+​    &gt; 模式单元，如（ABC）可以理解为由多个原子组成的大的原子。<br>
+​    &gt; 原子表，如 [ABC]。<br>
+​    &gt; 重新使用的模式单元，如：\1<br>
+​    &gt; 普通转义字符，如：\d， \D， \w<br>
+​    &gt; 转义元字符，如：*，.<br>
+​    &gt; 元字符</p>
+</blockquote>
+<ol start="2">
+<li>元字符（具有特殊意义字符）：</li>
+</ol>
+<blockquote>
+<p>​    [] 表示单个字符的原子表<br>
+​      例如：[aoeiu] 表示任意一个元音字母<br>
+​         [0-9] 表示任意一位数字<br>
+​         [a-z][0-9]表示小写字和一位数字构成的两位字符<br>
+​         [a-zA-Z0-9] 表示任意一位大小字母或数字<br>
+​    [^] 表示除中括号内原子之外的任何字符 是[]的取反<br>
+​      例如：[^0-9] 表示任意一位非数字字符<br>
+​         [^a-z] 表示任意一位非小写字母<br>
+​    {m}  表示对前面原子的数量控制，表示是m次<br>
+​      例如：[0-9]{4} 表示4为数字<br>
+​         [1][3-8][0-9]{9} 手机号码<br>
+​    {m,} 表示对前面原子的数量控制，表示是至少m次<br>
+​      例如： [0-9]{2,} 表示两位及以上的数字<br>
+​    {m,n}表示对前面原子的数量控制，表示是m到n次<br>
+​      例如： [a-z]{6,8} 表示6到8位的小写字母<br>
+​    * 表示对前面原子的数量控制，表示是任意次，等价于{0,}<br>
+​    + 表示对前面原子的数量控制，表示至少1次，等价于{1,}<br>
+​    ? 表示对前面原子的数量控制，表示0次或1次（可有可无） 等价于{0,1}<br>
+​      例如：正整数：[1-9][0-9]*<br>
+​          整数：[-]?[0-9]+<br>
+​          email:<br>
+​    () 表示一个整体原子，【还有一个子存储单元的作用】。<br>
+​        也可以使用?:来拒绝子存储。 （?:.<em>?）<br>
+​      例如：（red） 字串red<br>
+​          (rea|blue) 字串red或blue<br>
+​          (abc){2} 表示两个abc<br>
+​    | 表示或的意思<br>
+​        (rea|blue) 字串red或blue<br>
+​    ^ 用在正则单元块的开头处，表示必须以指定的开头<br>
+​    $ 用在正则单元块的结尾处，表示必须以指定的结尾<br>
+​    . 表示任意一个除换行符之外的字符<br>
+​        常用组合： .</em>? 表示最小匹配所有字符（拒绝贪婪匹配）</p>
+</blockquote>
+<ol start="3">
+<li>普通转义字符:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>\d</th>
+<th>匹配一个数字；等价于[0-9]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\D</td>
+<td>匹配除数字以外任何一个字符；等价于[^0-9]</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配一个英文字母、数字或下划线；等价于[0-9a-zA-Z_]</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配除英文字母、数字和下划线以外任何一个字符；等价于[^0-9a-zA-Z_]</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配一个空白字符；等价于[\f\n\r\t\v]</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配除空白字符以外任何一个字符；等价于[^\f\n\r\t\v]</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>匹配一个换页符等价于 \x0c 或 \cL</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配一个换行符；等价于 \x0a 或 \cJ</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配一个回车符等价于\x0d 或 \cM</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>匹配一个制表符；等价于 \x09\或\cl</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>匹配一个垂直制表符；等价于\x0b或\ck</td>
+</tr>
+<tr>
+<td>\oNN</td>
+<td>匹配一个八进制数字</td>
+</tr>
+<tr>
+<td>\xNN</td>
+<td>匹配一个十六进制数字</td>
+</tr>
+<tr>
+<td>\cC</td>
+<td>匹配一个控制字符</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>模式修整符</li>
+</ol>
+<blockquote>
+<p>​    i 表示不区分大小写；<br>
+​      &quot;/[a-zA-Z]/&quot; &lt;==&gt;&quot;/[a-z]/i&quot;<br>
+​    s 表示匹配视为单行（就是可以让点.支持换行）<br>
+​    U 表示拒绝贪婪匹配</p>
+</blockquote>
+<ul>
+<li>
+<p>[正则表达式中常用的模式修正符有i、g、m、s、x、e详解]</p>
+<ul>
+<li>
+<p>修正符:i 不区分大小写的匹配;</p>
+<p>如:&quot;/abc/i&quot;可以与abc或aBC或ABc等匹配;</p>
+</li>
+<li>
+<p>修正符：<strong>g</strong>表示全局匹配</p>
+</li>
+<li>
+<p>修正符:m 将字符串视为多行,不管是那行都能匹配;</p>
+<p>例:模式为:$mode=&quot;/abc/m&quot;;</p>
+<p>要匹配的字符串为:$str=&quot;bcefg5e\nabcdfe&quot;<br>
+注意其中\n,换行了;abc换到了下一行;</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>t</mi><mi>r</mi><mi mathvariant="normal">和</mi></mrow><annotation encoding="application/x-tex">str和</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord cjk_fallback">和</span></span></span></span>mode仍可以匹配,修正符m使得多行也可匹配;</p>
+</li>
+<li>
+<p>修正符:s 将字符串视为单行,换行符作为普通字符;</p>
+<p>例:模式为:<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">/</mi><mi>p</mi><mi>r</mi><mi mathvariant="normal">.</mi><mi>y</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">&quot;</mi><mo separator="true">;</mo><mi mathvariant="normal">要</mi><mi mathvariant="normal">匹</mi><mi mathvariant="normal">配</mi><mi mathvariant="normal">字</mi><mi mathvariant="normal">符</mi><mi mathvariant="normal">串</mi><mi mathvariant="normal">为</mi><mo>:</mo></mrow><annotation encoding="application/x-tex">mode=&quot;/pr.y/&quot;;
+要匹配字符串为:</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">&quot;</span><span class="mord">/</span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord">/</span><span class="mord">&quot;</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">要</span><span class="mord cjk_fallback">匹</span><span class="mord cjk_fallback">配</span><span class="mord cjk_fallback">字</span><span class="mord cjk_fallback">符</span><span class="mord cjk_fallback">串</span><span class="mord cjk_fallback">为</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span></span></span></span>str=&quot;pr\ny&quot;;<br>
+两者不可匹配; . 是除了换行以外的字符可匹配;<br>
+修改下模式为:$mode=&quot;/pr.y/s&quot;;<br>
+其中修正符s将\n视为普通字符,即不是换行;<br>
+最后两者可以匹配;</p>
+</li>
+<li>
+<p>修正符:x 将模式中的空白忽略;</p>
+</li>
+<li>
+<p>修正符:A 强制从目标字符串开头匹配;</p>
+<p>例:<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">/</mi><mi>a</mi><mi>b</mi><mi>c</mi><mi mathvariant="normal">/</mi><mi>A</mi><mi mathvariant="normal">&quot;</mi><mo separator="true">;</mo><mi mathvariant="normal">可</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">与</mi></mrow><annotation encoding="application/x-tex">mode=&quot;/abc/A&quot;;
+可以与</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">&quot;</span><span class="mord">/</span><span class="mord mathdefault">a</span><span class="mord mathdefault">b</span><span class="mord mathdefault">c</span><span class="mord">/</span><span class="mord mathdefault">A</span><span class="mord">&quot;</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">可</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">与</span></span></span></span>str=&quot;abcsdfi&quot;匹配,<br>
+不可以与<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>t</mi><mi>r</mi><mn>2</mn><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi>s</mi><mi>d</mi><mi>s</mi><mi>d</mi><mi>a</mi><mi>b</mi><mi>c</mi><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">匹</mi><mi mathvariant="normal">配</mi><mo separator="true">;</mo><mi mathvariant="normal">因</mi><mi mathvariant="normal">为</mi></mrow><annotation encoding="application/x-tex">str2=&quot;sdsdabc&quot;匹配;
+因为</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">&quot;</span><span class="mord mathdefault">s</span><span class="mord mathdefault">d</span><span class="mord mathdefault">s</span><span class="mord mathdefault">d</span><span class="mord mathdefault">a</span><span class="mord mathdefault">b</span><span class="mord mathdefault">c</span><span class="mord">&quot;</span><span class="mord cjk_fallback">匹</span><span class="mord cjk_fallback">配</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">因</span><span class="mord cjk_fallback">为</span></span></span></span>str2不是以abc开头;</p>
+</li>
+<li>
+<p>修正符:D 如果使用$限制结尾字符,则不允许结尾有换行;</p>
+<p>例:模式为:<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">/</mi><mi>a</mi><mi>b</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">mode=&quot;/abc</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">&quot;</span><span class="mord">/</span><span class="mord mathdefault">a</span><span class="mord mathdefault">b</span><span class="mord mathdefault">c</span></span></span></span>/&quot;;<br>
+可以与最后有换行的<span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \n at position 13: str=&quot;adshabc\̲n̲&quot;匹配;
+元子符'>str=&quot;adshabc\n&quot;匹配;
+元子符</span>会忽略最后的换行\n;<br>
+如果模式为:<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">/</mi><mi>a</mi><mi>b</mi><mi>c</mi><mi mathvariant="normal">/</mi><mi>D</mi><mi mathvariant="normal">&quot;</mi><mo separator="true">,</mo><mi mathvariant="normal">则</mi><mi mathvariant="normal">不</mi><mi mathvariant="normal">能</mi><mi mathvariant="normal">与</mi></mrow><annotation encoding="application/x-tex">mode=&quot;/abc/D&quot;,
+则不能与</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">&quot;</span><span class="mord">/</span><span class="mord mathdefault">a</span><span class="mord mathdefault">b</span><span class="mord mathdefault">c</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord">&quot;</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">则</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">能</span><span class="mord cjk_fallback">与</span></span></span></span>str=&quot;adshabc\n&quot;匹配,<br>
+修正符D限制其不可有换行;必需以abc结尾;</p>
+</li>
+<li>
+<p>修正符:U 只匹配最近的一个字符串;不重复匹配;</p>
+<p>例:<br>
+如模式为:<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">/</mi><mi>a</mi><mi mathvariant="normal">.</mi><mo>∗</mo><mi>c</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">&quot;</mi><mo separator="true">;</mo></mrow><annotation encoding="application/x-tex">mode=&quot;/a.*c/&quot;;
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">&quot;</span><span class="mord">/</span><span class="mord mathdefault">a</span><span class="mord">.</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mord">/</span><span class="mord">&quot;</span><span class="mpunct">;</span></span></span></span>str=&quot;abcabbbcabbbbbc&quot; ;<br>
+preg_match(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mo separator="true">,</mo></mrow><annotation encoding="application/x-tex">mode,</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mpunct">,</span></span></span></span>str,$content);<br>
+echo $content[0]; //输出:abcabbbcabbbbbc;</p>
+<p>如果<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">/</mi><mi>a</mi><mi mathvariant="normal">.</mi><mo>∗</mo><mi>c</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">&quot;</mi><mo separator="true">;</mo><mi mathvariant="normal">变</mi><mi mathvariant="normal">成</mi></mrow><annotation encoding="application/x-tex">mode=&quot;/a.*c/&quot;;变成</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">&quot;</span><span class="mord">/</span><span class="mord mathdefault">a</span><span class="mord">.</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mord">/</span><span class="mord">&quot;</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">成</span></span></span></span>mode=&quot;/a.*c/U&quot;;<br>
+则只匹配最近一个字符串,输出:abc;</p>
+</li>
+<li>
+<p>修正符:e 配合函数preg_replace()使用,<br>
+可以把匹配来的字符串当作正则表达式执行;</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="四-正则表达式的函数">四、 正则表达式的函数：</h2>
+<p>preg_grep -- 返回与模式匹配的数组单元<br>
+* preg_match_all -- 进行全局正则表达式匹配 , 返回共计匹配的个数。<br>
+和下面的一样，不同的是匹配到最后（全局匹配）<br>
+* preg_match -- 进行正则表达式匹配，只匹配一次，返回1，否则0，<br>
+格式：preg_match(&quot;正则表达式&quot;,&quot;被匹配的字串&quot;,存放结果的变量名,PREG_OFFSET_CAPTURE,起始偏移量)<br>
+其中：PREG_OFFSET_CAPTURE表示获取匹配索引位置<br>
+起始偏移量：从指定位置开始匹配<br>
+preg_quote -- 转义正则表达式字符<br>
+preg_split -- 用正则表达式分割字符串<br>
+preg_replace -- 执行正则表达式的搜索和替换</p>
+
+            </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      DMXLPARK
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://damoxilai.github.io/post/php-zheng-ze-pi-pei/" title="PHP正则匹配">https://damoxilai.github.io/post/php-zheng-ze-pi-pei/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+      <a href="https://damoxilai.github.io/tag/_2ADz4yNX/"># web</a>
+    
+      <a href="https://damoxilai.github.io/tag/DPjYc_c2Qa/"># php</a>
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
       
+    </div>
+    <div class="nav-next">
       
+        <a class="nav-pc-next" title="ELF文件结构" href="https://damoxilai.github.io/post/elf-wen-jian-jie-gou/">ELF文件结构</a>
+        <a class="nav-mobile-next" title="ELF文件结构" href="https://damoxilai.github.io/post/elf-wen-jian-jie-gou/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>
 </div>
-          </section>
+            
+            
+  
+
+          </div>
         </div>
       </div>
     </div>
@@ -1050,6 +1594,223 @@
     aelem.appendChild(image);
     parent.insertBefore(aelem, next);
   })
+</script>
+
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word">扫码打赏，你说多少就多少</p>
+      <p class="reward-tip">打开微信扫一扫，即可进行扫码打赏哦</p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        jQuery.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        jQuery.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        jQuery.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        jQuery.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      jQuery.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      jQuery.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
 </script>
 
   </div>
@@ -3238,7 +3999,6 @@ end start
 
 
 <script src="/media/js/cool.js"></script>
-
 
 
 
