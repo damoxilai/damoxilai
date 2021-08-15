@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://damoxilai.github.io</id>
     <title>DAMOXILAI</title>
-    <updated>2021-08-13T11:08:48.332Z</updated>
+    <updated>2021-08-15T03:30:08.580Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://damoxilai.github.io"/>
     <link rel="self" href="https://damoxilai.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://damoxilai.github.io/images/avatar.png</logo>
     <icon>https://damoxilai.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, DAMOXILAI</rights>
+    <entry>
+        <title type="html"><![CDATA[内网渗透之bulldog2]]></title>
+        <id>https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/</id>
+        <link href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/">
+        </link>
+        <updated>2021-08-15T03:05:54.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[内网渗透之bulldog]]></title>
         <id>https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/</id>

