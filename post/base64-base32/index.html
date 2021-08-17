@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>Base64 / Base32 | DAMOXILAI</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1629126483722">
+<link rel="shortcut icon" href="/favicon.ico?v=1629171912616">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -211,7 +211,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">9</span>
+        <span class="site-item-stat-count">10</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1625,6 +1625,62 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;靶机：ip暂未知&lt;/li&gt;
+&lt;li&gt;攻击机kali：192.168.0.150&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二-实验过程&#34;&gt;二、实验过程&lt;/h2&gt;
+&lt;h5 id=&#34;1主机发现&#34;&gt;1.主机发现&lt;/h5&gt;
+&lt;p&gt;nma扫描，发现靶机192.168.0.102&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629171835270.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;2进一步扫描&#34;&gt;2.进一步扫描&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;nmap -sV -p- -T5 192.168.0.102
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以看到5555、8080、22000端口开放，linux操作系统&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629171848128.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;3访问端口&#34;&gt;3.访问端口&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629171856847.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;提示有backdoor、post提交&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h5 id=&#34;4扫描目录&#34;&gt;4.扫描目录&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;wfuzz -w /usr/share/wordlists/dirb/common.txt -u 192.168.0.102:8080/FUZZ.php --hc 404
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629171868337.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;可以发现backdoor.php&lt;/p&gt;
+&lt;p&gt;访问后，只有一句话说是假的后门，检查网页源码也没有提示&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629171880871.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+根据前面提示POST数据试一下，不知道参数，无果&lt;/p&gt;
+&lt;h5 id=&#34;5利用其他端口&#34;&gt;5.利用其他端口&lt;/h5&gt;
+&lt;p&gt;开放了5555端口adb服务，又是Android，我们可以想到用adb连接&lt;/p&gt;
+&lt;p&gt;kali机没有adb，需要下载安装&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; apt-get install android-tools-adb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;连接&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;┌──(root💀kali)-[~]
+└─# adb connect 192.168.0.102:5555   
+                 
+┌──(root💀kali)-[~]
+└─# adb  shell   
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629171893279.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;6提权&#34;&gt;6.提权&lt;/h5&gt;
+&lt;p&gt;su命令&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629171899981.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;顺利拿到flag&lt;/p&gt;
+&lt;p&gt;ANDROID{u_GOT_root_buddy}&lt;/p&gt;
+&lt;p&gt;7.删除锁屏密码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd /data/system
+rm -rf password.key
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后不用密码就可以进入andro系统&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1629171910165.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;三-实验总结&#34;&gt;三、实验总结&lt;/h2&gt;
+&lt;p&gt;实验诱导从网站后门进，实际是假后门，灵活变通很重要，想到有其他端口开放adb服务，不要一颗树上吊死；android的adb连接是基本操作，su就可提升为root；绕过改界面密码在/data/system/password.key文件处。&lt;/p&gt;
+">内网渗透之Android4</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/1/"" data-c="
