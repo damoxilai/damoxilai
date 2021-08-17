@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://damoxilai.github.io</id>
     <title>DAMOXILAI</title>
-    <updated>2021-08-17T03:50:37.157Z</updated>
+    <updated>2021-08-17T05:44:55.636Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://damoxilai.github.io"/>
     <link rel="self" href="https://damoxilai.github.io/atom.xml"/>
@@ -11,28 +11,28 @@
     <icon>https://damoxilai.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, DAMOXILAI</rights>
     <entry>
-        <title type="html"><![CDATA[内网渗透之Android4]]></title>
+        <title type="html"><![CDATA[渗透测试之Android4]]></title>
         <id>https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/</id>
         <link href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/">
         </link>
         <updated>2021-08-17T03:42:37.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[内网渗透之Casino-Royale]]></title>
+        <title type="html"><![CDATA[渗透测试之Casino-Royale]]></title>
         <id>https://damoxilai.github.io/post/1/</id>
         <link href="https://damoxilai.github.io/post/1/">
         </link>
         <updated>2021-08-15T14:33:29.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[内网渗透之bulldog2]]></title>
+        <title type="html"><![CDATA[渗透测试之bulldog2]]></title>
         <id>https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/</id>
         <link href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/">
         </link>
         <updated>2021-08-15T03:05:54.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[内网渗透之bulldog]]></title>
+        <title type="html"><![CDATA[渗透测试之bulldog]]></title>
         <id>https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/</id>
         <link href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/">
         </link>

