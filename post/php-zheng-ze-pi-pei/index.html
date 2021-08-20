@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>PHP正则匹配 | DAMOXILAI</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1629216276839">
+<link rel="shortcut icon" href="/favicon.ico?v=1629457535538">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -211,7 +211,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">11</span>
+        <span class="site-item-stat-count">12</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1834,6 +1834,95 @@ preg_replace -- 执行正则表达式的搜索和替换</p>
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-born2rootv2/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;靶机：ip暂未知&lt;/li&gt;
+&lt;li&gt;攻击机kali：192.168.0.150&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二-实验过程&#34;&gt;二、实验过程&lt;/h2&gt;
+&lt;h5 id=&#34;1主机发现&#34;&gt;1.主机发现&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457211814.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;2扫描端口&#34;&gt;2.扫描端口&lt;/h5&gt;
+&lt;p&gt;开放22、80、111、8080端口；linux系统&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457362925.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;3访问80端口&#34;&gt;3.访问80端口&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457371381.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;4扫描目录&#34;&gt;4.扫描目录&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;gobuster dir -u http://192.168.0.103 -w /usr/share/dirbuster/wordlists/directory-list-lowercase-2.3-small.txt -t 15
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457380603.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;发现网站开启了joomla框架（使用PHP和Mysql所开发的内容管理系统）&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457390887.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;访问该目录http://192.168.0.103/joomla&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457398645.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;6继续扫描漏洞joomscan&#34;&gt;6.继续扫描漏洞（joomscan）&lt;/h5&gt;
+&lt;p&gt;下载joomscan&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/rezasp/joomscan.git 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;扫描&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;perl joomscan/joomscan.pl -u http://192.168.0.103/         
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457413680.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;通过扫描，可以发现管理员页面网址&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457422029.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;7爆破joomla管理员的密码&#34;&gt;7.爆破joomla管理员的密码&lt;/h5&gt;
+&lt;p&gt;先通过cewl爬取网站获取关键信息创建一个密码字典&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457432305.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;然后 利用burp抓包爆破&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457441708.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457452782.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;刷新页面，爆破成功&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457462575.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+进入后台&lt;/p&gt;
+&lt;h5 id=&#34;8获取shell&#34;&gt;8.获取shell&lt;/h5&gt;
+&lt;p&gt;修改模板beez3&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457471929.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;写入反弹sell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457480253.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;开启beez3&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457488907.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;开启监听，访问http://192.168.0.103/joomla/templates/beez3/error.php，获得反弹shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457496251.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;9ssh登陆&#34;&gt;9.ssh登陆&lt;/h5&gt;
+&lt;p&gt;在/opt/scripts下找到fileshare.py文件&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;www-data@born2root:/opt/scripts$ &lt;font color=&#39;orange&#39;&gt;cat fileshare.py&lt;/font&gt;&lt;br&gt;
+cat fileshare.py&lt;br&gt;
+#!/usr/bin/env python&lt;/p&gt;
+&lt;p&gt;import sys, paramiko&lt;/p&gt;
+&lt;p&gt;if len(sys.argv) &amp;lt; 5:&lt;br&gt;
+print &amp;quot;args missing&amp;quot;&lt;br&gt;
+sys.exit(1)&lt;/p&gt;
+&lt;p&gt;hostname = &amp;quot;localhost&amp;quot;&lt;br&gt;
+password = &amp;quot;&lt;font color=&#39;red&#39;&gt;lulzlol&lt;/font&gt;&amp;quot;&lt;br&gt;
+source = &amp;quot;/var/www/html/joomla&amp;quot;&lt;br&gt;
+dest = &amp;quot;/tmp/backup/joomla&amp;quot;&lt;/p&gt;
+&lt;p&gt;username = &amp;quot;&lt;font color=&#39;red&#39;&gt;tim&lt;/font&gt;&amp;quot;&lt;br&gt;
+port = &lt;font color=&#39;red&#39;&gt;22&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;try:&lt;br&gt;
+t = paramiko.Transport((hostname, port))&lt;br&gt;
+t.connect(username=username, password=password)&lt;br&gt;
+sftp = paramiko.SFTPClient.from_transport(t)&lt;br&gt;
+sftp.get(source, dest)&lt;/p&gt;
+&lt;p&gt;finally:&lt;br&gt;
+t.close()&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;拿到ssh账号密码&lt;/p&gt;
+&lt;p&gt;登陆&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457514738.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;10提权&#34;&gt;10.提权&lt;/h5&gt;
+&lt;p&gt;&lt;font color=&#39;red&#39;&gt;sudo -l&lt;/font&gt;，输入tim的密码，再&lt;font color=&#39;red&#39;&gt;sudo -s&lt;/font&gt;成为root权限&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457522326.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;拿到flag&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629457530342.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;三-实验环境&#34;&gt;三、实验环境&lt;/h2&gt;
+&lt;p&gt;流程大概就是直接爆破admin密码，从而进入后台，获取网站控制权，进而提高到靶机控制权。要的是以下操作能力。&lt;/p&gt;
+&lt;p&gt;cewl抓取字典，burpsuite的intrude密码爆破的使用，php反弹shell，ssh提权&lt;/p&gt;
+">渗透测试之Born2rootv2</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/"" data-c="

